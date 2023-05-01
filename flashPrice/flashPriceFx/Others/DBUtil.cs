@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
-using HCFx.Crypto;
+using othersFx.Crypto;
 
 namespace HCPLUSFx.DAL
 {
@@ -12,7 +12,7 @@ namespace HCPLUSFx.DAL
 
         public enum databaseServer
         {
-            dbKopkari
+            dbflashPrice
         };
 
         static string getConnectionString(databaseServer dbServer)
@@ -21,8 +21,8 @@ namespace HCPLUSFx.DAL
 
             switch (dbServer)
             {
-                case databaseServer.dbKopkari:
-                    conStr = conStringdbKopkari;
+                case databaseServer.dbflashPrice:
+                    conStr = conStringdbflashPrice;
                     break;
             }
             return conStr;
@@ -31,17 +31,18 @@ namespace HCPLUSFx.DAL
         #region connection string
 
 
-        public static string conStringdbKopkari
+        public static string conStringdbflashPrice
         {
             get
             {
                 string xA = "";
 
-                xA = "Data Source=" + ConfigurationManager.AppSettings["ServerKopkari"];
-                xA += ";Initial Catalog=" + ConfigurationManager.AppSettings["DatabaseKopkari"];
-                xA += ";Persist Security Info=True;User ID=" + ConfigurationManager.AppSettings["DBUserNameKopkari"];
-                xA += ";Password=" + CryptoAES.DecryptStringAES(ConfigurationManager.AppSettings["DBPasswordKopkari"], "dbpass");
-                xA += ";Application Name=" + ConfigurationManager.AppSettings["DBAppNameKopkari"];
+                xA = "Data Source=" + ConfigurationManager.AppSettings["ServerflashPrice"];
+                xA += ";Initial Catalog=" + ConfigurationManager.AppSettings["DatabaseflashPrice"];
+                xA += ";Persist Security Info=True;User ID=" + ConfigurationManager.AppSettings["DBUserNameflashPrice"];
+                xA += ";Password=" + ConfigurationManager.AppSettings["DBPasswordflashPrice"];
+                xA += ";Application Name=" + ConfigurationManager.AppSettings["DBAppNameflashPrice"];
+                xA += ";TrustServerCertificate=True";
                 xA += ";MultipleActiveResultSets=true; ";
                 return xA;
                 //return ConfigurationManager.ConnectionStrings["HCPLUSConnectionString"].ConnectionString;                
@@ -58,7 +59,7 @@ namespace HCPLUSFx.DAL
                 xA += ";Initial Catalog=" + ConfigurationManager.AppSettings["DatabaseMail"];
                 xA += ";Persist Security Info=True;User ID=" + ConfigurationManager.AppSettings["DBUserNameMail"];
                 xA += ";Password=" + CryptoAES.DecryptStringAES(ConfigurationManager.AppSettings["DBPasswordMail"], "dbpass");
-                xA += ";Application Name=" + ConfigurationManager.AppSettings["DBAppNameKopkari"];
+                xA += ";Application Name=" + ConfigurationManager.AppSettings["DBAppNameflashPrice"];
                 xA += ";MultipleActiveResultSets=true; ";
                 return xA;
             }
@@ -91,7 +92,7 @@ namespace HCPLUSFx.DAL
             object retVal = new object();
             try
             {
-                using (SqlConnection myConnection = new SqlConnection(DBUtil.conStringdbKopkari))
+                using (SqlConnection myConnection = new SqlConnection(DBUtil.conStringdbflashPrice))
                 {
                     DataSet dasetReturn = new DataSet();
                     myConnection.Open();
@@ -164,7 +165,7 @@ namespace HCPLUSFx.DAL
 
         public static void fillDatabGeneric(DataTable datab, string xSQL) //untuk fill dataset nya saja. query nya ambil dari atas
         {
-            using (SqlConnection myConnection = new SqlConnection(DBUtil.conStringdbKopkari))
+            using (SqlConnection myConnection = new SqlConnection(DBUtil.conStringdbflashPrice))
             {
                 myConnection.Open();
                 if (myConnection.State == ConnectionState.Open)
@@ -190,12 +191,12 @@ namespace HCPLUSFx.DAL
 
         public static DataSet fillDasetGeneric(string dasetName, string xSQL) //untuk fill dataset nya saja. query nya ambil dari atas
         {
-            return fillDasetGeneric(dasetName, xSQL, 600, DBUtil.databaseServer.dbKopkari);
+            return fillDasetGeneric(dasetName, xSQL, 600, DBUtil.databaseServer.dbflashPrice);
         }
 
         public static DataSet fillDasetGeneric(string dasetName, string xSQL, int timeOutVal) //untuk fill dataset nya saja. query nya ambil dari atas
         {
-            return fillDasetGeneric(dasetName, xSQL, timeOutVal, databaseServer.dbKopkari);
+            return fillDasetGeneric(dasetName, xSQL, timeOutVal, databaseServer.dbflashPrice);
         }
 
 
@@ -273,7 +274,7 @@ namespace HCPLUSFx.DAL
 
         public static DataSet fillDasetSP(string dasetName, string xSQL, string[] paramName, object[] paramValue, int timeOutVal) //untuk fill dataset nya saja. query nya ambil dari atas
         {
-            using (SqlConnection myConnection = new SqlConnection(DBUtil.conStringdbKopkari))
+            using (SqlConnection myConnection = new SqlConnection(DBUtil.conStringdbflashPrice))
             {
                 DataSet dasetReturn = new DataSet();
                 myConnection.Open();
@@ -306,7 +307,7 @@ namespace HCPLUSFx.DAL
 
         public static DataTable fillDatatableGeneric(string datatableName, string xSQL) //untuk fill dataset nya saja. query nya ambil dari atas
         {
-            using (SqlConnection myConnection = new SqlConnection(DBUtil.conStringdbKopkari))
+            using (SqlConnection myConnection = new SqlConnection(DBUtil.conStringdbflashPrice))
             {
                 DataTable dasetReturn = new DataTable(datatableName);
                 myConnection.Open();
@@ -330,7 +331,7 @@ namespace HCPLUSFx.DAL
 
         public static DataTable fillDatabGeneric(string xSQL) //untuk fill dataset nya saja. query nya ambil dari atas
         {
-            using (SqlConnection myConnection = new SqlConnection(DBUtil.conStringdbKopkari))
+            using (SqlConnection myConnection = new SqlConnection(DBUtil.conStringdbflashPrice))
             {
                 DataTable dasetReturn = new DataTable();
                 myConnection.Open();
@@ -357,7 +358,7 @@ namespace HCPLUSFx.DAL
             try
             {
                 DataTable result = new DataTable();
-                SqlConnection myConnection = new SqlConnection(DBUtil.conStringdbKopkari);
+                SqlConnection myConnection = new SqlConnection(DBUtil.conStringdbflashPrice);
                 SqlCommand cmd = new SqlCommand(spName, myConnection);
                 for (int i = 0; i < paramssName.Count(); i++)
                 {

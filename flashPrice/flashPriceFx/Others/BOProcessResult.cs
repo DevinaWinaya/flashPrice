@@ -4,7 +4,7 @@ using System.ComponentModel;
 using Newtonsoft.Json;
 using System.Data;
 
-namespace KopkariFX
+namespace flashPriceFX
 {
 
     public class BOProcessResult

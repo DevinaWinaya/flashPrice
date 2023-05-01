@@ -1,4 +1,5 @@
-﻿using System;
+﻿using flashPriceFx.Product;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,7 @@ namespace flashPrice.pages
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            fillResult();
         }
 
         protected void searchBtn_Click(object sender, EventArgs e)
@@ -19,13 +20,11 @@ namespace flashPrice.pages
 
         }
 
-        protected void FillDocStatus()
+        protected void fillResult()
         {
-            BODokumenNotesList xDocList = BLLDokumenNotes.getListDocStatus(hidTxnID.Value, "dn.docID", "asc");
-
-            //BODokumenPersyaratanList xDocList = BLLDokumenPersyaratan.getList(xTxn.pinjamanID, "docID", "asc");
-            resultRepeater.DataSource = xDocList;
-            resultRepeater.DataBind();
+            BOProduct product = BLLProduct.getContent("P00001");
+            //resultRepeater.DataSource = product;
+            //resultRepeater.DataBind();
         }
 
         protected void resultRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)

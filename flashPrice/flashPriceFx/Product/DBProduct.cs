@@ -1,4 +1,5 @@
-﻿using othersFx;
+﻿using HCPLUSFx.DAL;
+using othersFx;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,10 +19,10 @@ namespace flashPriceFx.Product
 
         #region getContent
 
-        #region getPinjaman
-        public static BOProduct getPinjaman(String txnID)
+        #region getProduct
+        public static BOProduct getContent(String productID)
         {
-            string xSQL = defaultFields + " and p.pinjamanID='" + DBHelper.cleanParam(txnID) + "' ";
+            string xSQL = defaultFields + " and p.productID='" + DBHelper.cleanParam(productID) + "' ";
 
             return getContentQR(xSQL);
 
@@ -32,7 +33,7 @@ namespace flashPriceFx.Product
         private static BOProduct getContentQR(string xSQL)
         {
             BOProduct xPinjaman = null;
-            using (SqlConnection myConnection = new SqlConnection(DBUtil.conStringdbKopkari))
+            using (SqlConnection myConnection = new SqlConnection(DBUtil.conStringdbflashPrice))
             {
                 myConnection.Open();
                 if (myConnection.State == ConnectionState.Open)

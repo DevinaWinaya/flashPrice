@@ -8,5 +8,12 @@ namespace flashPriceFx.Product
 {
     public class BLLProduct
     {
+        #region getContent
+
+        public static BOProduct getContent(String productID)
+        {
+            return DBProduct.getContent(productID);
+        }
+        #endregion
     }
 }

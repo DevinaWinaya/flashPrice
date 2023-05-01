@@ -107,6 +107,12 @@
   <ItemGroup>
     <Folder Include="pages\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\flashPriceFx\flashPriceFx.csproj">
+      <Project>{044AE4F3-4468-4941-B750-4FFEEEDFB9F3}</Project>
+      <Name>flashPriceFx</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
