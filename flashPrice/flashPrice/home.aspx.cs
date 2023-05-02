@@ -17,12 +17,14 @@ namespace flashPrice.pages
 
         protected void searchBtn_Click(object sender, EventArgs e)
         {
+            String searchText = searchTextBox.Text;
 
+            fillResult(searchText);
         }
 
-        protected void fillResult()
+        protected void fillResult(String searchText)
         {
-            BOProduct product = BLLProduct.getContent("P00001");
+            BOProductList listProduct= BLLProduct.getListProductQuery(searchText);
             //resultRepeater.DataSource = product;
             //resultRepeater.DataBind();
         }
