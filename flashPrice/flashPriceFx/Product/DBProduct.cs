@@ -14,7 +14,8 @@ namespace flashPriceFx.Product
     {
         const string defaultFields = @"
         select *
-        from Product p with(nolock)  
+        from Product p with(nolock)
+        left join MiniMarket m with(nolock) on m.miniMarketID = p.miniMarketID 
         where 1=1";
 
         #region getContent
@@ -75,7 +76,7 @@ namespace flashPriceFx.Product
 
             if (searchText != "")
             {
-                xSQL += " and a.productName like " + "'%" + searchText + "%')";
+                xSQL += " and p.productName like " + "'%" + searchText + "%'";
             }
 
             return getPinjamanTxnListQR(xSQL);
@@ -134,6 +135,10 @@ namespace flashPriceFx.Product
             xTxn.productCategory = (!mD.IsDBNull(mD.GetOrdinal("productCategory"))) ? mD.GetString(mD.GetOrdinal("productCategory")) : null;
             xTxn.productPrice = (!mD.IsDBNull(mD.GetOrdinal("productPrice"))) ? mD.GetInt32(mD.GetOrdinal("productPrice")) : 0;
             xTxn.productImageContent = (!mD.IsDBNull(mD.GetOrdinal("productImageContent"))) ? (byte[])((SqlDataReader)mD).GetSqlBinary(mD.GetOrdinal("productImageContent")) : null;
+
+            xTxn.miniMarketAddress = (!mD.IsDBNull(mD.GetOrdinal("miniMarketAddress"))) ? mD.GetString(mD.GetOrdinal("miniMarketAddress")) : null;
+            xTxn.miniMarketName = (!mD.IsDBNull(mD.GetOrdinal("miniMarketName"))) ? mD.GetString(mD.GetOrdinal("miniMarketName")) : null;
+
             xTxn.entryDate = DBHelper.getDBDateTime(mD, "entryDate");
             xTxn.lastUpdate = DBHelper.getDBDateTime(mD, "lastUpdate");
 

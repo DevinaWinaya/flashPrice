@@ -15,5 +15,10 @@ namespace flashPriceFx.Product
         public byte[] productImageContent { set; get; }
         public DateTime entryDate { set; get; }
         public DateTime lastUpdate { set; get; }
+
+        public string miniMarketName { set; get; }
+        public string miniMarketAddress { set; get; }
+
+
     }
 }

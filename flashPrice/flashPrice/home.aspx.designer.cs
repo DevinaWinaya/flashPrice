@@ -15,31 +15,58 @@ namespace flashPrice.pages
     {
 
         /// <summary>
-        /// searchDiv control.
+        /// updatePanelSearchResultRepeater control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl searchDiv;
+        protected global::System.Web.UI.UpdatePanel updatePanelSearchResultRepeater;
 
         /// <summary>
-        /// searchTextBox control.
+        /// resultDiv control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox searchTextBox;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl resultDiv;
 
         /// <summary>
-        /// searchBtn control.
+        /// navSearchTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton searchBtn;
+        protected global::System.Web.UI.WebControls.TextBox navSearchTextBox;
+
+        /// <summary>
+        /// navSearchBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton navSearchBtn;
+
+        /// <summary>
+        /// queryResultDiv control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl queryResultDiv;
+
+        /// <summary>
+        /// litError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litError;
 
         /// <summary>
         /// resultRepeater control.

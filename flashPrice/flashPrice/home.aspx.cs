@@ -12,23 +12,40 @@ namespace flashPrice.pages
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            fillResult();
         }
 
-        protected void searchBtn_Click(object sender, EventArgs e)
-        {
-            String searchText = searchTextBox.Text;
 
+        protected void navSearchBtn_Click(object sender, EventArgs e)
+        {
+            String searchText = navSearchTextBox.Text;
             fillResult(searchText);
         }
-
         protected void fillResult(String searchText)
         {
-            BOProductList listProduct= BLLProduct.getListProductQuery(searchText);
-            //resultRepeater.DataSource = product;
-            //resultRepeater.DataBind();
+            try
+            {
+                BOProductList listProduct = BLLProduct.getListProductQuery(searchText);
+
+                if (listProduct == null)
+                {
+                    litError.Text = "Produk tidak ditemukan";
+                }
+                else
+                {
+                    resultRepeater.DataSource = listProduct;
+                    resultRepeater.DataBind();
+
+                    updatePanelSearchResultRepeater.Update();
+                }
+            }
+            catch (Exception ex)
+            {
+                string error = ex.Message;
+                
+            }
         }
 
+        #region result repeater
         protected void resultRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
 
@@ -38,5 +55,7 @@ namespace flashPrice.pages
         {
 
         }
+
+        #endregion
     }
 }
