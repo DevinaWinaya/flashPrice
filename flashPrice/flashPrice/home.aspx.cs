@@ -35,6 +35,7 @@ namespace flashPrice.pages
                     resultRepeater.DataSource = listProduct;
                     resultRepeater.DataBind();
 
+                    litError.Text = "";
                     updatePanelSearchResultRepeater.Update();
                 }
             }

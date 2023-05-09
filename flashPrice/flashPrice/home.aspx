@@ -30,7 +30,7 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <span>
-                                                <asp:Label ID="productNameLbl" CssClass="h5 text-warning" runat="server" Text='<%#Eval("productName") %>'></asp:Label>
+                                                <asp:Label ID="productNameLbl" CssClass="h5" style="color:blue;" runat="server" Text='<%#Eval("productName") %>'></asp:Label>
                                             </span>
                                         </div>
                                         <div class="row">
