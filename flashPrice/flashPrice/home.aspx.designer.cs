@@ -15,6 +15,33 @@ namespace flashPrice.pages
     {
 
         /// <summary>
+        /// updAction control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel updAction;
+
+        /// <summary>
+        /// hiddenProductID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hiddenProductID;
+
+        /// <summary>
+        /// productDetailBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button productDetailBtn;
+
+        /// <summary>
         /// updatePanelSearchResultRepeater control.
         /// </summary>
         /// <remarks>
@@ -22,6 +49,15 @@ namespace flashPrice.pages
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updatePanelSearchResultRepeater;
+
+        /// <summary>
+        /// testLit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal testLit;
 
         /// <summary>
         /// resultDiv control.
@@ -40,6 +76,15 @@ namespace flashPrice.pages
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox navSearchTextBox;
+
+        /// <summary>
+        /// categoryProductDD control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList categoryProductDD;
 
         /// <summary>
         /// navSearchBtn control.
@@ -76,5 +121,68 @@ namespace flashPrice.pages
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater resultRepeater;
+
+        /// <summary>
+        /// updatePanelProductDetail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel updatePanelProductDetail;
+
+        /// <summary>
+        /// headerNameLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label headerNameLbl;
+
+        /// <summary>
+        /// productImageUrlPopup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image productImageUrlPopup;
+
+        /// <summary>
+        /// miniMarketImageUrlPopup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image miniMarketImageUrlPopup;
+
+        /// <summary>
+        /// productNamePopupLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label productNamePopupLbl;
+
+        /// <summary>
+        /// productPricePopupLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label productPricePopupLbl;
+
+        /// <summary>
+        /// productDescPopupLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label productDescPopupLbl;
     }
 }

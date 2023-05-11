@@ -60,3 +60,6 @@ E:\projectThesis\flashPrice\flashPrice\bin\Microsoft.CodeDom.Providers.DotNetCom
 E:\projectThesis\flashPrice\flashPrice\obj\Debug\flashPrice.csproj.CopyComplete
 E:\projectThesis\flashPrice\flashPrice\obj\Debug\flashPrice.dll
 E:\projectThesis\flashPrice\flashPrice\obj\Debug\flashPrice.pdb
+E:\projectThesis\flashPrice\flashPrice\bin\HtmlAgilityPack.dll
+E:\projectThesis\flashPrice\flashPrice\bin\HtmlAgilityPack.pdb
+E:\projectThesis\flashPrice\flashPrice\bin\HtmlAgilityPack.xml

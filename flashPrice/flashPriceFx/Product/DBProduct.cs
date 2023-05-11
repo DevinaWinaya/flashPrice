@@ -70,7 +70,7 @@ namespace flashPriceFx.Product
         #region getList
 
         #region getListProductQuery
-        public static BOProductList getListProductQuery(String searchText)
+        public static BOProductList getListProductQuery(String searchText, String categoryProduct)
         {
             string xSQL = defaultFields;
 
@@ -79,14 +79,19 @@ namespace flashPriceFx.Product
                 xSQL += " and p.productName like " + "'%" + searchText + "%'";
             }
 
-            return getPinjamanTxnListQR(xSQL);
+            if (categoryProduct != "")
+            {
+                xSQL += " and p.productCategoryID like " + "'%" + categoryProduct + "%'";
+            }
+
+            return getProuctListQR(xSQL);
         }
         #endregion
 
         #region getListQR
-        private static BOProductList getPinjamanTxnListQR(string xSQL)
+        private static BOProductList getProuctListQR(string xSQL)
         {
-            BOProductList xTxnList = null;
+            BOProductList xBOList = null;
 
             using (SqlConnection myConnection = new SqlConnection(DBUtil.conStringdbflashPrice))
             {
@@ -104,10 +109,10 @@ namespace flashPriceFx.Product
                     {
                         if (myReader.HasRows)
                         {
-                            xTxnList = new BOProductList();
+                            xBOList = new BOProductList();
                             while (myReader.Read())
                             {
-                                xTxnList.Add(fillDataRecord(myReader));
+                                xBOList.Add(fillDataRecord(myReader));
                             }
                         }
                         myReader.Close();
@@ -116,7 +121,7 @@ namespace flashPriceFx.Product
                 }
             }
 
-            return xTxnList;
+            return xBOList;
 
         }
         #endregion
@@ -128,21 +133,23 @@ namespace flashPriceFx.Product
 
         public static BOProduct fillDataRecord(IDataRecord mD)
         {
-            BOProduct xTxn = new BOProduct();
+            BOProduct xBO = new BOProduct();
 
-            xTxn.productID = (!mD.IsDBNull(mD.GetOrdinal("productID"))) ? mD.GetString(mD.GetOrdinal("productID")) : null;
-            xTxn.productName = (!mD.IsDBNull(mD.GetOrdinal("productName"))) ? mD.GetString(mD.GetOrdinal("productName")) : null;
-            xTxn.productCategory = (!mD.IsDBNull(mD.GetOrdinal("productCategory"))) ? mD.GetString(mD.GetOrdinal("productCategory")) : null;
-            xTxn.productPrice = (!mD.IsDBNull(mD.GetOrdinal("productPrice"))) ? mD.GetInt32(mD.GetOrdinal("productPrice")) : 0;
-            xTxn.productImageContent = (!mD.IsDBNull(mD.GetOrdinal("productImageContent"))) ? (byte[])((SqlDataReader)mD).GetSqlBinary(mD.GetOrdinal("productImageContent")) : null;
+            xBO.productID = (!mD.IsDBNull(mD.GetOrdinal("productID"))) ? mD.GetString(mD.GetOrdinal("productID")) : null;
+            xBO.productName = (!mD.IsDBNull(mD.GetOrdinal("productName"))) ? mD.GetString(mD.GetOrdinal("productName")) : null;
+            xBO.productDescription = (!mD.IsDBNull(mD.GetOrdinal("productDescription"))) ? mD.GetString(mD.GetOrdinal("productDescription")) : null;
+            xBO.productPrice = (!mD.IsDBNull(mD.GetOrdinal("productPrice"))) ? mD.GetInt32(mD.GetOrdinal("productPrice")) : 0;
+            xBO.productCategoryID = (!mD.IsDBNull(mD.GetOrdinal("productCategoryID"))) ? mD.GetString(mD.GetOrdinal("productCategoryID")) : null;
+            xBO.productImageUrl = (!mD.IsDBNull(mD.GetOrdinal("productImageUrl"))) ? mD.GetString(mD.GetOrdinal("productImageUrl")) : null;
 
-            xTxn.miniMarketAddress = (!mD.IsDBNull(mD.GetOrdinal("miniMarketAddress"))) ? mD.GetString(mD.GetOrdinal("miniMarketAddress")) : null;
-            xTxn.miniMarketName = (!mD.IsDBNull(mD.GetOrdinal("miniMarketName"))) ? mD.GetString(mD.GetOrdinal("miniMarketName")) : null;
+            xBO.miniMarketAddress = (!mD.IsDBNull(mD.GetOrdinal("miniMarketAddress"))) ? mD.GetString(mD.GetOrdinal("miniMarketAddress")) : null;
+            xBO.miniMarketName = (!mD.IsDBNull(mD.GetOrdinal("miniMarketName"))) ? mD.GetString(mD.GetOrdinal("miniMarketName")) : null;
+            xBO.miniMarketType = (!mD.IsDBNull(mD.GetOrdinal("miniMarketType"))) ? mD.GetString(mD.GetOrdinal("miniMarketType")) : null;
+            
+            xBO.entryDate = DBHelper.getDBDateTime(mD, "entryDate");
+            xBO.lastUpdate = DBHelper.getDBDateTime(mD, "lastUpdate");
 
-            xTxn.entryDate = DBHelper.getDBDateTime(mD, "entryDate");
-            xTxn.lastUpdate = DBHelper.getDBDateTime(mD, "lastUpdate");
-
-            return xTxn;
+            return xBO;
         }
 
         #endregion

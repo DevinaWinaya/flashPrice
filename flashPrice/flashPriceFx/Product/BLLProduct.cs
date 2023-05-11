@@ -16,9 +16,9 @@ namespace flashPriceFx.Product
         #endregion
 
         #region getList
-        public static BOProductList getListProductQuery(String searchText)
+        public static BOProductList getListProductQuery(String searchText, String categoryProduct)
         {
-            return DBProduct.getListProductQuery(searchText);
+            return DBProduct.getListProductQuery(searchText, categoryProduct);
         }
         #endregion
     }

@@ -74,6 +74,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="productCategory\BLLProductCategory.cs" />
+    <Compile Include="productCategory\BOProductCategory.cs" />
+    <Compile Include="productCategory\BOProductCategoryList.cs" />
+    <Compile Include="productCategory\DBProductCategory.cs" />
     <Compile Include="MiniMarket\BLLMiniMarket.cs" />
     <Compile Include="MiniMarket\BOMiniMarket.cs" />
     <Compile Include="MiniMarket\BOMiniMarketList.cs" />
