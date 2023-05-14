@@ -16,10 +16,28 @@ namespace flashPriceFx.Product
         #endregion
 
         #region getList
-        public static BOProductList getListProductQuery(String searchText, String categoryProduct)
+
+        #region get list product 
+
+        public static BOProductList getListProduct(String searchText, String categoryProduct, String sortBy, String sortDir, int startRow, int maxRow)
         {
-            return DBProduct.getListProductQuery(searchText, categoryProduct);
+            return DBProduct.getListProductQuery(searchText, categoryProduct, sortBy, sortDir, startRow, maxRow);
         }
+
+        public static decimal getCountListProduct(String searchText, String categoryProduct, String sortBy, String sortDir, int startRow, int maxRow)
+        {
+            return DBProduct.getCountLisProductQuery(searchText, categoryProduct, sortBy, sortDir,  startRow, maxRow);
+        }
+
+        #endregion
+
+        #region get list product for auto complete
+        public static BOProductList getListProductForAutoComplete()
+        {
+            return DBProduct.getListProductForAutoComplete();
+        }
+
+        #endregion
         #endregion
     }
 }

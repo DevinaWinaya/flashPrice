@@ -70,9 +70,13 @@ namespace flashPriceFx.Product
         #region getList
 
         #region getListProductQuery
-        public static BOProductList getListProductQuery(String searchText, String categoryProduct)
+        public static BOProductList getListProductQuery(String searchText, String categoryProduct, String sortBy, String sortDir, int startRow, int maxRow)
         {
-            string xSQL = defaultFields;
+            string xSQL = @"
+            select * from (select ROW_NUMBER() OVER (ORDER BY " + sortBy + @") AS rowNum, p.*, m.miniMarketName, m.miniMarketAddress, m.miniMarketType
+            from Product p with(nolock)
+            left join MiniMarket m with(nolock) on m.miniMarketID = p.miniMarketID
+            where 1=1 ";
 
             if (searchText != "")
             {
@@ -84,12 +88,69 @@ namespace flashPriceFx.Product
                 xSQL += " and p.productCategoryID like " + "'%" + categoryProduct + "%'";
             }
 
-            return getProuctListQR(xSQL);
+            xSQL += ") as field where rowNum between '" + startRow.ToString() + "' and '" + (startRow + maxRow).ToString() + "'";
+
+            if (sortBy != "")
+            {
+                xSQL += "  order by " + sortBy + " " + sortDir;
+            }
+
+            /* old codes 
+                
+            string xSQL = defaultFields;
+
+                if (searchText != "")
+                {
+                    xSQL += " and p.productName like " + "'%" + searchText + "%'";
+                }
+
+                if (categoryProduct != "")
+                {
+                    xSQL += " and p.productCategoryID like " + "'%" + categoryProduct + "%'";
+                }
+            */
+
+                return getProductListQR(xSQL);
+        }
+
+        public static decimal getCountLisProductQuery(String searchText, String categoryProduct, String sortBy, String sortDir, int startRow, int maxRow)
+        {
+            string xSQL = @"
+            select count(*)
+            from Product p with(nolock)
+            where 1=1 ";
+
+            if (searchText != "")
+            {
+                xSQL += " and p.productName like " + "'%" + searchText + "%'";
+            }
+
+            if (categoryProduct != "")
+            {
+                xSQL += " and p.productCategoryID like " + "'%" + categoryProduct + "%'";
+            }
+
+            return DBUtil.execScalarInt(xSQL);
+        }
+        #endregion
+        #endregion
+
+        #region getListActiveAnggotaForAutoComplete
+        public static BOProductList getListProductForAutoComplete()
+        {
+            string xSQL = @"
+            select
+
+            productName
+
+            from Product p with(nolock)";
+
+            return getProductListQRForAutoComplete(xSQL);
         }
         #endregion
 
         #region getListQR
-        private static BOProductList getProuctListQR(string xSQL)
+        private static BOProductList getProductListQR(string xSQL)
         {
             BOProductList xBOList = null;
 
@@ -126,15 +187,54 @@ namespace flashPriceFx.Product
         }
         #endregion
 
+        #region getListQR for autocomplete
+        private static BOProductList getProductListQRForAutoComplete(string xSQL)
+        {
+            BOProductList xBOList = null;
+
+            using (SqlConnection myConnection = new SqlConnection(DBUtil.conStringdbflashPrice))
+            {
+                myConnection.Open();
+                if (myConnection.State == ConnectionState.Open)
+                {
+                    SqlCommand myComm = new SqlCommand();
+                    myComm.Connection = myConnection;
+                    myComm.CommandText = xSQL;
+                    myComm.CommandType = CommandType.Text;
+
+                    myComm.Parameters.Clear();
+
+                    using (SqlDataReader myReader = myComm.ExecuteReader())
+                    {
+                        if (myReader.HasRows)
+                        {
+                            xBOList = new BOProductList();
+                            while (myReader.Read())
+                            {
+                                xBOList.Add(fillDataRecordForAutoComplete(myReader));
+                            }
+                        }
+                        myReader.Close();
+                    }
+                    myComm.Dispose();
+                }
+            }
+
+            return xBOList;
+
+        }
 
         #endregion
 
+
+
         #region fillDataRecord
 
+        #region fillDataRecord original
         public static BOProduct fillDataRecord(IDataRecord mD)
         {
             BOProduct xBO = new BOProduct();
-
+            xBO.rowNum = (!mD.IsDBNull(mD.GetOrdinal("rowNum"))) ? mD.GetInt64(mD.GetOrdinal("rowNum")) : 0;
             xBO.productID = (!mD.IsDBNull(mD.GetOrdinal("productID"))) ? mD.GetString(mD.GetOrdinal("productID")) : null;
             xBO.productName = (!mD.IsDBNull(mD.GetOrdinal("productName"))) ? mD.GetString(mD.GetOrdinal("productName")) : null;
             xBO.productDescription = (!mD.IsDBNull(mD.GetOrdinal("productDescription"))) ? mD.GetString(mD.GetOrdinal("productDescription")) : null;
@@ -151,6 +251,18 @@ namespace flashPriceFx.Product
 
             return xBO;
         }
+        #endregion
+
+        #region fillDataRecordForAutoComplete
+        public static BOProduct fillDataRecordForAutoComplete(IDataRecord mD)
+        {
+            BOProduct xBO = new BOProduct();
+
+            xBO.productName = (!mD.IsDBNull(mD.GetOrdinal("productName"))) ? mD.GetString(mD.GetOrdinal("productName")) : null;
+          
+            return xBO;
+        }
+        #endregion
 
         #endregion
 

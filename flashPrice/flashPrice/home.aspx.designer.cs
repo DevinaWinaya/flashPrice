@@ -33,6 +33,15 @@ namespace flashPrice.pages
         protected global::System.Web.UI.WebControls.HiddenField hiddenProductID;
 
         /// <summary>
+        /// hdnPageIdx control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnPageIdx;
+
+        /// <summary>
         /// productDetailBtn control.
         /// </summary>
         /// <remarks>
@@ -78,6 +87,15 @@ namespace flashPrice.pages
         protected global::System.Web.UI.WebControls.TextBox navSearchTextBox;
 
         /// <summary>
+        /// dataProduct control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.AutoCompleteExtender dataProduct;
+
+        /// <summary>
         /// categoryProductDD control.
         /// </summary>
         /// <remarks>
@@ -121,6 +139,24 @@ namespace flashPrice.pages
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater resultRepeater;
+
+        /// <summary>
+        /// paginationDiv control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl paginationDiv;
+
+        /// <summary>
+        /// rptPager control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptPager;
 
         /// <summary>
         /// updatePanelProductDetail control.

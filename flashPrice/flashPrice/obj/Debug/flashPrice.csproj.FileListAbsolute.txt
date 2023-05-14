@@ -1,5 +1,5 @@
-E:\projectThesis\flashPrice\flashPrice\obj\Debug\flashPrice.csproj.CoreCompileInputs.cache
 E:\projectThesis\flashPrice\flashPrice\obj\Debug\flashPrice.csproj.AssemblyReference.cache
+E:\projectThesis\flashPrice\flashPrice\obj\Debug\flashPrice.csproj.CoreCompileInputs.cache
 E:\projectThesis\flashPrice\flashPrice\bin\flashPrice.dll.config
 E:\projectThesis\flashPrice\flashPrice\bin\flashPrice.dll
 E:\projectThesis\flashPrice\flashPrice\bin\flashPrice.pdb
@@ -52,14 +52,17 @@ E:\projectThesis\flashPrice\flashPrice\bin\roslyn\vbc.exe.config
 E:\projectThesis\flashPrice\flashPrice\bin\roslyn\vbc.rsp
 E:\projectThesis\flashPrice\flashPrice\bin\roslyn\VBCSCompiler.exe
 E:\projectThesis\flashPrice\flashPrice\bin\roslyn\VBCSCompiler.exe.config
+E:\projectThesis\flashPrice\flashPrice\bin\AjaxControlToolkit.dll
 E:\projectThesis\flashPrice\flashPrice\bin\flashPriceFx.dll
+E:\projectThesis\flashPrice\flashPrice\bin\HtmlAgilityPack.dll
 E:\projectThesis\flashPrice\flashPrice\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+E:\projectThesis\flashPrice\flashPrice\bin\Newtonsoft.Json.dll
 E:\projectThesis\flashPrice\flashPrice\bin\flashPriceFx.pdb
 E:\projectThesis\flashPrice\flashPrice\bin\flashPriceFx.dll.config
+E:\projectThesis\flashPrice\flashPrice\bin\HtmlAgilityPack.pdb
+E:\projectThesis\flashPrice\flashPrice\bin\HtmlAgilityPack.xml
+E:\projectThesis\flashPrice\flashPrice\bin\Newtonsoft.Json.xml
 E:\projectThesis\flashPrice\flashPrice\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 E:\projectThesis\flashPrice\flashPrice\obj\Debug\flashPrice.csproj.CopyComplete
 E:\projectThesis\flashPrice\flashPrice\obj\Debug\flashPrice.dll
 E:\projectThesis\flashPrice\flashPrice\obj\Debug\flashPrice.pdb
-E:\projectThesis\flashPrice\flashPrice\bin\HtmlAgilityPack.dll
-E:\projectThesis\flashPrice\flashPrice\bin\HtmlAgilityPack.pdb
-E:\projectThesis\flashPrice\flashPrice\bin\HtmlAgilityPack.xml

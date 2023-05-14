@@ -1,13 +1,55 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/default.Master" AutoEventWireup="true" CodeBehind="home.aspx.cs" Inherits="flashPrice.pages.home" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/default.Master" AutoEventWireup="true" CodeBehind="home.aspx.cs" Inherits="flashPrice.pages.home" UICulture="id-ID" Culture="id-ID" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="mainContentPh" runat="server">
 
+    <style>
+        /*AutoComplete flyout */
+        .autoCompleteContainer ul li {
+            margin: 0 !important;
+            padding: 0 !important;
+            border: none !important;
+        }
+
+        .autocomplete_completionListElement {
+            margin: 0px !important;
+            padding: 0px !important;
+            background-color: white;
+            color: windowtext;
+            border: buttonshadow;
+            border-width: 1px;
+            border-style: solid;
+            cursor: 'default';
+            overflow: auto;
+            z-index: 9999 !important;
+            width: 408.6px !important;
+            text-align: left;
+            list-style-type: none;
+        }
+
+        /* AutoComplete highlighted item */
+
+        .autocomplete_highlightedListItem {
+            background-color: #007bff;
+            color: white;
+            padding: 0 !important;
+        }
+
+        /* AutoComplete item */
+
+        .autocomplete_listItem {
+            background-color: window;
+            color: windowtext;
+            padding: 1px !important;
+        }
+    </style>
+
     <asp:UpdatePanel ID="updAction" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="true" style="display: none">
         <ContentTemplate>
             <asp:HiddenField ID="hiddenProductID" runat="server" />
+            <asp:HiddenField ID="hdnPageIdx" runat="server" />            
             <asp:Button ID="productDetailBtn" runat="server" Text="Product Detail" OnClick="productDetailBtn_Click" Style="display: none;" />
         </ContentTemplate>
     </asp:UpdatePanel>
@@ -16,12 +58,21 @@
         <ContentTemplate>
             <asp:Literal runat="server" ID="testLit"></asp:Literal>
             <div id="resultDiv" runat="server">
-                <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #fbd746;">
-                    <a class="navbar-brand text-white" href="#">
+                <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #fbd746;">
+                    <a class="navbar-brand text-white" href="home.aspx">
                         <img src="assets/images/flashPriceLogo.png" style="width: 150px;" /></a>
                     <span></span>
                     <div class="navbar-nav col-md-8 mx-auto">
-                        <asp:TextBox runat="server" ID="navSearchTextBox" CssClass="form-control mr-2 col-md-5" placeHolder="Temukan produkmu disini . . ."></asp:TextBox>
+                        <asp:TextBox runat="server" ID="navSearchTextBox" CssClass="form-control autocomplete mr-2 col-md-5" placeHolder="Temukan produkmu disini . . ."></asp:TextBox>
+
+                        <act:AutoCompleteExtender runat="server" ID="dataProduct" TargetControlID="navSearchTextBox"
+                            ServiceMethod="getListProductCached" ServicePath="~/webService/wsvProduct.asmx"
+                            MinimumPrefixLength="2" CompletionInterval="100" EnableCaching="true" CompletionSetCount="10"
+                            CompletionListCssClass="autocomplete_completionListElement" CompletionListItemCssClass="autocomplete_listItem"
+                            CompletionListHighlightedItemCssClass="autocomplete_highlightedListItem" DelimiterCharacters=";,:"
+                            ShowOnlyCurrentWordInCompletionListItem="true">
+                        </act:AutoCompleteExtender>
+
                         <asp:DropDownList runat="server" ID="categoryProductDD" CssClass="form-control col-md-2 mr-2">
                             <asp:ListItem Text="Pilih Kategori" Value=""></asp:ListItem>
                             <asp:ListItem Text="Makanan" Value="C001"></asp:ListItem>
@@ -31,7 +82,8 @@
                         <asp:LinkButton runat="server" ID="navSearchBtn" OnClick="navSearchBtn_Click" CssClass="btn btn-light"><i class="fa fa-search"></i></asp:LinkButton>
                     </div>
 
-                    <span class="navbar-text">Bandingkan dan temukan produk pilihanmu dengan FlashPrice
+                    <span class="navbar-text font-weight-bold" style="font-size:small;">
+                        <i class="fa fa-scale-balanced mr-1"></i>Bandingkan dan temukan produk pilihanmu dengan FlashPrice
                     </span>
                 </nav>
 
@@ -47,7 +99,7 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <span class="text-left col-md-12">
-                                                <img src="<%#Eval("productImageUrl") %>" style="border-radius: 10px; height: auto; width: 280px;" class="img-fluid" alt="Image Not Found" />
+                                                <img src="<%#Eval("productImageUrl") %>" style="border-radius: 10px; height: auto; width: 280px;" class="img-fluid" alt="Product Image" />
                                             </span>
 
                                             <span class="mt-3 mb-2">
@@ -82,6 +134,21 @@
                         <FooterTemplate>
                         </FooterTemplate>
                     </asp:Repeater>
+
+                    <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 px-0 mt-2" runat="server" id="paginationDiv">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-end flat pagination-primary">
+                                <asp:Repeater ID="rptPager" runat="server">
+                                    <ItemTemplate>
+                                        <li class="page-item">
+                                            <asp:LinkButton ID="lnkPage" CssClass="page-link" runat="server" Text='<%#Eval("Text") %>' CommandArgument='<%# Eval("Value") %>'
+                                                Enabled='<%# Eval("Enabled") %>' OnClick="Page_Changed"></asp:LinkButton>
+                                        </li>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
 
             </div>
@@ -107,14 +174,14 @@
                         <div class="modal-body pt-2" id="modal-body">
                             <div class="card col-md-3">
                                 <div class="card-header bg-white">
-                                    <asp:Image runat="server" ID="productImageUrlPopup" Style="width: 180px; height: auto;" />
+                                    <asp:Image runat="server" ID="productImageUrlPopup" AlternateText="Product Image" Style="width: 180px; height: auto;" />
                                 </div>
                                 <div class="card-body">
                                     <div class="row mt-2">
                                         <asp:Image runat="server" ID="miniMarketImageUrlPopup" Style="width: 100px; height: auto;" />
                                     </div>
                                     <div class="row  mt-2">
-                                        <asp:Label runat="server" CssClass="h6 mr-2" style="color:#ee8000" ID="productNamePopupLbl"></asp:Label>
+                                        <asp:Label runat="server" CssClass="h6 mr-2" Style="color: #ee8000" ID="productNamePopupLbl"></asp:Label>
                                     </div>
                                     <div class="row mt-2">
                                         <span class="badge badge-warning">

@@ -8,6 +8,7 @@ namespace flashPriceFx.Product
 {
     public class BOProduct
     {
+        public Int64 rowNum { set; get; }
         public string productID { set; get; }
         public string productName { set; get; }
         public string productDescription { set; get; }
@@ -16,6 +17,7 @@ namespace flashPriceFx.Product
         public string productImageUrl { set; get; }
         public DateTime entryDate { set; get; }
         public DateTime lastUpdate { set; get; }
+
 
         public string miniMarketName { set; get; }
         public string miniMarketAddress { set; get; }

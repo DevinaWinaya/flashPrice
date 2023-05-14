@@ -10,23 +10,45 @@ namespace flashPrice.pages
 {
     public partial class home : System.Web.UI.Page
     {
+        private static int pageSize = 12;
         protected void Page_Load(object sender, EventArgs e)
         {
+
 
         }
 
 
         protected void navSearchBtn_Click(object sender, EventArgs e)
         {
-            String searchText = navSearchTextBox.Text;
-            String categoryProduct = categoryProductDD.SelectedValue; 
-            fillResult(searchText, categoryProduct);
+            fillResult(1, pageSize);
         }
-        protected void fillResult(String searchText, String categoryProduct)
+
+        protected void Page_Changed(object sender, EventArgs e)
+        {
+            int pageIndex = int.Parse((sender as LinkButton).CommandArgument);
+            fillResult(pageIndex, pageSize);
+        }
+
+        protected void fillResult(int pageIndex, int PageSize)
         {
             try
             {
-                BOProductList listProduct = BLLProduct.getListProductQuery(searchText, categoryProduct);
+                String searchText = navSearchTextBox.Text;
+                String categoryProduct = categoryProductDD.SelectedValue;
+
+                int startRow = (pageSize * (pageIndex - 1));
+
+                int maxRow = pageSize;
+
+                if (startRow == 1)  maxRow = 12;
+
+                if (pageIndex > 1) startRow = startRow + 1;
+
+                String sortBy = "productID";
+                String sortDir = "asc";
+
+                BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, sortBy, sortDir, startRow, maxRow);
+                int jmlBaris = int.Parse(BLLProduct.getCountListProduct(searchText, categoryProduct, sortBy, sortDir, startRow, maxRow).ToString());
 
                 if (listProduct == null)
                 {
@@ -36,19 +58,63 @@ namespace flashPrice.pages
                 }
                 else
                 {
+                    
+                    double dblPageCount = (double)((decimal)jmlBaris / pageSize);
+                    int pageCount = (int)Math.Ceiling(dblPageCount);
+
+                    if (pageIndex != 1 && pageIndex != pageCount) { 
+                        listProduct.RemoveAt(listProduct.Count - 1); // buat buang element terakhir yang gk kepake
+                    }
+
+
                     resultRepeater.DataSource = listProduct;
                     resultRepeater.DataBind();
 
                     litError.Text = "";
                     updatePanelSearchResultRepeater.Update();
                 }
+
+                PopulatePager(jmlBaris, pageIndex);
             }
             catch (Exception ex)
             {
                 string error = ex.Message;
-                
             }
         }
+
+        #region pagination
+        private void PopulatePager(int recordCount, int currentPage)
+        {
+            double dblPageCount = (double)((decimal)recordCount / pageSize);
+            int pageCount = (int)Math.Ceiling(dblPageCount);
+            List<ListItem> pages = new List<ListItem>();
+            string displ = "";
+
+            if (pageCount > 0)
+            {
+                paginationDiv.Visible = true;
+                pages.Add(new ListItem("<b>First</b>", "1", currentPage > 1));
+                for (int i = 1; i <= pageCount; i++)
+                {
+                    if (i <= 5 || (i >= currentPage - 5 && i <= currentPage + 5) || i > pageCount - 5)
+                    {
+                        displ = i == currentPage ? "<b>" + i.ToString() + "</b>" : i.ToString();
+                        pages.Add(new ListItem(displ, i.ToString(), i != currentPage));
+                    }
+                }
+                pages.Add(new ListItem("<b>Last</b>", pageCount.ToString(), currentPage < pageCount));
+            }
+
+            else
+            {
+                paginationDiv.Visible = false;
+            }
+
+            rptPager.DataSource = pages;
+            rptPager.DataBind();
+            hdnPageIdx.Value = currentPage.ToString();
+        }
+        #endregion
 
         #region result repeater
         protected void resultRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -66,7 +132,7 @@ namespace flashPrice.pages
 
         protected void productDetailBtn_Click(object sender, EventArgs e)
         {
-            string productID= hiddenProductID.Value;
+            string productID = hiddenProductID.Value;
             loadProduct(productID);
         }
 

@@ -1,8 +1,7 @@
-E:\projectThesis\flashPrice\flashPriceFx\obj\Debug\flashPriceFx.csproj.AssemblyReference.cache
-E:\projectThesis\flashPrice\flashPriceFx\obj\Debug\flashPriceFx.csproj.CoreCompileInputs.cache
 E:\projectThesis\flashPrice\flashPriceFx\bin\Debug\flashPriceFx.dll.config
 E:\projectThesis\flashPrice\flashPriceFx\bin\Debug\flashPriceFx.dll
 E:\projectThesis\flashPrice\flashPriceFx\bin\Debug\flashPriceFx.pdb
+E:\projectThesis\flashPrice\flashPriceFx\bin\Debug\AjaxControlToolkit.dll
 E:\projectThesis\flashPrice\flashPriceFx\bin\Debug\AjaxDataControls.dll
 E:\projectThesis\flashPrice\flashPriceFx\bin\Debug\HCFx.dll
 E:\projectThesis\flashPrice\flashPriceFx\bin\Debug\ICSharpCode.SharpZipLib.dll
@@ -13,6 +12,9 @@ E:\projectThesis\flashPrice\flashPriceFx\bin\Debug\NPOI.OOXML.dll
 E:\projectThesis\flashPrice\flashPriceFx\bin\Debug\NPOI.OpenXml4Net.dll
 E:\projectThesis\flashPrice\flashPriceFx\bin\Debug\NPOI.OpenXmlFormats.dll
 E:\projectThesis\flashPrice\flashPriceFx\bin\Debug\HCFx.pdb
+E:\projectThesis\flashPrice\flashPriceFx\bin\Debug\Newtonsoft.Json.xml
+E:\projectThesis\flashPrice\flashPriceFx\obj\Debug\flashPriceFx.csproj.AssemblyReference.cache
+E:\projectThesis\flashPrice\flashPriceFx\obj\Debug\flashPriceFx.csproj.CoreCompileInputs.cache
 E:\projectThesis\flashPrice\flashPriceFx\obj\Debug\flashPriceFx.csproj.CopyComplete
 E:\projectThesis\flashPrice\flashPriceFx\obj\Debug\flashPriceFx.dll
 E:\projectThesis\flashPrice\flashPriceFx\obj\Debug\flashPriceFx.pdb
