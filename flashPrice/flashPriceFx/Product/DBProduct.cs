@@ -13,7 +13,7 @@ namespace flashPriceFx.Product
     public class DBProduct
     {
         const string defaultFields = @"
-        select *
+        select ROW_NUMBER() OVER (ORDER BY productID) AS rowNum, p.*, m.*
         from Product p with(nolock)
         left join MiniMarket m with(nolock) on m.miniMarketID = p.miniMarketID 
         where 1=1";
@@ -110,7 +110,7 @@ namespace flashPriceFx.Product
                 }
             */
 
-                return getProductListQR(xSQL);
+            return getProductListQR(xSQL);
         }
 
         public static decimal getCountLisProductQuery(String searchText, String categoryProduct, String sortBy, String sortDir, int startRow, int maxRow)
@@ -245,7 +245,7 @@ namespace flashPriceFx.Product
             xBO.miniMarketAddress = (!mD.IsDBNull(mD.GetOrdinal("miniMarketAddress"))) ? mD.GetString(mD.GetOrdinal("miniMarketAddress")) : null;
             xBO.miniMarketName = (!mD.IsDBNull(mD.GetOrdinal("miniMarketName"))) ? mD.GetString(mD.GetOrdinal("miniMarketName")) : null;
             xBO.miniMarketType = (!mD.IsDBNull(mD.GetOrdinal("miniMarketType"))) ? mD.GetString(mD.GetOrdinal("miniMarketType")) : null;
-            
+
             xBO.entryDate = DBHelper.getDBDateTime(mD, "entryDate");
             xBO.lastUpdate = DBHelper.getDBDateTime(mD, "lastUpdate");
 
@@ -259,7 +259,7 @@ namespace flashPriceFx.Product
             BOProduct xBO = new BOProduct();
 
             xBO.productName = (!mD.IsDBNull(mD.GetOrdinal("productName"))) ? mD.GetString(mD.GetOrdinal("productName")) : null;
-          
+
             return xBO;
         }
         #endregion

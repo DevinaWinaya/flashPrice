@@ -1,10 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/default.Master" AutoEventWireup="true" CodeBehind="home.aspx.cs" Inherits="flashPrice.pages.home" UICulture="id-ID" Culture="id-ID" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-</asp:Content>
-
-<asp:Content ID="Content2" ContentPlaceHolderID="mainContentPh" runat="server">
-
     <style>
         /*AutoComplete flyout */
         .autoCompleteContainer ul li {
@@ -43,19 +39,26 @@
             background-color: window;
             color: windowtext;
             padding: 1px !important;
-        }
+        }  
     </style>
+
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="mainContentPh" runat="server">
 
     <asp:UpdatePanel ID="updAction" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="true" style="display: none">
         <ContentTemplate>
             <asp:HiddenField ID="hiddenProductID" runat="server" />
-            <asp:HiddenField ID="hdnPageIdx" runat="server" />            
+            <asp:HiddenField ID="hdnPageIdx" runat="server" />
             <asp:Button ID="productDetailBtn" runat="server" Text="Product Detail" OnClick="productDetailBtn_Click" Style="display: none;" />
         </ContentTemplate>
     </asp:UpdatePanel>
 
     <asp:UpdatePanel ID="updatePanelSearchResultRepeater" runat="server" UpdateMode="Conditional">
         <ContentTemplate>
+            <asp:HiddenField ID="hdSortEx" runat="server" />
+            <asp:HiddenField ID="hdSortDir" runat="server" />
+
             <asp:Literal runat="server" ID="testLit"></asp:Literal>
             <div id="resultDiv" runat="server">
                 <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #fbd746;">
@@ -82,7 +85,7 @@
                         <asp:LinkButton runat="server" ID="navSearchBtn" OnClick="navSearchBtn_Click" CssClass="btn btn-light"><i class="fa fa-search"></i></asp:LinkButton>
                     </div>
 
-                    <span class="navbar-text font-weight-bold" style="font-size:small;">
+                    <span class="navbar-text font-weight-bold" style="font-size: small;">
                         <i class="fa fa-scale-balanced mr-1"></i>Bandingkan dan temukan produk pilihanmu dengan FlashPrice
                     </span>
                 </nav>
@@ -137,7 +140,7 @@
 
                     <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 px-0 mt-2" runat="server" id="paginationDiv">
                         <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-end flat pagination-primary">
+                            <ul class="pagination justify-content-end flat pagination-primary text-warning">
                                 <asp:Repeater ID="rptPager" runat="server">
                                     <ItemTemplate>
                                         <li class="page-item">
@@ -213,12 +216,83 @@
 
         var _baseUrl = '<%=ResolveUrl("~/")%>';
 
+        Sys.Application.add_init(appl_init);
+
+        function appl_init() {
+            var pgRegMgr = Sys.WebForms.PageRequestManager.getInstance();
+            pgRegMgr.add_endRequest(EndHandlerGrid);
+            pgRegMgr.add_beginRequest(BeginHandlerGrid);
+        }
+
+        function BeginHandlerGrid(sender, args) {
+            loading_start();
+            init();
+        }
+
+        function EndHandlerGrid(sender, args) {
+            init();
+        }
+
+        $(document).ready(function () {
+            init();
+        });
+
+        function init() {
+            setTimeout(function () { getLocation() }, 500);
+            showPosition();
+        }
+
         function productDetail(productID) {
             if (productID != '') {
                 $('#<%= hiddenProductID.ClientID %>').val(productID);
             }
 
             $('#<%= productDetailBtn.ClientID %>').click();
+        }
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            var lat1 = position.coords.latitude;
+            var lon1 = position.coords.longitude;
+
+            //-6.2087634,
+            //106.845599
+
+            //var lat1 = -6.175812;
+            //var lon1 = 106.620188;
+
+            console.log(position.coords.latitude + "," + position.coords.longitude);
+
+            // bakal simpen di database
+            var lat2 = -6.177437;
+            var lon2 = 106.621188;
+
+            console.log(getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) + " km");
+        }
+
+        function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+            var R = 6371; // Radius of the earth in km
+            var dLat = deg2rad(lat2 - lat1);  // deg2rad below
+            var dLon = deg2rad(lon2 - lon1);
+            var a =
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2)
+                ;
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            var d = R * c; // Distance in km
+            return d;
+        }
+
+        function deg2rad(deg) {
+            return deg * (Math.PI / 180)
         }
 
     </script>

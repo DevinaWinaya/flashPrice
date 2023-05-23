@@ -60,6 +60,24 @@ namespace flashPrice.pages
         protected global::System.Web.UI.UpdatePanel updatePanelSearchResultRepeater;
 
         /// <summary>
+        /// hdSortEx control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdSortEx;
+
+        /// <summary>
+        /// hdSortDir control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdSortDir;
+
+        /// <summary>
         /// testLit control.
         /// </summary>
         /// <remarks>
