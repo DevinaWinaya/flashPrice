@@ -218,3 +218,11 @@ E:\projectThesis\flashPrice\flashPrice\bin\Microsoft.Win32.Registry.xml
 E:\projectThesis\flashPrice\flashPrice\bin\System.Security.AccessControl.xml
 E:\projectThesis\flashPrice\flashPrice\bin\System.Security.Principal.Windows.xml
 E:\projectThesis\flashPrice\flashPrice\bin\System.Threading.Tasks.Extensions.xml
+E:\projectThesis\flashPrice\flashPrice\bin\HCFx.dll
+E:\projectThesis\flashPrice\flashPrice\bin\AjaxDataControls.dll
+E:\projectThesis\flashPrice\flashPrice\bin\NPOI.dll
+E:\projectThesis\flashPrice\flashPrice\bin\Ionic.Zip.dll
+E:\projectThesis\flashPrice\flashPrice\bin\NPOI.OOXML.dll
+E:\projectThesis\flashPrice\flashPrice\bin\NPOI.OpenXmlFormats.dll
+E:\projectThesis\flashPrice\flashPrice\bin\NPOI.OpenXml4Net.dll
+E:\projectThesis\flashPrice\flashPrice\bin\HCFx.pdb

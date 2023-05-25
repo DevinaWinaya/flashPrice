@@ -39,27 +39,58 @@
             background-color: window;
             color: windowtext;
             padding: 1px !important;
-        }  
+        }
     </style>
 
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="mainContentPh" runat="server">
 
-    <asp:UpdatePanel ID="updAction" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="true" style="display: none">
+    <asp:UpdatePanel ID="updAction" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="true">
         <ContentTemplate>
+            <asp:HiddenField ID="hiddenMyLatitude" runat="server" />
+            <asp:HiddenField ID="hiddenMyLongitude" runat="server" />
+
             <asp:HiddenField ID="hiddenProductID" runat="server" />
             <asp:HiddenField ID="hdnPageIdx" runat="server" />
             <asp:Button ID="productDetailBtn" runat="server" Text="Product Detail" OnClick="productDetailBtn_Click" Style="display: none;" />
         </ContentTemplate>
     </asp:UpdatePanel>
 
-    <asp:UpdatePanel ID="updatePanelSearchResultRepeater" runat="server" UpdateMode="Conditional">
+    
+    <asp:UpdatePanel ID="updGridView" runat="server" UpdateMode="Conditional">
         <ContentTemplate>
+            <asp:Literal ID="litErrorLogin" runat="server"></asp:Literal>
+            <div class="datagrid" id="dvGrid">
+                <!-- main grid -->
+                <div style="overflow-x: auto; width: 500px;">
+                    <asp:GridView ID="gvMain" runat="server" EnableModelValidation="True" AutoGenerateColumns="true"
+                        AllowPaging="True" PageSize="50" AllowSorting="true" OnPageIndexChanging="gvMain_PageIndexChanging"
+                        OnRowDataBound="gvMain_RowDataBound" CssClass="table table-hover table-bordered" HeaderStyle-ForeColor="White">
+                        <Columns>
+                        </Columns>
+                        <PagerSettings Mode="NumericFirstLast" PageButtonCount="4" FirstPageText="First"
+                            LastPageText="Last" />
+                        <RowStyle CssClass="td" />
+                        <SelectedRowStyle CssClass="thspecalt" />
+                        <AlternatingRowStyle CssClass="tdalt" />
+                        <HeaderStyle CssClass="th thead-light text-center" />
+                    </asp:GridView>
+                </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+
+    <asp:UpdatePanel ID="updatePanelSearchResultRepeater" runat="server" UpdateMode="Conditional">
+        <Triggers>
+            <asp:PostBackTrigger ControlID="navSearchBtn" />
+        </Triggers>
+        <ContentTemplate>
+
             <asp:HiddenField ID="hdSortEx" runat="server" />
             <asp:HiddenField ID="hdSortDir" runat="server" />
 
             <asp:Literal runat="server" ID="testLit"></asp:Literal>
+
             <div id="resultDiv" runat="server">
                 <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #fbd746;">
                     <a class="navbar-brand text-white" href="home.aspx">
@@ -159,7 +190,6 @@
         </ContentTemplate>
     </asp:UpdatePanel>
 
-
     <div id="modalDialogProductDetail" class="modal fade modal-dialog-add" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="overflow-y: auto;">
         <div class="modal-dialog modal-lg" style="max-width: 1080px">
             <div class="modal-content">
@@ -212,6 +242,8 @@
         </div>
     </div>
 
+
+
     <script type="text/javascript">
 
         var _baseUrl = '<%=ResolveUrl("~/")%>';
@@ -225,7 +257,6 @@
         }
 
         function BeginHandlerGrid(sender, args) {
-            loading_start();
             init();
         }
 
@@ -238,8 +269,8 @@
         });
 
         function init() {
-            setTimeout(function () { getLocation() }, 500);
-            showPosition();
+            setTimeout(function () { getLocation(); showPosition(); }, 500);
+
         }
 
         function productDetail(productID) {
@@ -264,17 +295,16 @@
 
             //-6.2087634,
             //106.845599
+            /*
+                var lat2 = -6.177437;
+                var lon2 = 106.621188;
 
-            //var lat1 = -6.175812;
-            //var lon1 = 106.620188;
+                console.log(getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) + " km");
+            */
 
-            console.log(position.coords.latitude + "," + position.coords.longitude);
 
-            // bakal simpen di database
-            var lat2 = -6.177437;
-            var lon2 = 106.621188;
-
-            console.log(getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) + " km");
+            $('#<%= hiddenMyLatitude.ClientID %>').val(lat1);
+            $('#<%= hiddenMyLongitude.ClientID %>').val(lon1);
         }
 
         function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {

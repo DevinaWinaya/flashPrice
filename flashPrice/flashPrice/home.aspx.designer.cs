@@ -24,6 +24,24 @@ namespace flashPrice.pages
         protected global::System.Web.UI.UpdatePanel updAction;
 
         /// <summary>
+        /// hiddenMyLatitude control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hiddenMyLatitude;
+
+        /// <summary>
+        /// hiddenMyLongitude control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hiddenMyLongitude;
+
+        /// <summary>
         /// hiddenProductID control.
         /// </summary>
         /// <remarks>
@@ -49,6 +67,33 @@ namespace flashPrice.pages
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button productDetailBtn;
+
+        /// <summary>
+        /// updGridView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel updGridView;
+
+        /// <summary>
+        /// litErrorLogin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litErrorLogin;
+
+        /// <summary>
+        /// gvMain control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvMain;
 
         /// <summary>
         /// updatePanelSearchResultRepeater control.

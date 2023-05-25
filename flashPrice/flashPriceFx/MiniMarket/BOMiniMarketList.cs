@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace flashPriceFx.MiniMarket
 {
-    public class BOMiniMarket : List<BOMiniMarket>
+    public class BOMiniMarketList : List<BOMiniMarket>
     {
     }
 }

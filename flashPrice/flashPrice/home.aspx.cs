@@ -1,4 +1,5 @@
-﻿using flashPriceFx.Product;
+﻿using flashPriceFx.MiniMarket;
+using flashPriceFx.Product;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -24,6 +25,7 @@ namespace flashPrice.pages
             if (!IsPostBack)
             {
                 fillResult(1, pageSize, "productID", "ASC");
+
             }
         }
 
@@ -111,7 +113,6 @@ namespace flashPrice.pages
             visited[s] = 1;
             while (pq.Count > 0)
             {
-
                 Tuple<int, int> curr_min = get_min(pq);
                 int x = curr_min.Item2;
                 pq.Remove(curr_min);
@@ -134,17 +135,44 @@ namespace flashPrice.pages
             }
         }
 
-        static void Main()
+        public static void Main()
         {
-            /*
-             * search nama produknya lewat textbox
-             * pencet button
-             * muncul semua 222 product
-             * 
-            */
+          
+        }
+        #endregion
+
+        #region calculate distance from coordinates
+
+        public class distance
+        {
+            public int node { get; set; }
+            public string MiniMarketName { get; set; }
+            public double distanceFrom { get; set; }
+        }
+
+        private void testingLocation()
+        {
+            double lat1 = Convert.ToDouble(hiddenMyLatitude.Value.Replace(".", ","));
+            double lon1 = Convert.ToDouble(hiddenMyLongitude.Value.Replace(".", ","));
+
+            BOMiniMarketList miniMarketList = BLLMiniMarket.getListAllMiniMarket();
+            List<distance> listX = new List<distance>();
+            int xx = 0;
+
+            foreach (BOMiniMarket xMinimarket in miniMarketList)
+            {
+                distance x = new distance();
+                x.node = xx + 1;
+                x.MiniMarketName = xMinimarket.miniMarketName;
+                x.distanceFrom = getDistanceFromLatLonInKm(lat1, lon1, double.Parse(xMinimarket.miniMarketLattitude.ToString()), double.Parse(xMinimarket.miniMarketLongitude.ToString()));
+                listX.Add(x);
+            }
+
+            gvMain.DataSource = listX.OrderBy(distance => distance.distanceFrom).Take(5).ToList();
+            gvMain.DataBind();
 
             // No. of Nodes
-            int v = 14;
+            int v = 5;
 
             graph = new LinkedList<Tuple<int, int>>[v];
             for (int i = 0; i < graph.Length; ++i)
@@ -152,32 +180,66 @@ namespace flashPrice.pages
                 graph[i] = new LinkedList<Tuple<int, int>>();
             }
 
+            foreach (distance d in listX)
+            {
+                addedge(0, d.node, (int) d.distanceFrom);
+            }
+
+            testLit.Text = graph.ToString();
+            
             // The nodes shown in above example(by alphabets) are
             // implemented using integers addedge(x,y,cost);
-            addedge(0, 1, 3);
-            addedge(0, 2, 6);
-            addedge(0, 3, 5);
-            addedge(1, 4, 9);
-            addedge(1, 5, 8);
-            addedge(2, 6, 12);
-            addedge(2, 7, 14);
-            addedge(3, 8, 7);
-            addedge(8, 9, 5);
-            addedge(8, 10, 6);
-            addedge(9, 11, 1);
-            addedge(9, 12, 10);
-            addedge(9, 13, 2);
+            //addedge(0, 1, 3);
+            //addedge(0, 2, 6);
+            //addedge(0, 3, 5);
+            //addedge(1, 4, 9);
+            //addedge(1, 5, 8);
+            //addedge(2, 6, 12);
+            //addedge(2, 7, 14);
+            //addedge(3, 8, 7);
+            //addedge(8, 9, 5);
+            //addedge(8, 10, 6);
+            //addedge(9, 11, 1);
+            //addedge(9, 12, 10);
+            //addedge(9, 13, 2);
 
             int source = 0;
             int target = 9;
 
             // Function call
             best_first_search(source, target, v);
-        }
-        #endregion
 
+
+            updGridView.Update();
+            updatePanelSearchResultRepeater.Update();
+        }
+
+        protected double getDistanceFromLatLonInKm(double lat1, double lon1, double lat2, double lon2)
+        {
+            double R = 6371; // Radius of the earth in km
+            double dLat = deg2rad(lat2 - lat1);  // deg2rad below
+            double dLon = deg2rad(lon2 - lon1);
+
+            double a =
+                Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                Math.Cos(deg2rad(lat1)) * Math.Cos(deg2rad(lat2)) *
+                Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+
+            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            double d = R * c; // Distance in km
+
+            return d;
+        }
+
+        protected double deg2rad(double deg)
+        {
+            return deg * (Math.PI / 180);
+        }
+
+        #endregion
         protected void navSearchBtn_Click(object sender, EventArgs e)
         {
+            testingLocation();
             fillResult(1, pageSize, "productPrice", "asc");
         }
 
@@ -312,6 +374,23 @@ namespace flashPrice.pages
             ScriptManager.RegisterClientScriptBlock(updatePanelProductDetail, typeof(UpdatePanel), "OpenModalDialog", "setTimeout(function(){$('#modalDialogProductDetail').modal('show');},500)", true);
             updatePanelProductDetail.Update();
             updAction.Update();
+        }
+
+        #endregion
+
+        #region gvmain
+
+        protected void gvMain_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+            }
+        }
+
+        protected void gvMain_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvMain.PageIndex = e.NewPageIndex;
+            testingLocation();
         }
 
         #endregion
