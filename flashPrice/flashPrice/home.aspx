@@ -57,28 +57,6 @@
         </ContentTemplate>
     </asp:UpdatePanel>
 
-    
-    <asp:UpdatePanel ID="updGridView" runat="server" UpdateMode="Conditional">
-        <ContentTemplate>
-            <asp:Literal ID="litErrorLogin" runat="server"></asp:Literal>
-            <div class="datagrid" id="dvGrid">
-                <!-- main grid -->
-                <div style="overflow-x: auto; width: 500px;">
-                    <asp:GridView ID="gvMain" runat="server" EnableModelValidation="True" AutoGenerateColumns="true"
-                        AllowPaging="True" PageSize="50" AllowSorting="true" OnPageIndexChanging="gvMain_PageIndexChanging"
-                        OnRowDataBound="gvMain_RowDataBound" CssClass="table table-hover table-bordered" HeaderStyle-ForeColor="White">
-                        <Columns>
-                        </Columns>
-                        <PagerSettings Mode="NumericFirstLast" PageButtonCount="4" FirstPageText="First"
-                            LastPageText="Last" />
-                        <RowStyle CssClass="td" />
-                        <SelectedRowStyle CssClass="thspecalt" />
-                        <AlternatingRowStyle CssClass="tdalt" />
-                        <HeaderStyle CssClass="th thead-light text-center" />
-                    </asp:GridView>
-                </div>
-        </ContentTemplate>
-    </asp:UpdatePanel>
 
     <asp:UpdatePanel ID="updatePanelSearchResultRepeater" runat="server" UpdateMode="Conditional">
         <Triggers>
@@ -89,7 +67,7 @@
             <asp:HiddenField ID="hdSortEx" runat="server" />
             <asp:HiddenField ID="hdSortDir" runat="server" />
 
-            <asp:Literal runat="server" ID="testLit"></asp:Literal>
+            
 
             <div id="resultDiv" runat="server">
                 <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #fbd746;">
@@ -120,6 +98,10 @@
                         <i class="fa fa-scale-balanced mr-1"></i>Bandingkan dan temukan produk pilihanmu dengan FlashPrice
                     </span>
                 </nav>
+
+                <asp:Label runat="server" ID="errLbl" Visible="false"></asp:Label>
+
+                <asp:Literal runat="server" ID="testLit"></asp:Literal>
 
                 <div id="queryResultDiv" class="row mx-auto col-md-8 mt-3 col-xs-12 col-sm-12 border border-secondary-50" runat="server">
                     <asp:Literal ID="litError" runat="server"></asp:Literal>
@@ -243,6 +225,28 @@
     </div>
 
 
+    <asp:UpdatePanel ID="updGridView" runat="server" UpdateMode="Conditional">
+        <ContentTemplate>
+            <asp:Literal ID="litErrorLogin" runat="server"></asp:Literal>
+            <div class="datagrid" id="dvGrid">
+                <!-- main grid -->
+                <div style="overflow-x: auto; width: auto;" class="mt-4">
+                    <asp:GridView ID="gvMain" runat="server" EnableModelValidation="True" AutoGenerateColumns="true"
+                        AllowPaging="True" PageSize="100" AllowSorting="true" OnPageIndexChanging="gvMain_PageIndexChanging"
+                        OnRowDataBound="gvMain_RowDataBound" CssClass="table table-hover table-bordered" HeaderStyle-ForeColor="White">
+                        <Columns>
+                        </Columns>
+                        <PagerSettings Mode="NumericFirstLast" PageButtonCount="4" FirstPageText="First"
+                            LastPageText="Last" />
+                        <RowStyle CssClass="td" />
+                        <SelectedRowStyle CssClass="thspecalt" />
+                        <AlternatingRowStyle CssClass="tdalt" />
+                        <HeaderStyle CssClass="th thead-light text-center" />
+                    </asp:GridView>
+                </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+
 
     <script type="text/javascript">
 
@@ -270,7 +274,12 @@
 
         function init() {
             setTimeout(function () { getLocation(); showPosition(); }, 500);
-
+            $(document).keypress(
+                function (event) {
+                    if (event.which == '13') {
+                        event.preventDefault();
+                    }
+                });
         }
 
         function productDetail(productID) {

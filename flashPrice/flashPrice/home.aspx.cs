@@ -57,15 +57,100 @@ namespace flashPrice.pages
         }
         #endregion
 
-        #region best-first search
 
+        #region best-first-search double 
+        //public static LinkedList<Tuple<double, int>>[] graph;
+        //public static List<int> resultX = new List<int>();
+
+        //// Function for adding edges to graph
+        //public static void addedge(int x, int y, double cost)
+        //{
+        //    graph[x].AddLast(new Tuple<double, int>(cost, y));
+        //    graph[y].AddLast(new Tuple<double, int>(cost, x));
+        //}
+
+        //// Function for finding the minimum weight element.
+        //public static Tuple<double, int> get_min(LinkedList<Tuple<double, int>> pq)
+        //{
+        //    // Assuming the maximum wt can be of 1e5.
+        //    Tuple<double, int> curr_min = new Tuple<double, int>(100000, 100000);
+        //    foreach (var ele in pq)
+        //    {
+        //        if (ele.Item1 == curr_min.Item1)
+        //        {
+        //            if (ele.Item2 < curr_min.Item2)
+        //            {
+        //                curr_min = ele;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (ele.Item1 < curr_min.Item1)
+        //            {
+        //                curr_min = ele;
+        //            }
+        //        }
+        //    }
+
+        //    return curr_min;
+        //}
+
+
+        // Function For Implementing Best First Search
+        // Gives output path having lowest cost
+
+        //public static void best_first_search(int actual_Src, int target, int n)
+        //{
+        //    int[] visited = new int[n];
+        //    for (int i = 0; i < n; i++)
+        //    {
+        //        visited[i] = 0;
+        //    }
+
+        //    // MIN HEAP priority queue
+        //    LinkedList<Tuple<double, int>> pq = new LinkedList<Tuple<double, int>>();
+
+        //    // sorting in pq gets done by first value of pair
+        //    pq.AddLast(new Tuple<double, int>(0, actual_Src));
+        //    int s = actual_Src;
+        //    visited[s] = 1;
+        //    while (pq.Count > 0)
+        //    {
+        //        Tuple<double, int> curr_min = get_min(pq);
+        //        int x = curr_min.Item2;
+        //        pq.Remove(curr_min);
+        //        resultX.Add(x);
+        //        // Displaying the path having lowest cost
+        //        if (x == target)
+        //            break;
+
+        //        LinkedList<Tuple<double, int>> list = graph[x];
+        //        foreach (var val in list)
+        //        {
+        //            if (visited[val.Item2] == 0)
+        //            {
+        //                visited[val.Item2] = 1;
+        //                pq.AddLast(new Tuple<double, int>(val.Item1, val.Item2));
+        //            }
+        //        }
+        //    }
+        //}
+        #endregion
+
+
+
+        #region best-first search
         public static LinkedList<Tuple<int, int>>[] graph;
+        public static List<int> resultX = new List<int>();
+        public static List<int> findMaxV = new List<int>();
+
 
         // Function for adding edges to graph
         public static void addedge(int x, int y, int cost)
         {
             graph[x].AddLast(new Tuple<int, int>(cost, y));
             graph[y].AddLast(new Tuple<int, int>(cost, x));
+
         }
 
         // Function for finding the minimum weight element.
@@ -94,125 +179,157 @@ namespace flashPrice.pages
             return curr_min;
         }
 
-        // Function For Implementing Best First Search
-        // Gives output path having lowest cost
         public static void best_first_search(int actual_Src, int target, int n)
         {
-            int[] visited = new int[n];
-            for (int i = 0; i < n; i++)
+            try
             {
-                visited[i] = 0;
-            }
 
-            // MIN HEAP priority queue
-            LinkedList<Tuple<int, int>> pq = new LinkedList<Tuple<int, int>>();
-
-            // sorting in pq gets done by first value of pair
-            pq.AddLast(new Tuple<int, int>(0, actual_Src));
-            int s = actual_Src;
-            visited[s] = 1;
-            while (pq.Count > 0)
-            {
-                Tuple<int, int> curr_min = get_min(pq);
-                int x = curr_min.Item2;
-                pq.Remove(curr_min);
-
-                Console.Write(x + " ");
-                // Displaying the path having lowest cost
-                if (x == target)
-                    break;
-
-                LinkedList<Tuple<int, int>> list = graph[x];
-                foreach (var val in list)
+                int[] visited = new int[n];
+                for (int i = 0; i < n; i++)
                 {
-                    if (visited[val.Item2] == 0)
-                    {
-                        visited[val.Item2] = 1;
-                        pq.AddLast(new Tuple<int, int>(val.Item1, val.Item2));
-                    }
+                    visited[i] = 0;
                 }
 
-            }
-        }
+                // MIN HEAP priority queue
+                LinkedList<Tuple<int, int>> pq = new LinkedList<Tuple<int, int>>();
 
+                // sorting in pq gets done by first value of pair
+                pq.AddLast(new Tuple<int, int>(0, actual_Src));
+                int s = actual_Src;
+                visited[s] = 1;
+                while (pq.Count > 0)
+                {
+
+                    Tuple<int, int> curr_min = get_min(pq);
+                    int x = curr_min.Item2;
+                    pq.Remove(curr_min);
+
+                    resultX.Add(x);
+                    // Displaying the path having lowest cost
+                    if (x == target)
+                        break;
+
+                    // jagain buat x nya gk null
+                    //if (graph[x] != null)
+                    //{
+                    LinkedList<Tuple<int, int>> list = graph[x];
+
+                    foreach (var val in list)
+                    {
+                        if (visited[val.Item2] == 0)
+                        {
+                            visited[val.Item2] = 1;
+                            pq.AddLast(new Tuple<int, int>(val.Item1, val.Item2));
+                        }
+                    }
+
+                    //}
+
+                    //else
+                    //{
+                    //    break;
+                    //}
+
+                }
+            }
+            catch (Exception x)
+            {
+                string error = x.Message;
+            }
+
+        }
         public static void Main()
         {
-          
+
         }
         #endregion
 
         #region calculate distance from coordinates
 
-        public class distance
-        {
-            public int node { get; set; }
-            public string MiniMarketName { get; set; }
-            public double distanceFrom { get; set; }
-        }
+        //public class distance
+        //{
+        //    public int node { get; set; }
+        //    public string MiniMarketName { get; set; }
+        //    public double distanceFrom { get; set; }
+        //}
 
-        private void testingLocation()
-        {
-            double lat1 = Convert.ToDouble(hiddenMyLatitude.Value.Replace(".", ","));
-            double lon1 = Convert.ToDouble(hiddenMyLongitude.Value.Replace(".", ","));
+        //private void testingLocation()
+        //{
+        //    double lat1 = Convert.ToDouble(hiddenMyLatitude.Value.Replace(".", ","));
+        //    double lon1 = Convert.ToDouble(hiddenMyLongitude.Value.Replace(".", ","));
 
-            BOMiniMarketList miniMarketList = BLLMiniMarket.getListAllMiniMarket();
-            List<distance> listX = new List<distance>();
-            int xx = 0;
+        //    BOMiniMarketList miniMarketList = BLLMiniMarket.getListAllMiniMarket();
+        //    List<distance> listX = new List<distance>();
+        //    int xx = 0;
 
-            foreach (BOMiniMarket xMinimarket in miniMarketList)
-            {
-                distance x = new distance();
-                x.node = xx + 1;
-                x.MiniMarketName = xMinimarket.miniMarketName;
-                x.distanceFrom = getDistanceFromLatLonInKm(lat1, lon1, double.Parse(xMinimarket.miniMarketLattitude.ToString()), double.Parse(xMinimarket.miniMarketLongitude.ToString()));
-                listX.Add(x);
-            }
+        //    foreach (BOMiniMarket xMinimarket in miniMarketList)
+        //    {
+        //        distance x = new distance();
+        //        x.node = xx + 1;
+        //        x.MiniMarketName = xMinimarket.miniMarketName;
+        //        x.distanceFrom = getDistanceFromLatLonInKm(lat1, lon1, double.Parse(xMinimarket.miniMarketLattitude.ToString()), double.Parse(xMinimarket.miniMarketLongitude.ToString()));
+        //        listX.Add(x);
+        //    }
 
-            gvMain.DataSource = listX.OrderBy(distance => distance.distanceFrom).Take(5).ToList();
-            gvMain.DataBind();
+        //    gvMain.DataSource = listX.OrderBy(distance => distance.distanceFrom).Take(5).ToList();
+        //    gvMain.DataBind();
 
-            // No. of Nodes
-            int v = 5;
+        //    // No. of Nodes
+        //    int v = 5;
 
-            graph = new LinkedList<Tuple<int, int>>[v];
-            for (int i = 0; i < graph.Length; ++i)
-            {
-                graph[i] = new LinkedList<Tuple<int, int>>();
-            }
+        //    graph = new LinkedList<Tuple<int, int>>[v];
+        //    for (int i = 0; i < graph.Length; ++i)
+        //    {
+        //        graph[i] = new LinkedList<Tuple<int, int>>();
+        //    }
 
-            foreach (distance d in listX)
-            {
-                addedge(0, d.node, (int) d.distanceFrom);
-            }
+        //    //foreach (distance d in listX)
+        //    //{
+        //    //    addedge(0, d.node, );
+        //    //}
 
-            testLit.Text = graph.ToString();
-            
-            // The nodes shown in above example(by alphabets) are
-            // implemented using integers addedge(x,y,cost);
-            //addedge(0, 1, 3);
-            //addedge(0, 2, 6);
-            //addedge(0, 3, 5);
-            //addedge(1, 4, 9);
-            //addedge(1, 5, 8);
-            //addedge(2, 6, 12);
-            //addedge(2, 7, 14);
-            //addedge(3, 8, 7);
-            //addedge(8, 9, 5);
-            //addedge(8, 10, 6);
-            //addedge(9, 11, 1);
-            //addedge(9, 12, 10);
-            //addedge(9, 13, 2);
+        //    //List<distance> listX = new List<distance>();
 
-            int source = 0;
-            int target = 9;
+        //    //for (int i = 0; i < v; i++)
+        //    //{
+        //    //    for (int j = 0; j < v; i++)
+        //    //    {
 
-            // Function call
-            best_first_search(source, target, v);
+        //    //    }
+        //    //}
 
 
-            updGridView.Update();
-            updatePanelSearchResultRepeater.Update();
-        }
+
+        //    // The nodes shown in above example(by alphabets) are
+        //    // implemented using integers addedge(x,y,cost);
+        //    //addedge(0, 1, 3);
+        //    //addedge(0, 2, 6);
+        //    //addedge(0, 3, 5);
+        //    //addedge(1, 4, 9);
+        //    //addedge(1, 5, 8);
+        //    //addedge(2, 6, 12);
+        //    //addedge(2, 7, 14);
+        //    //addedge(3, 8, 7);
+        //    //addedge(8, 9, 5);
+        //    //addedge(8, 10, 6);
+        //    //addedge(9, 11, 1);
+        //    //addedge(9, 12, 10);
+        //    //addedge(9, 13, 2);
+
+        //    int source = 0;
+        //    int target = 5;
+
+        //    // Function call
+        //    best_first_search(source, target, v);
+
+        //    //foreach (int x in resultX)
+        //    //{
+        //    //    testLit.Text += x + " ";
+        //    //}
+
+        //    updGridView.Update();
+        //    updatePanelSearchResultRepeater.Update();
+        //}
 
         protected double getDistanceFromLatLonInKm(double lat1, double lon1, double lat2, double lon2)
         {
@@ -239,14 +356,105 @@ namespace flashPrice.pages
         #endregion
         protected void navSearchBtn_Click(object sender, EventArgs e)
         {
-            testingLocation();
-            fillResult(1, pageSize, "productPrice", "asc");
+            //testingLocation();
+            fillResult(1, pageSize, "productID", "asc");
+            fillGrid();
         }
 
         protected void Page_Changed(object sender, EventArgs e)
         {
             int pageIndex = int.Parse((sender as LinkButton).CommandArgument);
             fillResult(pageIndex, pageSize, hdSortEx.Value, hdSortDir.Value);
+        }
+
+        protected void fillGrid()
+        {
+            try
+            {
+                /* bfs area */
+
+                String searchText = navSearchTextBox.Text;
+                String categoryProduct = categoryProductDD.SelectedValue;
+                String sortBy = "", sortDir = "";
+
+                sortBy = "productPrice";
+                sortDir = "desc";
+
+                BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, sortBy, sortDir, 0, 999999);
+
+                int limit = listProduct.Count();
+
+                gvMain.DataSource = listProduct.ToList();
+                gvMain.DataBind();
+                updGridView.Update();
+
+                // find max v on first looping
+
+                for (int i = 0; i < limit; i++)
+                {
+                    for (int j = i + 1; j < limit - 1; j++)
+                    {
+                        findMaxV.Add(listProduct[i].productPrice - listProduct[j].productPrice);
+                    }
+                }
+
+                errLbl.Text = findMaxV.ToString();
+                graph = new LinkedList<Tuple<int, int>>[findMaxV.Max()];
+
+                for (int i = 0; i < limit; ++i)
+                {
+                    graph[int.Parse(listProduct[i].productID.Remove(0, 1))] = new LinkedList<Tuple<int, int>>();
+                }
+
+                for (int i = 0; i < limit; i++)
+                {
+                    for (int j = i + 1; j <= limit - 1; j++)
+                    {
+                        addedge(
+                            int.Parse(listProduct[i].productID.Remove(0, 1)),
+                            int.Parse(listProduct[j].productID.Remove(0, 1)),
+                            Math.Abs(listProduct[i].productPrice - listProduct[j].productPrice)
+                            );
+                    }
+                }
+
+                //addedge(2067, 1267, 20500);
+                //addedge(2067, 2073, 45700);
+                //addedge(1267, 2073, 25200);
+
+                testLit.Text = string.Empty;
+
+                // Function call
+                int source = int.Parse(listProduct[0].productID.Remove(0, 1));
+                int target = int.Parse(listProduct[limit - 1].productID.Remove(0, 1));
+
+                //int source = 2067;
+                //int target = 2073;
+                //v = 45700;
+
+                best_first_search(source, target, findMaxV.Max());
+
+                /* 
+                 * int.Parse(listProduct[limit-1]
+                 * -1 karena mulainya dari 0 */
+
+                foreach (int x in resultX)
+                {
+                    testLit.Text += x + " ";
+                }
+
+                testLit.Text += "<=== hasil bfsnya";
+                /* eof bfs area */
+            }
+            catch (Exception x)
+            {
+                errLbl.Visible = true;
+                errLbl.CssClass = "alert alert-danger";
+                errLbl.Text = x.Message;
+
+                updatePanelSearchResultRepeater.Update();
+            }
+
         }
 
         protected void fillResult(int pageIndex, int PageSize, string sortBy, string sortDir)
@@ -264,7 +472,7 @@ namespace flashPrice.pages
 
                 if (pageIndex > 1) startRow = startRow + 1;
 
-                if (sortBy != "")
+                if (sortBy == "")
                 {
                     sortBy = "productID";
                     sortDir = "asc";
@@ -390,7 +598,6 @@ namespace flashPrice.pages
         protected void gvMain_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvMain.PageIndex = e.NewPageIndex;
-            testingLocation();
         }
 
         #endregion
