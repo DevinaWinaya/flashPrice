@@ -31,9 +31,10 @@ namespace flashPriceFx.Product
         #endregion
 
 
+        #region getContentQR
         private static BOProduct getContentQR(string xSQL)
         {
-            BOProduct xPinjaman = null;
+            BOProduct xProduct = null;
             using (SqlConnection myConnection = new SqlConnection(DBUtil.conStringdbflashPrice))
             {
                 myConnection.Open();
@@ -50,10 +51,10 @@ namespace flashPriceFx.Product
                     {
                         if (myReader.HasRows)
                         {
-                            xPinjaman = new BOProduct();
+                            xProduct = new BOProduct();
                             while (myReader.Read())
                             {
-                                xPinjaman = fillDataRecord(myReader);
+                                xProduct = fillDataRecord(myReader);
                             }
                         }
                         myReader.Close();
@@ -62,10 +63,10 @@ namespace flashPriceFx.Product
                 }
             }
 
-            return xPinjaman;
+            return xProduct;
         }
         #endregion
-
+        #endregion
 
         #region getList
 
@@ -135,7 +136,7 @@ namespace flashPriceFx.Product
         #endregion
         #endregion
 
-        #region getListActiveAnggotaForAutoComplete
+        #region getListProductForAutoComplete
         public static BOProductList getListProductForAutoComplete()
         {
             string xSQL = @"

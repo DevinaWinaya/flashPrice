@@ -25,132 +25,21 @@ namespace flashPrice.pages
             if (!IsPostBack)
             {
                 fillResult(1, pageSize, "productID", "ASC");
-
             }
         }
 
-        #region selenium
-
-        private IWebDriver _webDriver;
-
-        [SetUp]
-        public void SetUp()
-        {
-            new DriverManager().SetUpDriver(new ChromeConfig());
-            _webDriver = new ChromeDriver();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            _webDriver.Quit();
-        }
-
-        [Test]
-        public void Test()
-        {
-            _webDriver.Navigate().GoToUrl("https://alfagift.id/c/makanan-602f8240898b4705ec586ab3");
-            //#__layout > div > div:nth-child(2) > div.content > div > div:nth-child(2) > div:nth-child(2) > div.row.list-product-catalog.pt-3 > div > p.text-lg.fw7.mb-1
-
-            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            var x = _webDriver.FindElement(By.CssSelector("div > div:nth-child(2) > div.content > div > div:nth-child(2) > div:nth-child(2) > div.row.list-product-catalog.pt-3 > div > p.text-lg.fw7.mb-1']"));
-        }
-        #endregion
-
-
-        #region best-first-search double 
-        //public static LinkedList<Tuple<double, int>>[] graph;
-        //public static List<int> resultX = new List<int>();
-
-        //// Function for adding edges to graph
-        //public static void addedge(int x, int y, double cost)
-        //{
-        //    graph[x].AddLast(new Tuple<double, int>(cost, y));
-        //    graph[y].AddLast(new Tuple<double, int>(cost, x));
-        //}
-
-        //// Function for finding the minimum weight element.
-        //public static Tuple<double, int> get_min(LinkedList<Tuple<double, int>> pq)
-        //{
-        //    // Assuming the maximum wt can be of 1e5.
-        //    Tuple<double, int> curr_min = new Tuple<double, int>(100000, 100000);
-        //    foreach (var ele in pq)
-        //    {
-        //        if (ele.Item1 == curr_min.Item1)
-        //        {
-        //            if (ele.Item2 < curr_min.Item2)
-        //            {
-        //                curr_min = ele;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            if (ele.Item1 < curr_min.Item1)
-        //            {
-        //                curr_min = ele;
-        //            }
-        //        }
-        //    }
-
-        //    return curr_min;
-        //}
-
-
-        // Function For Implementing Best First Search
-        // Gives output path having lowest cost
-
-        //public static void best_first_search(int actual_Src, int target, int n)
-        //{
-        //    int[] visited = new int[n];
-        //    for (int i = 0; i < n; i++)
-        //    {
-        //        visited[i] = 0;
-        //    }
-
-        //    // MIN HEAP priority queue
-        //    LinkedList<Tuple<double, int>> pq = new LinkedList<Tuple<double, int>>();
-
-        //    // sorting in pq gets done by first value of pair
-        //    pq.AddLast(new Tuple<double, int>(0, actual_Src));
-        //    int s = actual_Src;
-        //    visited[s] = 1;
-        //    while (pq.Count > 0)
-        //    {
-        //        Tuple<double, int> curr_min = get_min(pq);
-        //        int x = curr_min.Item2;
-        //        pq.Remove(curr_min);
-        //        resultX.Add(x);
-        //        // Displaying the path having lowest cost
-        //        if (x == target)
-        //            break;
-
-        //        LinkedList<Tuple<double, int>> list = graph[x];
-        //        foreach (var val in list)
-        //        {
-        //            if (visited[val.Item2] == 0)
-        //            {
-        //                visited[val.Item2] = 1;
-        //                pq.AddLast(new Tuple<double, int>(val.Item1, val.Item2));
-        //            }
-        //        }
-        //    }
-        //}
-        #endregion
-
-
-
-        #region best-first search
+        #region best-first-search 
         public static LinkedList<Tuple<int, int>>[] graph;
         public static List<int> resultX = new List<int>();
-        public static List<int> findMaxV = new List<int>();
 
+        // maksimum v dibuat listnya v itu adalah nilai terbesar dari jarak yang paling jauh minimarketnya
+        public static List<int> findMaxV = new List<int>();
 
         // Function for adding edges to graph
         public static void addedge(int x, int y, int cost)
         {
             graph[x].AddLast(new Tuple<int, int>(cost, y));
             graph[y].AddLast(new Tuple<int, int>(cost, x));
-
         }
 
         // Function for finding the minimum weight element.
@@ -179,157 +68,584 @@ namespace flashPrice.pages
             return curr_min;
         }
 
+
+        //Function For Implementing Best First Search
+        // Gives output path having lowest cost
+
         public static void best_first_search(int actual_Src, int target, int n)
         {
-            try
+            int[] visited = new int[n];
+            for (int i = 0; i < n; i++)
             {
+                visited[i] = 0;
+            }
 
-                int[] visited = new int[n];
-                for (int i = 0; i < n; i++)
+            // MIN HEAP priority queue
+            LinkedList<Tuple<int, int>> pq = new LinkedList<Tuple<int, int>>();
+
+            // sorting in pq gets done by first value of pair
+            pq.AddLast(new Tuple<int, int>(0, actual_Src));
+            int s = actual_Src;
+            visited[s] = 1;
+            while (pq.Count > 0)
+            {
+                Tuple<int, int> curr_min = get_min(pq);
+                int x = curr_min.Item2;
+                pq.Remove(curr_min);
+                resultX.Add(x);
+                // Displaying the path having lowest cost
+                if (x == target)
+                    break;
+
+                LinkedList<Tuple<int, int>> list = graph[x];
+                foreach (var val in list)
                 {
-                    visited[i] = 0;
-                }
-
-                // MIN HEAP priority queue
-                LinkedList<Tuple<int, int>> pq = new LinkedList<Tuple<int, int>>();
-
-                // sorting in pq gets done by first value of pair
-                pq.AddLast(new Tuple<int, int>(0, actual_Src));
-                int s = actual_Src;
-                visited[s] = 1;
-                while (pq.Count > 0)
-                {
-
-                    Tuple<int, int> curr_min = get_min(pq);
-                    int x = curr_min.Item2;
-                    pq.Remove(curr_min);
-
-                    resultX.Add(x);
-                    // Displaying the path having lowest cost
-                    if (x == target)
-                        break;
-
-                    // jagain buat x nya gk null
-                    //if (graph[x] != null)
-                    //{
-                    LinkedList<Tuple<int, int>> list = graph[x];
-
-                    foreach (var val in list)
+                    if (visited[val.Item2] == 0)
                     {
-                        if (visited[val.Item2] == 0)
-                        {
-                            visited[val.Item2] = 1;
-                            pq.AddLast(new Tuple<int, int>(val.Item1, val.Item2));
-                        }
+                        visited[val.Item2] = 1;
+                        pq.AddLast(new Tuple<int, int>(val.Item1, val.Item2));
                     }
-
-                    //}
-
-                    //else
-                    //{
-                    //    break;
-                    //}
-
                 }
             }
-            catch (Exception x)
-            {
-                string error = x.Message;
-            }
-
         }
-        public static void Main()
-        {
+        #endregion
 
-        }
+        #region best-first search
+        //public static LinkedList<Tuple<int, int>>[] graph;
+        //public static List<int> resultX = new List<int>();
+        //public static List<int> findMaxV = new List<int>();
+
+
+        //// Function for adding edges to graph
+        //public static void addedge(int x, int y, int cost)
+        //{
+        //    graph[x].AddLast(new Tuple<int, int>(cost, y));
+        //    graph[y].AddLast(new Tuple<int, int>(cost, x));
+
+        //}
+
+        //// Function for finding the minimum weight element.
+        //public static Tuple<int, int> get_min(LinkedList<Tuple<int, int>> pq)
+        //{
+        //    // Assuming the maximum wt can be of 1e5.
+        //    Tuple<int, int> curr_min = new Tuple<int, int>(100000, 100000);
+        //    foreach (var ele in pq)
+        //    {
+        //        if (ele.Item1 == curr_min.Item1)
+        //        {
+        //            if (ele.Item2 < curr_min.Item2)
+        //            {
+        //                curr_min = ele;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (ele.Item1 < curr_min.Item1)
+        //            {
+        //                curr_min = ele;
+        //            }
+        //        }
+        //    }
+
+        //    return curr_min;
+        //}
+
+        //public static void best_first_search(int actual_Src, int target, int n)
+        //{
+        //    try
+        //    {
+
+        //        int[] visited = new int[n];
+        //        for (int i = 0; i < n; i++)
+        //        {
+        //            visited[i] = 0;
+        //        }
+
+        //        // MIN HEAP priority queue
+        //        LinkedList<Tuple<int, int>> pq = new LinkedList<Tuple<int, int>>();
+
+        //        // sorting in pq gets done by first value of pair
+        //        pq.AddLast(new Tuple<int, int>(0, actual_Src));
+        //        int s = actual_Src;
+        //        visited[s] = 1;
+        //        while (pq.Count > 0)
+        //        {
+
+        //            Tuple<int, int> curr_min = get_min(pq);
+        //            int x = curr_min.Item2;
+        //            pq.Remove(curr_min);
+
+        //            resultX.Add(x);
+        //            // Displaying the path having lowest cost
+        //            if (x == target)
+        //                break;
+
+        //            // jagain buat x nya gk null
+        //            //if (graph[x] != null)
+        //            //{
+        //            LinkedList<Tuple<int, int>> list = graph[x];
+
+        //            foreach (var val in list)
+        //            {
+        //                if (visited[val.Item2] == 0)
+        //                {
+        //                    visited[val.Item2] = 1;
+        //                    pq.AddLast(new Tuple<int, int>(val.Item1, val.Item2));
+        //                }
+        //            }
+
+        //            //}
+
+        //            //else
+        //            //{
+        //            //    break;
+        //            //}
+
+        //        }
+        //    }
+        //    catch (Exception x)
+        //    {
+        //        string error = x.Message;
+        //    }
+
+        //}
+        //public static void Main()
+        //{
+
+        //}
         #endregion
 
         #region calculate distance from coordinates
 
-        //public class distance
-        //{
-        //    public int node { get; set; }
-        //    public string MiniMarketName { get; set; }
-        //    public double distanceFrom { get; set; }
-        //}
+        public class distance
+        {
+            public int node { get; set; }
+            public string MiniMarketName { get; set; }
+            public int distanceFromMe { get; set; }
+            public List<distance> Level1 { get; set; }
+            public List<distance> Level2 { get; set; }
 
-        //private void testingLocation()
-        //{
-        //    double lat1 = Convert.ToDouble(hiddenMyLatitude.Value.Replace(".", ","));
-        //    double lon1 = Convert.ToDouble(hiddenMyLongitude.Value.Replace(".", ","));
+        }
 
-        //    BOMiniMarketList miniMarketList = BLLMiniMarket.getListAllMiniMarket();
-        //    List<distance> listX = new List<distance>();
-        //    int xx = 0;
+        public class category
+        {
+            public int node { get; set; }
+            public string MiniMarketName { get; set; }
 
-        //    foreach (BOMiniMarket xMinimarket in miniMarketList)
-        //    {
-        //        distance x = new distance();
-        //        x.node = xx + 1;
-        //        x.MiniMarketName = xMinimarket.miniMarketName;
-        //        x.distanceFrom = getDistanceFromLatLonInKm(lat1, lon1, double.Parse(xMinimarket.miniMarketLattitude.ToString()), double.Parse(xMinimarket.miniMarketLongitude.ToString()));
-        //        listX.Add(x);
-        //    }
+            public double categoryLattitude { get; set; }
+            public double categoryLongitude { get; set; }
+            public int distanceFromMe { get; set; }
 
-        //    gvMain.DataSource = listX.OrderBy(distance => distance.distanceFrom).Take(5).ToList();
-        //    gvMain.DataBind();
-
-        //    // No. of Nodes
-        //    int v = 5;
-
-        //    graph = new LinkedList<Tuple<int, int>>[v];
-        //    for (int i = 0; i < graph.Length; ++i)
-        //    {
-        //        graph[i] = new LinkedList<Tuple<int, int>>();
-        //    }
-
-        //    //foreach (distance d in listX)
-        //    //{
-        //    //    addedge(0, d.node, );
-        //    //}
-
-        //    //List<distance> listX = new List<distance>();
-
-        //    //for (int i = 0; i < v; i++)
-        //    //{
-        //    //    for (int j = 0; j < v; i++)
-        //    //    {
-
-        //    //    }
-        //    //}
+        }
 
 
+        // build category nya
+        public static List<category> catA = new List<category>();
+        public static List<category> catB = new List<category>();
+        public static List<category> catC = new List<category>();
+        public static List<category> catD = new List<category>();
+        public static List<category> catE = new List<category>();
 
-        //    // The nodes shown in above example(by alphabets) are
-        //    // implemented using integers addedge(x,y,cost);
-        //    //addedge(0, 1, 3);
-        //    //addedge(0, 2, 6);
-        //    //addedge(0, 3, 5);
-        //    //addedge(1, 4, 9);
-        //    //addedge(1, 5, 8);
-        //    //addedge(2, 6, 12);
-        //    //addedge(2, 7, 14);
-        //    //addedge(3, 8, 7);
-        //    //addedge(8, 9, 5);
-        //    //addedge(8, 10, 6);
-        //    //addedge(9, 11, 1);
-        //    //addedge(9, 12, 10);
-        //    //addedge(9, 13, 2);
+        public static List<category> minCatA = new List<category>();
+        public static List<category> minCatB = new List<category>();
+        public static List<category> minCatC = new List<category>();
+        public static List<category> minCatD = new List<category>();
+        public static List<category> minCatE = new List<category>();
 
-        //    int source = 0;
-        //    int target = 5;
+        /*
+            kategori A <= 1 km
+            kategori B 1 km < jarak dari kita <= 5 km
+            kategori C 5 km < jarak dari kita <= 10 km
+            Kategori D 10 km < jarak dari kita <= 25 km
+            kategori E 25 km < jarak dari kita
+        */
 
-        //    // Function call
-        //    best_first_search(source, target, v);
+        private void testingLocation()
+        {
+            try
+            {
+                double lat1 = -6.1756452;
+                double lon1 = 106.6202711;
 
-        //    //foreach (int x in resultX)
-        //    //{
-        //    //    testLit.Text += x + " ";
-        //    //}
+                // simpen dulu letak coordinate kitanya  
+                //double lat1 = Convert.ToDouble(hiddenMyLatitude.Value.Replace(".", ","));
+                //double lon1 = Convert.ToDouble(hiddenMyLongitude.Value.Replace(".", ","));
 
-        //    updGridView.Update();
-        //    updatePanelSearchResultRepeater.Update();
-        //}
+                // ambil data minimarketnya
+                BOMiniMarketList miniMarketList = BLLMiniMarket.getListAllMiniMarket();
+
+                // buat list buat nampung minimarketnya yg mau diitung bfs 
+                List<distance> listX = new List<distance>();
+
+                // masukin masing-masing data minimarket ke list string untuk diolah
+                foreach (BOMiniMarket xMinimarket in miniMarketList)
+                {
+                    distance x = new distance();
+                    x.node = int.Parse(xMinimarket.miniMarketID.Remove(0, 2));
+                    x.MiniMarketName = xMinimarket.miniMarketName;
+                    double before = getDistanceFromLatLonInKm(lat1, lon1, double.Parse(xMinimarket.miniMarketLattitude.ToString()), double.Parse(xMinimarket.miniMarketLongitude.ToString())) * 1000;
+
+                    x.distanceFromMe = int.Parse(Math.Round(before).ToString());
+
+                    listX.Add(x);
+
+                    // tentuin masuk mana dia 
+
+                    if (x.distanceFromMe <= 1000)
+                    {
+                        category xCategory = new category();
+
+                        xCategory.node = int.Parse(xMinimarket.miniMarketID.Remove(0, 2));
+                        xCategory.MiniMarketName = xMinimarket.miniMarketName;
+                        xCategory.categoryLattitude = double.Parse(xMinimarket.miniMarketLattitude.ToString());
+                        xCategory.categoryLongitude = double.Parse(xMinimarket.miniMarketLongitude.ToString());
+                        xCategory.distanceFromMe = x.distanceFromMe;
+
+                        catA.Add(xCategory);
+                    }
+                    else if (x.distanceFromMe > 1000 && x.distanceFromMe <= 5000)
+                    {
+                        category xCategory = new category();
+
+                        xCategory.node = int.Parse(xMinimarket.miniMarketID.Remove(0, 2));
+                        xCategory.MiniMarketName = xMinimarket.miniMarketName;
+                        xCategory.categoryLattitude = double.Parse(xMinimarket.miniMarketLattitude.ToString());
+                        xCategory.categoryLongitude = double.Parse(xMinimarket.miniMarketLongitude.ToString());
+                        xCategory.distanceFromMe = x.distanceFromMe;
+
+                        catB.Add(xCategory);
+                    }
+                    else if (x.distanceFromMe > 5000 && x.distanceFromMe <= 10000)
+                    {
+                        category xCategory = new category();
+
+                        xCategory.node = int.Parse(xMinimarket.miniMarketID.Remove(0, 2));
+                        xCategory.MiniMarketName = xMinimarket.miniMarketName;
+                        xCategory.categoryLattitude = double.Parse(xMinimarket.miniMarketLattitude.ToString());
+                        xCategory.categoryLongitude = double.Parse(xMinimarket.miniMarketLongitude.ToString());
+                        xCategory.distanceFromMe = x.distanceFromMe;
+
+                        catC.Add(xCategory);
+                    }
+                    else if (x.distanceFromMe > 10000 && x.distanceFromMe <= 25000)
+                    {
+                        category xCategory = new category();
+
+                        xCategory.node = int.Parse(xMinimarket.miniMarketID.Remove(0, 2));
+                        xCategory.MiniMarketName = xMinimarket.miniMarketName;
+                        xCategory.categoryLattitude = double.Parse(xMinimarket.miniMarketLattitude.ToString());
+                        xCategory.categoryLongitude = double.Parse(xMinimarket.miniMarketLongitude.ToString());
+                        xCategory.distanceFromMe = x.distanceFromMe;
+
+                        catD.Add(xCategory);
+                    }
+                    else if (x.distanceFromMe > 25000)
+                    {
+                        category xCategory = new category();
+
+                        xCategory.node = int.Parse(xMinimarket.miniMarketID.Remove(0, 2));
+                        xCategory.MiniMarketName = xMinimarket.miniMarketName;
+                        xCategory.categoryLattitude = double.Parse(xMinimarket.miniMarketLattitude.ToString());
+                        xCategory.categoryLongitude = double.Parse(xMinimarket.miniMarketLongitude.ToString());
+                        xCategory.distanceFromMe = x.distanceFromMe;
+
+                        catE.Add(xCategory);
+                    }
+                }
+
+                /*
+                    data yg udah kebentuk itu kita bagi 5 kategori
+
+                    kategori A <= 1 km
+                    kategori B 1 km < jarak dari kita <= 5 km
+                    kategori C 5 km < jarak dari kita <= 10 km
+                    Kategori D 10 km < jarak dari kita <= 25 km
+                    kategori E 25 km < jarak dari kita
+
+                    4   Indomaret Kenaiban                  0,223599270639309
+                    14  Indomaret Indomaret SPBU Otista     0,559619608257842
+                    6   Indomaret M Toha                    0,631695782614107
+                    2   Indomaret Pasar Baru                0,677222805695068
+                    10  Indomaret Merdeka                   0,701830814070184
+                    8   Indomaret Pabuaran Karawaci         1,00084398524016
+                    16  Indomaret Aria Santika 2            1,03645316913408
+                    15  Alfamart Proklamasi                 1,40643255925764
+                    19  Indomaret Mt Haryono                1,49341018895008
+                    12  Indomaret Pondok Arum               1,50723202577663
+                    17  Alfamart Untung Suropati            1,52079015494239
+                    18  Indomaret Ahmad Yani                1,60462016720897
+                    3   Alfamart Aria Wasangkara            1,66774828762806
+                    21  Indomaret Soleh Ali                 1,7140132219309
+                    22  Indomaret Cimone Permai             1,98470150887079
+                    20  Indomaret Veteran Tangerang         2,01710981778311
+                    11  Alfamart Duta Raya                  2,54583670276194
+                    13  Alfamart Dipatiunus Raya            2,59224467711972
+                    1   Alfamart Villa Grand Tomang         2,60032655725977
+                    5   Alfamart Taman Cibodas Raya         2,65063129906387
+                    23  Indomaret Gebang Rusunawa           2,88330431499922
+                    9   Alfamart Prabu Kian Santang 2       3,24709277815486
+                    7   Alfamart Subur                      3,25115374987773
+                    24  Indomaret Raya Kampung Pisang       3,33894571680443
+
+                */
+
+                //gvMain.DataSource = listX.OrderBy(distance => distance.distanceFromMe).ToList();
+                //gvMain.DataBind();
+                //updGridView.Update();
+
+
+                int limit = miniMarketList.Count();
+
+                // find max v on first looping
+                for (int i = 0; i < limit; i++)
+                {
+                    for (int j = i + 1; j < limit - 1; j++)
+                    {
+                        findMaxV.Add((int)getDistanceFromLatLonInKm(double.Parse(miniMarketList[i].miniMarketLattitude.ToString()), double.Parse(miniMarketList[i].miniMarketLongitude.ToString()), double.Parse(miniMarketList[j].miniMarketLattitude.ToString()), double.Parse(miniMarketList[j].miniMarketLongitude.ToString())) * 1000);
+                    }
+                }
+
+                errLbl.Text = findMaxV.ToString();
+                graph = new LinkedList<Tuple<int, int>>[findMaxV.Max()];
+
+                // buat lokasi awalnya pake 0 
+
+                graph[0] = new LinkedList<Tuple<int, int>>();
+
+                for (int i = 0; i < limit; ++i)
+                {
+                    graph[int.Parse(miniMarketList[i].miniMarketID.Remove(0, 2))] = new LinkedList<Tuple<int, int>>();
+                }
+
+
+                /*                
+                    step 1
+                    urutin Categorynya secara ascending
+
+                    step 2
+                    gw urutin dulu yg yg paling kecil dijadiin kepala si kategori                
+
+                    step 3
+                    nyambung lokasi kita ke kepala kategori masing2, yg pasti koordinat kita sama kepala-kepalanya
+                   
+                    step 4
+                    nyambungin kepala kategori ke anakannya
+                 */
+
+                // step 1
+
+                // urutin Categorynya secara ascending
+                if (catA.Count != 0) { catA = catA.AsQueryable().OrderBy(c => c.distanceFromMe).ToList(); }
+                if (catB.Count != 0) { catB = catB.AsQueryable().OrderBy(c => c.distanceFromMe).ToList(); }
+                if (catC.Count != 0) { catC = catC.AsQueryable().OrderBy(c => c.distanceFromMe).ToList(); }
+                if (catD.Count != 0) { catD = catD.AsQueryable().OrderBy(c => c.distanceFromMe).ToList(); }
+                if (catE.Count != 0) { catE = catE.AsQueryable().OrderBy(c => c.distanceFromMe).ToList(); }
+
+
+                // step 2
+                // tentuin minimumnya node nya
+                int minimumA = catA.Count == 0 ? 0 : catA[0].node;
+                int minimumB = catB.Count == 0 ? 0 : catB[0].node;
+                int minimumC = catC.Count == 0 ? 0 : catC[0].node;
+                int minimumD = catD.Count == 0 ? 0 : catD[0].node;
+                int minimumE = catE.Count == 0 ? 0 : catE[0].node;
+
+
+                // step 3
+                // buat edge antara lokasi kita dengan lokasi kepala masing-masing category
+                if (minimumA != 0)
+                {
+                    // checking
+                    double before = getDistanceFromLatLonInKm(lat1, lon1, catA[0].categoryLattitude, catA[0].categoryLongitude) * 1000;
+                    int value = int.Parse(Math.Round(before).ToString());
+
+                    addedge(
+                            0,
+                            catA[0].node,
+                            value
+                        );
+                }
+
+                if (minimumB != 0)
+                {
+                    double before = getDistanceFromLatLonInKm(lat1, lon1, catB[0].categoryLattitude, catB[0].categoryLongitude) * 1000;
+                    int value = int.Parse(Math.Round(before).ToString());
+
+                    addedge
+                        (
+                            0,
+                            catB[0].node,
+                            value
+                        );
+                }
+
+                if (minimumC != 0)
+                {
+                    double before = getDistanceFromLatLonInKm(lat1, lon1, catC[0].categoryLattitude, catC[0].categoryLongitude) * 1000;
+                    int value = int.Parse(Math.Round(before).ToString());
+
+                    addedge(
+                            0,
+                            catC[0].node,
+                            value
+                        );
+                }
+
+                if (minimumD != 0)
+                {
+                    double before = getDistanceFromLatLonInKm(lat1, lon1, catD[0].categoryLattitude, catD[0].categoryLongitude) * 1000;
+                    int value = int.Parse(Math.Round(before).ToString());
+
+                    addedge(
+                            0,
+                            catD[0].node,
+                            value
+                        );
+
+                }
+
+                if (minimumE != 0)
+                {
+                    double before = getDistanceFromLatLonInKm(lat1, lon1, catE[0].categoryLattitude, catE[0].categoryLongitude) * 1000;
+                    int value = int.Parse(Math.Round(before).ToString());
+
+                    addedge(
+                            0,
+                            catE[0].node,
+                            value
+                        );
+                }
+
+                // step 4
+                // nyambungin kepala kategori ke anakannya
+
+                if (minimumA != 0)
+                {
+                    for (int i = 0; i < catA.Count; i++)
+                    {
+                        for (int j = i + 1; j < catA.Count; j++)
+                        {
+                            double before = getDistanceFromLatLonInKm(catA[0].categoryLattitude, catA[0].categoryLongitude, catA[j].categoryLattitude, catA[j].categoryLongitude) * 1000;
+                            int value = int.Parse(Math.Round(before).ToString());
+
+                            addedge(
+                                    minimumA,
+                                    catA[j].node,
+                                    value
+                                );
+                        }
+                    }
+                }
+
+                if (minimumB != 0)
+                {
+                    for (int i = 0; i < catB.Count; i++)
+                    {
+                        for (int j = i + 1; j < catB.Count; j++)
+                        {
+                            double before = getDistanceFromLatLonInKm(catB[0].categoryLattitude, catB[0].categoryLongitude, catB[j].categoryLattitude, catB[j].categoryLongitude) * 1000;
+                            int value = int.Parse(Math.Round(before).ToString());
+
+                            addedge(
+                                    minimumB,
+                                    catB[j].node,
+                                    value
+                                );
+                        }
+                    }
+                }
+
+                if (minimumC != 0)
+                {
+                    for (int i = 0; i < catC.Count; i++)
+                    {
+                        for (int j = i + 1; j < catC.Count; j++)
+                        {
+                            double before = getDistanceFromLatLonInKm(catC[0].categoryLattitude, catC[0].categoryLongitude, catC[j].categoryLattitude, catC[j].categoryLongitude) * 1000;
+                            int value = int.Parse(Math.Round(before).ToString());
+
+                            addedge(
+                                    minimumC,
+                                    catC[j].node,
+                                    value
+                                );
+                        }
+                    }
+                }
+
+                if (minimumD != 0)
+                {
+                    for (int i = 0; i < catD.Count; i++)
+                    {
+                        for (int j = i + 1; j < catD.Count; j++)
+                        {
+                            double before = getDistanceFromLatLonInKm(catD[0].categoryLattitude, catD[0].categoryLongitude, catD[j].categoryLattitude, catD[j].categoryLongitude) * 1000;
+                            int value = int.Parse(Math.Round(before).ToString());
+
+                            addedge(
+                                    minimumD,
+                                    catD[j].node,
+                                    value
+                                );
+                        }
+                    }
+                }
+
+                if (minimumE != 0)
+                {
+                    for (int i = 0; i < catE.Count; i++)
+                    {
+                        for (int j = i + 1; j < catE.Count; j++)
+                        {
+                            double before = getDistanceFromLatLonInKm(catE[0].categoryLattitude, catE[0].categoryLongitude, catE[j].categoryLattitude, catE[j].categoryLongitude) * 1000;
+                            int value = int.Parse(Math.Round(before).ToString());
+
+                            addedge(
+                                    minimumE,
+                                    catE[j].node,
+                                    value
+                                );
+                        }
+                    }
+                }
+
+                testLit.Text = string.Empty; // reset hasilnya
+
+                // Function call
+                int source = 0;
+                BOMiniMarket miniMarketTarget = BLLMiniMarket.getIDMiniMarketByMiniMarketName(miniMarketSearchTextBox.Text.Trim());
+                int target = int.Parse(miniMarketTarget.miniMarketID.Remove(0, 2));
+
+                best_first_search(source, target, findMaxV.Max());
+
+                foreach (int x in resultX)
+                {
+                    testLit.Text += x + " ";
+                }
+
+                testLit.Text += "<=== hasil bfsnya";
+
+                resultX.Clear();
+                catA.Clear();
+                catB.Clear();
+                catC.Clear();
+                catD.Clear();
+                catE.Clear();
+                listX.Clear();
+
+                /* eof bfs area */
+            }
+            catch (Exception x)
+            {
+                errLbl.Visible = true;
+                errLbl.CssClass = "alert alert-danger";
+                errLbl.Text = x.Message;
+
+                updatePanelSearchResultRepeater.Update();
+            }
+
+            updatePanelSearchResultRepeater.Update();
+        }
 
         protected double getDistanceFromLatLonInKm(double lat1, double lon1, double lat2, double lon2)
         {
@@ -354,11 +670,12 @@ namespace flashPrice.pages
         }
 
         #endregion
+
         protected void navSearchBtn_Click(object sender, EventArgs e)
         {
-            //testingLocation();
+            testingLocation();
             fillResult(1, pageSize, "productID", "asc");
-            fillGrid();
+            //fillGrid();
         }
 
         protected void Page_Changed(object sender, EventArgs e)
@@ -367,93 +684,93 @@ namespace flashPrice.pages
             fillResult(pageIndex, pageSize, hdSortEx.Value, hdSortDir.Value);
         }
 
-        protected void fillGrid()
+        protected void fillGridProduct() //coba product
         {
-            try
-            {
-                /* bfs area */
+            //try
+            //{
+            //    /* bfs area */
 
-                String searchText = navSearchTextBox.Text;
-                String categoryProduct = categoryProductDD.SelectedValue;
-                String sortBy = "", sortDir = "";
+            //    String searchText = navSearchTextBox.Text;
+            //    String categoryProduct = categoryProductDD.SelectedValue;
+            //    String sortBy = "", sortDir = "";
 
-                sortBy = "productPrice";
-                sortDir = "desc";
+            //    sortBy = "productPrice";
+            //    sortDir = "desc";
 
-                BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, sortBy, sortDir, 0, 999999);
+            //    BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, sortBy, sortDir, 0, 999999);
 
-                int limit = listProduct.Count();
+            //    int limit = listProduct.Count();
 
-                gvMain.DataSource = listProduct.ToList();
-                gvMain.DataBind();
-                updGridView.Update();
+            //    gvMain.DataSource = listProduct.ToList();
+            //    gvMain.DataBind();
+            //    updGridView.Update();
 
-                // find max v on first looping
+            //    // find max v on first looping
 
-                for (int i = 0; i < limit; i++)
-                {
-                    for (int j = i + 1; j < limit - 1; j++)
-                    {
-                        findMaxV.Add(listProduct[i].productPrice - listProduct[j].productPrice);
-                    }
-                }
+            //    for (int i = 0; i < limit; i++)
+            //    {
+            //        for (int j = i + 1; j < limit - 1; j++)
+            //        {
+            //            findMaxV.Add(listProduct[i].productPrice - listProduct[j].productPrice);
+            //        }
+            //    }
 
-                errLbl.Text = findMaxV.ToString();
-                graph = new LinkedList<Tuple<int, int>>[findMaxV.Max()];
+            //    errLbl.Text = findMaxV.ToString();
+            //    graph = new LinkedList<Tuple<int, int>>[findMaxV.Max()];
 
-                for (int i = 0; i < limit; ++i)
-                {
-                    graph[int.Parse(listProduct[i].productID.Remove(0, 1))] = new LinkedList<Tuple<int, int>>();
-                }
+            //    for (int i = 0; i < limit; ++i)
+            //    {
+            //        graph[int.Parse(listProduct[i].productID.Remove(0, 1))] = new LinkedList<Tuple<int, int>>();
+            //    }
 
-                for (int i = 0; i < limit; i++)
-                {
-                    for (int j = i + 1; j <= limit - 1; j++)
-                    {
-                        addedge(
-                            int.Parse(listProduct[i].productID.Remove(0, 1)),
-                            int.Parse(listProduct[j].productID.Remove(0, 1)),
-                            Math.Abs(listProduct[i].productPrice - listProduct[j].productPrice)
-                            );
-                    }
-                }
+            //    for (int i = 0; i < limit; i++)
+            //    {
+            //        for (int j = i + 1; j <= limit - 1; j++)
+            //        {
+            //            addedge(
+            //                int.Parse(listProduct[i].productID.Remove(0, 1)),
+            //                int.Parse(listProduct[j].productID.Remove(0, 1)),
+            //                Math.Abs(listProduct[i].productPrice - listProduct[j].productPrice)
+            //                );
+            //        }
+            //    }
 
-                //addedge(2067, 1267, 20500);
-                //addedge(2067, 2073, 45700);
-                //addedge(1267, 2073, 25200);
+            //    //addedge(2067, 1267, 20500);
+            //    //addedge(2067, 2073, 45700);
+            //    //addedge(1267, 2073, 25200);
 
-                testLit.Text = string.Empty;
+            //    testLit.Text = string.Empty;
 
-                // Function call
-                int source = int.Parse(listProduct[0].productID.Remove(0, 1));
-                int target = int.Parse(listProduct[limit - 1].productID.Remove(0, 1));
+            //    // Function call
+            //    int source = int.Parse(listProduct[0].productID.Remove(0, 1));
+            //    int target = int.Parse(listProduct[limit - 1].productID.Remove(0, 1));
 
-                //int source = 2067;
-                //int target = 2073;
-                //v = 45700;
+            //    //int source = 2067;
+            //    //int target = 2073;
+            //    //v = 45700;
 
-                best_first_search(source, target, findMaxV.Max());
+            //    best_first_search(source, target, findMaxV.Max());
 
-                /* 
-                 * int.Parse(listProduct[limit-1]
-                 * -1 karena mulainya dari 0 */
+            //    /* 
+            //     * int.Parse(listProduct[limit-1]
+            //     * -1 karena mulainya dari 0 */
 
-                foreach (int x in resultX)
-                {
-                    testLit.Text += x + " ";
-                }
+            //    foreach (int x in resultX)
+            //    {
+            //        testLit.Text += x + " ";
+            //    }
 
-                testLit.Text += "<=== hasil bfsnya";
-                /* eof bfs area */
-            }
-            catch (Exception x)
-            {
-                errLbl.Visible = true;
-                errLbl.CssClass = "alert alert-danger";
-                errLbl.Text = x.Message;
+            //    testLit.Text += "<=== hasil bfsnya";
+            //    /* eof bfs area */
+            //}
+            //catch (Exception x)
+            //{
+            //    errLbl.Visible = true;
+            //    errLbl.CssClass = "alert alert-danger";
+            //    errLbl.Text = x.Message;
 
-                updatePanelSearchResultRepeater.Update();
-            }
+            //    updatePanelSearchResultRepeater.Update();
+            //}
 
         }
 

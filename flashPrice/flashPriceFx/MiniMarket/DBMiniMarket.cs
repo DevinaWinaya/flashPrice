@@ -17,6 +17,59 @@ namespace flashPriceFx.MiniMarket
         from miniMarket m with(nolock)
         where 1=1";
 
+
+        #region getContent
+
+        #region getIDMiniMarketByMiniMarketName
+        public static BOMiniMarket getIDMiniMarketByMiniMarketName(String miniMarketName)
+        {
+            string xSQL = defaultFields + " and m.miniMarketName like '%" + DBHelper.cleanParam(miniMarketName) + "%' ";
+
+            return getContentQR(xSQL);
+
+        }
+        #endregion
+
+        #region getContentQR
+        private static BOMiniMarket getContentQR(string xSQL)
+        {
+            BOMiniMarket xMiniMarket = null;
+            using (SqlConnection myConnection = new SqlConnection(DBUtil.conStringdbflashPrice))
+            {
+                myConnection.Open();
+                if (myConnection.State == ConnectionState.Open)
+                {
+                    SqlCommand myComm = new SqlCommand();
+                    myComm.Connection = myConnection;
+                    myComm.CommandText = xSQL;
+                    myComm.CommandType = CommandType.Text;
+
+                    myComm.Parameters.Clear();
+
+                    using (SqlDataReader myReader = myComm.ExecuteReader())
+                    {
+                        if (myReader.HasRows)
+                        {
+                            xMiniMarket = new BOMiniMarket();
+                            while (myReader.Read())
+                            {
+                                xMiniMarket = fillDataRecord(myReader);
+                            }
+                        }
+                        myReader.Close();
+                    }
+                    myComm.Dispose();
+                }
+            }
+
+            return xMiniMarket;
+        }
+        #endregion
+
+
+        #endregion
+
+
         #region getList
 
         #region getListAllMiniMarket
@@ -27,6 +80,72 @@ namespace flashPriceFx.MiniMarket
             return getMiniMarketListQR(xSQL);
         }
         #endregion
+
+        #region getListMiniMarketForAutoComplete
+        public static BOMiniMarketList getListMiniMarketForAutoComplete()
+        {
+            string xSQL = @"
+
+            select
+            m.miniMarketName
+            from miniMarket m with(nolock)";
+
+            return getMiniMarketListQRForAutoComplete(xSQL);
+        }
+        #endregion
+
+
+        #region getListQR for autocomplete
+        private static BOMiniMarketList getMiniMarketListQRForAutoComplete(string xSQL)
+        {
+            BOMiniMarketList xBOList = null;
+
+            using (SqlConnection myConnection = new SqlConnection(DBUtil.conStringdbflashPrice))
+            {
+                myConnection.Open();
+                if (myConnection.State == ConnectionState.Open)
+                {
+                    SqlCommand myComm = new SqlCommand();
+                    myComm.Connection = myConnection;
+                    myComm.CommandText = xSQL;
+                    myComm.CommandType = CommandType.Text;
+
+                    myComm.Parameters.Clear();
+
+                    using (SqlDataReader myReader = myComm.ExecuteReader())
+                    {
+                        if (myReader.HasRows)
+                        {
+                            xBOList = new BOMiniMarketList();
+                            while (myReader.Read())
+                            {
+                                xBOList.Add(fillDataRecordForAutoComplete(myReader));
+                            }
+                        }
+                        myReader.Close();
+                    }
+                    myComm.Dispose();
+                }
+            }
+
+            return xBOList;
+
+        }
+
+        #endregion
+
+
+        #region fillDataRecordForAutoComplete
+        public static BOMiniMarket fillDataRecordForAutoComplete(IDataRecord mD)
+        {
+            BOMiniMarket xBO = new BOMiniMarket();
+
+            xBO.miniMarketName = (!mD.IsDBNull(mD.GetOrdinal("miniMarketName"))) ? mD.GetString(mD.GetOrdinal("miniMarketName")) : null;
+
+            return xBO;
+        }
+        #endregion
+
 
         #region getListQR
         private static BOMiniMarketList getMiniMarketListQR(string xSQL)

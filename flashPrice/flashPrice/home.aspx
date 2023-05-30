@@ -91,6 +91,16 @@
                             <asp:ListItem Text="Minuman" Value="C002"></asp:ListItem>
                         </asp:DropDownList>
 
+                        <asp:TextBox runat="server" ID="miniMarketSearchTextBox" CssClass="form-control autocomplete mr-2 col-md-" placeHolder="Tentukan Destinasi Minimarketmu Disini"></asp:TextBox>
+
+                        <act:AutoCompleteExtender runat="server" ID="dataMiniMarket" TargetControlID="miniMarketSearchTextBox"
+                            ServiceMethod="getListMiniMarketCached" ServicePath="~/webService/wsvMiniMarket.asmx"
+                            MinimumPrefixLength="2" CompletionInterval="100" EnableCaching="true" CompletionSetCount="10"
+                            CompletionListCssClass="autocomplete_completionListElement" CompletionListItemCssClass="autocomplete_listItem"
+                            CompletionListHighlightedItemCssClass="autocomplete_highlightedListItem" DelimiterCharacters=";,:"
+                            ShowOnlyCurrentWordInCompletionListItem="true">
+                        </act:AutoCompleteExtender>
+
                         <asp:LinkButton runat="server" ID="navSearchBtn" OnClick="navSearchBtn_Click" CssClass="btn btn-light"><i class="fa fa-search"></i></asp:LinkButton>
                     </div>
 

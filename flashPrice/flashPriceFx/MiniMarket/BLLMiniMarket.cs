@@ -9,12 +9,28 @@ namespace flashPriceFx.Product
 {
     public class BLLMiniMarket
     {
+
+        #region getContent
+        public static BOMiniMarket getIDMiniMarketByMiniMarketName(String miniMarketName)
+        {
+            return DBMiniMarket.getIDMiniMarketByMiniMarketName(miniMarketName);
+        }
+        #endregion
+
+
         #region get list minimarket 
         public static BOMiniMarketList getListAllMiniMarket()
         {
             return DBMiniMarket.getListAllMiniMarket();
         }
 
+        #region get list product for auto complete
+        public static BOMiniMarketList getListMiniMarketForAutoComplete()
+        {
+            return DBMiniMarket.getListMiniMarketForAutoComplete();
+        }
+
+        #endregion
         #endregion
     }
 }
