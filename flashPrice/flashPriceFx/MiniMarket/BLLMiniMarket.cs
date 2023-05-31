@@ -15,6 +15,12 @@ namespace flashPriceFx.Product
         {
             return DBMiniMarket.getIDMiniMarketByMiniMarketName(miniMarketName);
         }
+
+        public static BOMiniMarket getContentByID(String miniMarketID)
+        {
+            return DBMiniMarket.getContentByID(miniMarketID);
+        }
+
         #endregion
 
 

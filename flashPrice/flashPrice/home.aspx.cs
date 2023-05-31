@@ -29,21 +29,24 @@ namespace flashPrice.pages
         }
 
         #region best-first-search 
-        public static LinkedList<Tuple<int, int>>[] graph;
-        public static List<int> resultX = new List<int>();
+        public LinkedList<Tuple<int, int>>[] graph;
+        public List<int> resultX = new List<int>();
+        public List<int> farFromX = new List<int>();
+
+ 
 
         // maksimum v dibuat listnya v itu adalah nilai terbesar dari jarak yang paling jauh minimarketnya
-        public static List<int> findMaxV = new List<int>();
+        public List<int> findMaxV = new List<int>();
 
         // Function for adding edges to graph
-        public static void addedge(int x, int y, int cost)
+        public void addedge(int x, int y, int cost)
         {
             graph[x].AddLast(new Tuple<int, int>(cost, y));
             graph[y].AddLast(new Tuple<int, int>(cost, x));
         }
 
         // Function for finding the minimum weight element.
-        public static Tuple<int, int> get_min(LinkedList<Tuple<int, int>> pq)
+        public Tuple<int, int> get_min(LinkedList<Tuple<int, int>> pq)
         {
             // Assuming the maximum wt can be of 1e5.
             Tuple<int, int> curr_min = new Tuple<int, int>(100000, 100000);
@@ -68,11 +71,10 @@ namespace flashPrice.pages
             return curr_min;
         }
 
-
-        //Function For Implementing Best First Search
+        // Function For Implementing Best First Search
         // Gives output path having lowest cost
 
-        public static void best_first_search(int actual_Src, int target, int n)
+        public void best_first_search(int actual_Src, int target, int n)
         {
             int[] visited = new int[n];
             for (int i = 0; i < n; i++)
@@ -92,7 +94,13 @@ namespace flashPrice.pages
                 Tuple<int, int> curr_min = get_min(pq);
                 int x = curr_min.Item2;
                 pq.Remove(curr_min);
-                resultX.Add(x);
+
+                // tambahin result nya biar bisa ditampilin
+                distance resultItem = new distance();
+                resultItem.node = x;
+                resultItem.distanceFromMe = curr_min.Item1;
+                resultMinimarket.Add(resultItem);
+
                 // Displaying the path having lowest cost
                 if (x == target)
                     break;
@@ -110,116 +118,11 @@ namespace flashPrice.pages
         }
         #endregion
 
-        #region best-first search
-        //public static LinkedList<Tuple<int, int>>[] graph;
-        //public static List<int> resultX = new List<int>();
-        //public static List<int> findMaxV = new List<int>();
-
-
-        //// Function for adding edges to graph
-        //public static void addedge(int x, int y, int cost)
-        //{
-        //    graph[x].AddLast(new Tuple<int, int>(cost, y));
-        //    graph[y].AddLast(new Tuple<int, int>(cost, x));
-
-        //}
-
-        //// Function for finding the minimum weight element.
-        //public static Tuple<int, int> get_min(LinkedList<Tuple<int, int>> pq)
-        //{
-        //    // Assuming the maximum wt can be of 1e5.
-        //    Tuple<int, int> curr_min = new Tuple<int, int>(100000, 100000);
-        //    foreach (var ele in pq)
-        //    {
-        //        if (ele.Item1 == curr_min.Item1)
-        //        {
-        //            if (ele.Item2 < curr_min.Item2)
-        //            {
-        //                curr_min = ele;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            if (ele.Item1 < curr_min.Item1)
-        //            {
-        //                curr_min = ele;
-        //            }
-        //        }
-        //    }
-
-        //    return curr_min;
-        //}
-
-        //public static void best_first_search(int actual_Src, int target, int n)
-        //{
-        //    try
-        //    {
-
-        //        int[] visited = new int[n];
-        //        for (int i = 0; i < n; i++)
-        //        {
-        //            visited[i] = 0;
-        //        }
-
-        //        // MIN HEAP priority queue
-        //        LinkedList<Tuple<int, int>> pq = new LinkedList<Tuple<int, int>>();
-
-        //        // sorting in pq gets done by first value of pair
-        //        pq.AddLast(new Tuple<int, int>(0, actual_Src));
-        //        int s = actual_Src;
-        //        visited[s] = 1;
-        //        while (pq.Count > 0)
-        //        {
-
-        //            Tuple<int, int> curr_min = get_min(pq);
-        //            int x = curr_min.Item2;
-        //            pq.Remove(curr_min);
-
-        //            resultX.Add(x);
-        //            // Displaying the path having lowest cost
-        //            if (x == target)
-        //                break;
-
-        //            // jagain buat x nya gk null
-        //            //if (graph[x] != null)
-        //            //{
-        //            LinkedList<Tuple<int, int>> list = graph[x];
-
-        //            foreach (var val in list)
-        //            {
-        //                if (visited[val.Item2] == 0)
-        //                {
-        //                    visited[val.Item2] = 1;
-        //                    pq.AddLast(new Tuple<int, int>(val.Item1, val.Item2));
-        //                }
-        //            }
-
-        //            //}
-
-        //            //else
-        //            //{
-        //            //    break;
-        //            //}
-
-        //        }
-        //    }
-        //    catch (Exception x)
-        //    {
-        //        string error = x.Message;
-        //    }
-
-        //}
-        //public static void Main()
-        //{
-
-        //}
-        #endregion
-
         #region calculate distance from coordinates
-
         public class distance
         {
-            public int node { get; set; }
+            public int node { get; set; }            
+            public string MiniMarketID { get; set; }
             public string MiniMarketName { get; set; }
             public int distanceFromMe { get; set; }
             public List<distance> Level1 { get; set; }
@@ -227,43 +130,50 @@ namespace flashPrice.pages
 
         }
 
+        // buat nampung hasil
+        public List<distance> resultMinimarket = new List<distance>();
+        public BOMiniMarketList resultMinimarketBFS = new BOMiniMarketList();
+
         public class category
         {
             public int node { get; set; }
             public string MiniMarketName { get; set; }
-
             public double categoryLattitude { get; set; }
             public double categoryLongitude { get; set; }
             public int distanceFromMe { get; set; }
 
         }
 
-
         // build category nya
-        public static List<category> catA = new List<category>();
-        public static List<category> catB = new List<category>();
-        public static List<category> catC = new List<category>();
-        public static List<category> catD = new List<category>();
-        public static List<category> catE = new List<category>();
+        public List<category> catA = new List<category>();
+        public List<category> catB = new List<category>();
+        public List<category> catC = new List<category>();
+        public List<category> catD = new List<category>();
+        public List<category> catE = new List<category>();
 
-        public static List<category> minCatA = new List<category>();
-        public static List<category> minCatB = new List<category>();
-        public static List<category> minCatC = new List<category>();
-        public static List<category> minCatD = new List<category>();
-        public static List<category> minCatE = new List<category>();
+        public List<category> minCatA = new List<category>();
+        public List<category> minCatB = new List<category>();
+        public List<category> minCatC = new List<category>();
+        public List<category> minCatD = new List<category>();
+        public List<category> minCatE = new List<category>();
+
+    
 
         /*
-            kategori A <= 1 km
-            kategori B 1 km < jarak dari kita <= 5 km
-            kategori C 5 km < jarak dari kita <= 10 km
-            Kategori D 10 km < jarak dari kita <= 25 km
-            kategori E 25 km < jarak dari kita
+            kategori A <= 1000 m
+            kategori B 1000 m < jarak dari kita <= 5000 m
+            kategori C 5000 m < jarak dari kita <= 10000 m
+            Kategori D 10000 m < jarak dari kita <= 25000 m
+            kategori E 25000 m < jarak dari kita
         */
 
         private void testingLocation()
         {
             try
             {
+                farFromXLit.Text = string.Empty;
+                testLit.Text = string.Empty;
+
                 double lat1 = -6.1756452;
                 double lon1 = 106.6202711;
 
@@ -356,11 +266,11 @@ namespace flashPrice.pages
                 /*
                     data yg udah kebentuk itu kita bagi 5 kategori
 
-                    kategori A <= 1 km
-                    kategori B 1 km < jarak dari kita <= 5 km
-                    kategori C 5 km < jarak dari kita <= 10 km
-                    Kategori D 10 km < jarak dari kita <= 25 km
-                    kategori E 25 km < jarak dari kita
+                    kategori A <= 1000 m
+                    kategori B 1000 m < jarak dari kita <= 5000 m
+                    kategori C 5000 m < jarak dari kita <= 10000 m
+                    Kategori D 10000 m < jarak dari kita <= 25000 m
+                    kategori E 25000 m < jarak dari kita
 
                     4   Indomaret Kenaiban                  0,223599270639309
                     14  Indomaret Indomaret SPBU Otista     0,559619608257842
@@ -417,7 +327,6 @@ namespace flashPrice.pages
                     graph[int.Parse(miniMarketList[i].miniMarketID.Remove(0, 2))] = new LinkedList<Tuple<int, int>>();
                 }
 
-
                 /*                
                     step 1
                     urutin Categorynya secara ascending
@@ -441,7 +350,6 @@ namespace flashPrice.pages
                 if (catD.Count != 0) { catD = catD.AsQueryable().OrderBy(c => c.distanceFromMe).ToList(); }
                 if (catE.Count != 0) { catE = catE.AsQueryable().OrderBy(c => c.distanceFromMe).ToList(); }
 
-
                 // step 2
                 // tentuin minimumnya node nya
                 int minimumA = catA.Count == 0 ? 0 : catA[0].node;
@@ -449,7 +357,6 @@ namespace flashPrice.pages
                 int minimumC = catC.Count == 0 ? 0 : catC[0].node;
                 int minimumD = catD.Count == 0 ? 0 : catD[0].node;
                 int minimumE = catE.Count == 0 ? 0 : catE[0].node;
-
 
                 // step 3
                 // buat edge antara lokasi kita dengan lokasi kepala masing-masing category
@@ -618,21 +525,20 @@ namespace flashPrice.pages
 
                 best_first_search(source, target, findMaxV.Max());
 
-                foreach (int x in resultX)
+                foreach (distance x in resultMinimarket)
                 {
-                    testLit.Text += x + " ";
+                    if (x.node == 0) continue;
+
+                    x.MiniMarketID = "MM" + x.node.ToString("000").PadLeft(3);
+                    BOMiniMarket xBO = BLLMiniMarket.getContentByID(x.MiniMarketID);
+                    xBO.distanceFromMe = x.distanceFromMe;
+                    resultMinimarketBFS.Add(xBO);
                 }
 
-                testLit.Text += "<=== hasil bfsnya";
+                gvMain.DataSource = resultMinimarketBFS;
+                gvMain.DataBind();
 
-                resultX.Clear();
-                catA.Clear();
-                catB.Clear();
-                catC.Clear();
-                catD.Clear();
-                catE.Clear();
-                listX.Clear();
-
+                updGridView.Update();
                 /* eof bfs area */
             }
             catch (Exception x)
@@ -674,104 +580,13 @@ namespace flashPrice.pages
         protected void navSearchBtn_Click(object sender, EventArgs e)
         {
             testingLocation();
-            fillResult(1, pageSize, "productID", "asc");
-            //fillGrid();
+            fillResult(1, pageSize, "productPrice", "asc");
         }
 
         protected void Page_Changed(object sender, EventArgs e)
         {
             int pageIndex = int.Parse((sender as LinkButton).CommandArgument);
             fillResult(pageIndex, pageSize, hdSortEx.Value, hdSortDir.Value);
-        }
-
-        protected void fillGridProduct() //coba product
-        {
-            //try
-            //{
-            //    /* bfs area */
-
-            //    String searchText = navSearchTextBox.Text;
-            //    String categoryProduct = categoryProductDD.SelectedValue;
-            //    String sortBy = "", sortDir = "";
-
-            //    sortBy = "productPrice";
-            //    sortDir = "desc";
-
-            //    BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, sortBy, sortDir, 0, 999999);
-
-            //    int limit = listProduct.Count();
-
-            //    gvMain.DataSource = listProduct.ToList();
-            //    gvMain.DataBind();
-            //    updGridView.Update();
-
-            //    // find max v on first looping
-
-            //    for (int i = 0; i < limit; i++)
-            //    {
-            //        for (int j = i + 1; j < limit - 1; j++)
-            //        {
-            //            findMaxV.Add(listProduct[i].productPrice - listProduct[j].productPrice);
-            //        }
-            //    }
-
-            //    errLbl.Text = findMaxV.ToString();
-            //    graph = new LinkedList<Tuple<int, int>>[findMaxV.Max()];
-
-            //    for (int i = 0; i < limit; ++i)
-            //    {
-            //        graph[int.Parse(listProduct[i].productID.Remove(0, 1))] = new LinkedList<Tuple<int, int>>();
-            //    }
-
-            //    for (int i = 0; i < limit; i++)
-            //    {
-            //        for (int j = i + 1; j <= limit - 1; j++)
-            //        {
-            //            addedge(
-            //                int.Parse(listProduct[i].productID.Remove(0, 1)),
-            //                int.Parse(listProduct[j].productID.Remove(0, 1)),
-            //                Math.Abs(listProduct[i].productPrice - listProduct[j].productPrice)
-            //                );
-            //        }
-            //    }
-
-            //    //addedge(2067, 1267, 20500);
-            //    //addedge(2067, 2073, 45700);
-            //    //addedge(1267, 2073, 25200);
-
-            //    testLit.Text = string.Empty;
-
-            //    // Function call
-            //    int source = int.Parse(listProduct[0].productID.Remove(0, 1));
-            //    int target = int.Parse(listProduct[limit - 1].productID.Remove(0, 1));
-
-            //    //int source = 2067;
-            //    //int target = 2073;
-            //    //v = 45700;
-
-            //    best_first_search(source, target, findMaxV.Max());
-
-            //    /* 
-            //     * int.Parse(listProduct[limit-1]
-            //     * -1 karena mulainya dari 0 */
-
-            //    foreach (int x in resultX)
-            //    {
-            //        testLit.Text += x + " ";
-            //    }
-
-            //    testLit.Text += "<=== hasil bfsnya";
-            //    /* eof bfs area */
-            //}
-            //catch (Exception x)
-            //{
-            //    errLbl.Visible = true;
-            //    errLbl.CssClass = "alert alert-danger";
-            //    errLbl.Text = x.Message;
-
-            //    updatePanelSearchResultRepeater.Update();
-            //}
-
         }
 
         protected void fillResult(int pageIndex, int PageSize, string sortBy, string sortDir)
@@ -792,7 +607,7 @@ namespace flashPrice.pages
                 if (sortBy == "")
                 {
                     sortBy = "productID";
-                    sortDir = "asc";
+                    sortDir = " ";
                 }
 
                 BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, sortBy, sortDir, startRow, maxRow);
@@ -909,14 +724,23 @@ namespace flashPrice.pages
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
+                // urusan logo minimarket
+                Image imgMiniMarketType = ((Image)e.Row.FindControl("imgMiniMarketType"));
+                String miniMarketType = (String)DataBinder.Eval(e.Row.DataItem, "miniMarketType");
+                imgMiniMarketType.ImageUrl = miniMarketType == "Indomaret" ? @"~\assets\images\indomaret_logo.png" : @"~\assets\images\alfamart_logo.png";
             }
         }
 
         protected void gvMain_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvMain.PageIndex = e.NewPageIndex;
+            testingLocation();
         }
 
+
+        protected void FillGrid(BOMiniMarketList xBO)
+        {
+        }
         #endregion
     }
 }

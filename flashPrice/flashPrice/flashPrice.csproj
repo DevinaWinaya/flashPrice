@@ -151,6 +151,7 @@
     <Content Include="assets\css\main.css" />
     <Content Include="assets\images\alfamart_logo.png" />
     <Content Include="assets\images\flashPriceLogo.png" />
+    <Content Include="assets\images\Image_not_available.png" />
     <Content Include="assets\images\indomaret_logo.png" />
     <Content Include="assets\images\Searchs_004.png" />
     <Content Include="assets\images\viki-mohamad-tWXH_zGJrPo-unsplash.jpg" />

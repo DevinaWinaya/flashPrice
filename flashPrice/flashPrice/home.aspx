@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/default.Master" AutoEventWireup="true" CodeBehind="home.aspx.cs" Inherits="flashPrice.pages.home" UICulture="id-ID" Culture="id-ID" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <title>Flash Price</title>
     <style>
         /*AutoComplete flyout */
         .autoCompleteContainer ul li {
@@ -57,7 +58,6 @@
         </ContentTemplate>
     </asp:UpdatePanel>
 
-
     <asp:UpdatePanel ID="updatePanelSearchResultRepeater" runat="server" UpdateMode="Conditional">
         <Triggers>
             <asp:PostBackTrigger ControlID="navSearchBtn" />
@@ -67,16 +67,32 @@
             <asp:HiddenField ID="hdSortEx" runat="server" />
             <asp:HiddenField ID="hdSortDir" runat="server" />
 
-            
-
             <div id="resultDiv" runat="server">
-                <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #fbd746;">
-                    <a class="navbar-brand text-white" href="home.aspx">
+     
+                <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #fbd746;">
+                    <a href="home.aspx">
                         <img src="assets/images/flashPriceLogo.png" style="width: 150px;" /></a>
-                    <span></span>
-                    <div class="navbar-nav col-md-8 mx-auto">
-                        <asp:TextBox runat="server" ID="navSearchTextBox" CssClass="form-control autocomplete mr-2 col-md-5" placeHolder="Temukan produkmu disini . . ."></asp:TextBox>
 
+                    <div class="navbar-collapse" id="navbarText">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item font-weight-bold">
+                                <a class="nav-link" href="home.aspx">Home <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item font-weight-bold">
+                                <a class="nav-link" href="login.aspx">About</a>
+                            </li>
+
+                        </ul>
+                        <span class="navbar-text font-weight-bold">Bandingkan dan temukan produk pilihanmu dengan FlashPrice
+                        </span>
+                    </div>
+
+                </nav>
+
+                <nav class="navbar navbar-expand bg-body-tertiary sticky-top text-center" style="background-color: #fbd746;">
+
+                    <div class="col-md-3 pl-0 pr-1">
+                        <asp:TextBox runat="server" ID="navSearchTextBox" CssClass="form-control autocomplete" placeHolder="Temukan produkmu disini . . ."></asp:TextBox>
                         <act:AutoCompleteExtender runat="server" ID="dataProduct" TargetControlID="navSearchTextBox"
                             ServiceMethod="getListProductCached" ServicePath="~/webService/wsvProduct.asmx"
                             MinimumPrefixLength="2" CompletionInterval="100" EnableCaching="true" CompletionSetCount="10"
@@ -84,14 +100,18 @@
                             CompletionListHighlightedItemCssClass="autocomplete_highlightedListItem" DelimiterCharacters=";,:"
                             ShowOnlyCurrentWordInCompletionListItem="true">
                         </act:AutoCompleteExtender>
+                    </div>
 
-                        <asp:DropDownList runat="server" ID="categoryProductDD" CssClass="form-control col-md-2 mr-2">
+                    <div class="col-md-3 px-1">
+                        <asp:DropDownList runat="server" ID="categoryProductDD" CssClass="form-control">
                             <asp:ListItem Text="Pilih Kategori" Value=""></asp:ListItem>
                             <asp:ListItem Text="Makanan" Value="C001"></asp:ListItem>
                             <asp:ListItem Text="Minuman" Value="C002"></asp:ListItem>
                         </asp:DropDownList>
 
-                        <asp:TextBox runat="server" ID="miniMarketSearchTextBox" CssClass="form-control autocomplete mr-2 col-md-" placeHolder="Tentukan Destinasi Minimarketmu Disini"></asp:TextBox>
+                    </div>
+                    <div class="col-md-3 px-1">
+                        <asp:TextBox runat="server" ID="miniMarketSearchTextBox" CssClass="form-control autocomplete" placeHolder="Tentukan Destinasi Minimarketmu Disini"></asp:TextBox>
 
                         <act:AutoCompleteExtender runat="server" ID="dataMiniMarket" TargetControlID="miniMarketSearchTextBox"
                             ServiceMethod="getListMiniMarketCached" ServicePath="~/webService/wsvMiniMarket.asmx"
@@ -100,21 +120,53 @@
                             CompletionListHighlightedItemCssClass="autocomplete_highlightedListItem" DelimiterCharacters=";,:"
                             ShowOnlyCurrentWordInCompletionListItem="true">
                         </act:AutoCompleteExtender>
-
-                        <asp:LinkButton runat="server" ID="navSearchBtn" OnClick="navSearchBtn_Click" CssClass="btn btn-light"><i class="fa fa-search"></i></asp:LinkButton>
                     </div>
 
-                    <span class="navbar-text font-weight-bold" style="font-size: small;">
-                        <i class="fa fa-scale-balanced mr-1"></i>Bandingkan dan temukan produk pilihanmu dengan FlashPrice
-                    </span>
+                    <div class="col-md-1 px-1 text-left">
+                        <asp:LinkButton runat="server" ID="navSearchBtn" OnClick="navSearchBtn_Click" CssClass="btn btn-light"><i class="fa fa-search mr-2"> </i>Search</asp:LinkButton>
+                    </div>
                 </nav>
 
                 <asp:Label runat="server" ID="errLbl" Visible="false"></asp:Label>
-
                 <asp:Literal runat="server" ID="testLit"></asp:Literal>
+                <asp:Literal runat="server" ID="farFromXLit"></asp:Literal>
+
+
+                <div class="col-md-12 col-xs-12 col-sm-12 mt-3">
+                    <asp:UpdatePanel ID="updGridView" runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+                            <asp:Literal ID="litErrorLogin" runat="server"></asp:Literal>
+                            <div class="datagrid" id="dvGrid">
+                                <!-- main grid -->
+                                <div style="overflow-x: auto; width: auto;" class="mt-4">
+                                    <asp:GridView ID="gvMain" runat="server" EnableModelValidation="True" AutoGenerateColumns="false"
+                                        AllowPaging="True" PageSize="5" OnPageIndexChanging="gvMain_PageIndexChanging"
+                                        OnRowDataBound="gvMain_RowDataBound" CssClass="table table-hover table-bordered">
+                                        <Columns>
+                                            <asp:TemplateField HeaderText="MiniMarket" ItemStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#fbd746" HeaderStyle-ForeColor="Black">
+                                                <ItemTemplate>
+                                                    <asp:Image ID="imgMiniMarketType" Style="width: 100px; height: auto;" runat="server" />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:BoundField DataField="miniMarketName" HeaderText="Nama" HeaderStyle-BackColor="#fbd746" HeaderStyle-ForeColor="Black" />
+                                            <asp:BoundField DataField="miniMarketAddress" HeaderText="Alamat" HeaderStyle-BackColor="#fbd746" HeaderStyle-ForeColor="Black" />
+                                            <asp:BoundField DataField="distanceFromMe" HeaderText="Jarak (meter)" HeaderStyle-BackColor="#fbd746" HeaderStyle-ForeColor="Black" />
+                                        </Columns>
+                                        <PagerSettings Mode="NumericFirstLast" PageButtonCount="4" FirstPageText="First"
+                                            LastPageText="Last" />
+                                        <RowStyle CssClass="td" />
+                                        <SelectedRowStyle CssClass="thspecalt" />
+                                        <AlternatingRowStyle CssClass="tdalt" />
+                                    </asp:GridView>
+                                </div>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                </div>
 
                 <div id="queryResultDiv" class="row mx-auto col-md-8 mt-3 col-xs-12 col-sm-12 border border-secondary-50" runat="server">
                     <asp:Literal ID="litError" runat="server"></asp:Literal>
+
                     <asp:Repeater ID="resultRepeater" runat="server" OnItemDataBound="resultRepeater_ItemDataBound" OnItemCommand="resultRepeater_ItemCommand">
                         <ItemTemplate>
                             <div class="col-md-3 mb-3 d-flex align-items-stretch">
@@ -125,20 +177,20 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <span class="text-left col-md-12">
-                                                <img src="<%#Eval("productImageUrl") %>" style="border-radius: 10px; height: auto; width: 280px;" class="img-fluid" alt="Product Image" />
+                                                <img src="<%#Eval("productImageUrl")%>" onerror="imgError(this)" style="border-radius: 10px; height: auto; width: 280px;" class="img-fluid" />
                                             </span>
 
-                                            <span class="mt-3 mb-2">
+                                            <span class="pt-2 pb-2">
                                                 <asp:Label ID="productNameLbl" CssClass="h6" Style="color: #ee8000;" runat="server" Text='<%#Eval("productName") %>'></asp:Label>
                                             </span>
                                         </div>
-                                        <div class="row">
+                                        <div class="row pt-2 pb-2">
                                             <span>
                                                 <i class="fa fa-money-bill-1 mr-2"></i>
                                                 Rp.<asp:Label ID="productPriceLbl" CssClass="ml-1" runat="server" Text='<%#Eval("productPrice")%>'></asp:Label>
                                             </span>
                                         </div>
-                                        <div class="row">
+                                        <div class="row pt-2 pb-2">
                                             <span>
                                                 <i class="fa fa-store mr-2"></i>
                                                 <asp:Label ID="miniMarketName" runat="server" Text='<%#Eval("miniMarketName") %>'></asp:Label>
@@ -151,7 +203,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="row mt-3 card-footer bg-white">
+                                    <div class="row pt-2 card-footer bg-white">
                                         <asp:LinkButton runat="server" CssClass="btn btn-warning btn-sm align-self-start btn-block text-white" BackColor="#ee8000" OnClientClick='<%# Eval("productID", "productDetail(\"{0}\"); return false;") %>'><i class="fa fa-search mr-2"></i>Detail</asp:LinkButton>
                                     </div>
                                 </div>
@@ -160,6 +212,7 @@
                         <FooterTemplate>
                         </FooterTemplate>
                     </asp:Repeater>
+
 
                     <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 px-0 mt-2" runat="server" id="paginationDiv">
                         <nav aria-label="Page navigation example">
@@ -178,6 +231,8 @@
                 </div>
 
             </div>
+
+
 
         </ContentTemplate>
     </asp:UpdatePanel>
@@ -235,27 +290,6 @@
     </div>
 
 
-    <asp:UpdatePanel ID="updGridView" runat="server" UpdateMode="Conditional">
-        <ContentTemplate>
-            <asp:Literal ID="litErrorLogin" runat="server"></asp:Literal>
-            <div class="datagrid" id="dvGrid">
-                <!-- main grid -->
-                <div style="overflow-x: auto; width: auto;" class="mt-4">
-                    <asp:GridView ID="gvMain" runat="server" EnableModelValidation="True" AutoGenerateColumns="true"
-                        AllowPaging="True" PageSize="100" AllowSorting="true" OnPageIndexChanging="gvMain_PageIndexChanging"
-                        OnRowDataBound="gvMain_RowDataBound" CssClass="table table-hover table-bordered" HeaderStyle-ForeColor="White">
-                        <Columns>
-                        </Columns>
-                        <PagerSettings Mode="NumericFirstLast" PageButtonCount="4" FirstPageText="First"
-                            LastPageText="Last" />
-                        <RowStyle CssClass="td" />
-                        <SelectedRowStyle CssClass="thspecalt" />
-                        <AlternatingRowStyle CssClass="tdalt" />
-                        <HeaderStyle CssClass="th thead-light text-center" />
-                    </asp:GridView>
-                </div>
-        </ContentTemplate>
-    </asp:UpdatePanel>
 
 
     <script type="text/javascript">
@@ -281,6 +315,15 @@
         $(document).ready(function () {
             init();
         });
+
+        function imgError(me) {
+            // place here the alternative image
+            var AlterNativeImg = "/assets/images/Image_not_available.png";
+
+            // to avoid the case that even the alternative fails        
+            if (AlterNativeImg != me.src)
+                me.src = AlterNativeImg;
+        }
 
         function init() {
             setTimeout(function () { getLocation(); showPosition(); }, 500);

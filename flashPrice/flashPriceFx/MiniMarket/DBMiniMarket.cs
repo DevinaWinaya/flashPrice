@@ -30,6 +30,16 @@ namespace flashPriceFx.MiniMarket
         }
         #endregion
 
+        #region getIDMiniMarketByMiniMarketName
+        public static BOMiniMarket getContentByID(String miniMarketID)
+        {
+            string xSQL = defaultFields + " and m.MiniMarketID = '" + DBHelper.cleanParam(miniMarketID) + "' ";
+
+            return getContentQR(xSQL);
+
+        }
+        #endregion
+
         #region getContentQR
         private static BOMiniMarket getContentQR(string xSQL)
         {
