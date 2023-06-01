@@ -69,15 +69,6 @@ namespace flashPrice.pages
         protected global::System.Web.UI.WebControls.Button productDetailBtn;
 
         /// <summary>
-        /// updatePanelSearchResultRepeater control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updatePanelSearchResultRepeater;
-
-        /// <summary>
         /// hdSortEx control.
         /// </summary>
         /// <remarks>
@@ -94,15 +85,6 @@ namespace flashPrice.pages
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdSortDir;
-
-        /// <summary>
-        /// resultDiv control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl resultDiv;
 
         /// <summary>
         /// navSearchTextBox control.
@@ -159,15 +141,6 @@ namespace flashPrice.pages
         protected global::System.Web.UI.WebControls.LinkButton navSearchBtn;
 
         /// <summary>
-        /// errLbl control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label errLbl;
-
-        /// <summary>
         /// testLit control.
         /// </summary>
         /// <remarks>
@@ -184,6 +157,33 @@ namespace flashPrice.pages
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal farFromXLit;
+
+        /// <summary>
+        /// updError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel updError;
+
+        /// <summary>
+        /// errDiv control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl errDiv;
+
+        /// <summary>
+        /// errLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label errLbl;
 
         /// <summary>
         /// updGridView control.
@@ -204,6 +204,15 @@ namespace flashPrice.pages
         protected global::System.Web.UI.WebControls.Literal litErrorLogin;
 
         /// <summary>
+        /// dvGrid control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvGrid;
+
+        /// <summary>
         /// gvMain control.
         /// </summary>
         /// <remarks>
@@ -213,6 +222,24 @@ namespace flashPrice.pages
         protected global::System.Web.UI.WebControls.GridView gvMain;
 
         /// <summary>
+        /// updatePanelSearchResultRepeater control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel updatePanelSearchResultRepeater;
+
+        /// <summary>
+        /// resultDiv control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl resultDiv;
+
+        /// <summary>
         /// queryResultDiv control.
         /// </summary>
         /// <remarks>
@@ -220,15 +247,6 @@ namespace flashPrice.pages
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl queryResultDiv;
-
-        /// <summary>
-        /// litError control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litError;
 
         /// <summary>
         /// resultRepeater control.
@@ -256,6 +274,15 @@ namespace flashPrice.pages
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptPager;
+
+        /// <summary>
+        /// litError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litError;
 
         /// <summary>
         /// updatePanelProductDetail control.

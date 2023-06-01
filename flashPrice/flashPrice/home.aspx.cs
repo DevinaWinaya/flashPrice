@@ -174,18 +174,19 @@ namespace flashPrice.pages
                 farFromXLit.Text = string.Empty;
                 testLit.Text = string.Empty;
 
-                double lat1 = -6.1756452;
-                double lon1 = 106.6202711;
+                //double lat1 = -6.1756452;
+                //double lon1 = 106.6202711;
 
-                // simpen dulu letak coordinate kitanya  
-                //double lat1 = Convert.ToDouble(hiddenMyLatitude.Value.Replace(".", ","));
-                //double lon1 = Convert.ToDouble(hiddenMyLongitude.Value.Replace(".", ","));
+                //simpen dulu letak coordinate kitanya
+                double lat1 = Convert.ToDouble(hiddenMyLatitude.Value.Replace(".", ","));
+                double lon1 = Convert.ToDouble(hiddenMyLongitude.Value.Replace(".", ","));
 
                 // ambil data minimarketnya
                 BOMiniMarketList miniMarketList = BLLMiniMarket.getListAllMiniMarket();
 
-                // buat list buat nampung minimarketnya yg mau diitung bfs 
+                // buat list buat nampung minimarketnya yg mau diitung bfs  
                 List<distance> listX = new List<distance>();
+                listX.Clear();
 
                 // masukin masing-masing data minimarket ke list string untuk diolah
                 foreach (BOMiniMarket xMinimarket in miniMarketList)
@@ -344,11 +345,17 @@ namespace flashPrice.pages
                 // step 1
 
                 // urutin Categorynya secara ascending
-                if (catA.Count != 0) { catA = catA.AsQueryable().OrderBy(c => c.distanceFromMe).ToList(); }
-                if (catB.Count != 0) { catB = catB.AsQueryable().OrderBy(c => c.distanceFromMe).ToList(); }
-                if (catC.Count != 0) { catC = catC.AsQueryable().OrderBy(c => c.distanceFromMe).ToList(); }
-                if (catD.Count != 0) { catD = catD.AsQueryable().OrderBy(c => c.distanceFromMe).ToList(); }
-                if (catE.Count != 0) { catE = catE.AsQueryable().OrderBy(c => c.distanceFromMe).ToList(); }
+                //if (catA.Count != 0) { catA = catA.AsQueryable().OrderBy(c => c.distanceFromMe).ToList(); }
+                //if (catB.Count != 0) { catB = catB.AsQueryable().OrderBy(c => c.distanceFromMe).ToList(); }
+                //if (catC.Count != 0) { catC = catC.AsQueryable().OrderBy(c => c.distanceFromMe).ToList(); }
+                //if (catD.Count != 0) { catD = catD.AsQueryable().OrderBy(c => c.distanceFromMe).ToList(); }
+                //if (catE.Count != 0) { catE = catE.AsQueryable().OrderBy(c => c.distanceFromMe).ToList(); }
+
+                //if (catA.Count != 0) { catA = catA; }
+                //if (catB.Count != 0) { catB = catB; }
+                //if (catC.Count != 0) { catC = catC; }
+                //if (catD.Count != 0) { catD = catD; }
+                //if (catE.Count != 0) { catE = catE; }
 
                 // step 2
                 // tentuin minimumnya node nya
@@ -357,6 +364,8 @@ namespace flashPrice.pages
                 int minimumC = catC.Count == 0 ? 0 : catC[0].node;
                 int minimumD = catD.Count == 0 ? 0 : catD[0].node;
                 int minimumE = catE.Count == 0 ? 0 : catE[0].node;
+
+              
 
                 // step 3
                 // buat edge antara lokasi kita dengan lokasi kepala masing-masing category
@@ -521,6 +530,21 @@ namespace flashPrice.pages
                 // Function call
                 int source = 0;
                 BOMiniMarket miniMarketTarget = BLLMiniMarket.getIDMiniMarketByMiniMarketName(miniMarketSearchTextBox.Text.Trim());
+
+                if(miniMarketTarget == null)
+                {
+                    errLbl.Text = "Minimarket tidak ditemukan";
+                    errDiv.Visible = true;
+                    updError.Update();
+                    return;
+                }
+
+                else
+                {
+                    errDiv.Visible = false;
+                    updError.Update();
+                }
+
                 int target = int.Parse(miniMarketTarget.miniMarketID.Remove(0, 2));
 
                 best_first_search(source, target, findMaxV.Max());
@@ -536,6 +560,8 @@ namespace flashPrice.pages
                 }
 
                 gvMain.DataSource = resultMinimarketBFS;
+                //.OrderBy(c => c.distanceFromMe)
+                dvGrid.Style.Remove("display");
                 gvMain.DataBind();
 
                 updGridView.Update();
@@ -615,7 +641,7 @@ namespace flashPrice.pages
 
                 if (listProduct == null)
                 {
-                    litError.Text = "Produk tidak ditemukan";
+                    litError.Text = "<div class='alert alert-warning text-center mt-4' style='margin-bottom:500px;'> Produk tidak ditemukan </div>";
                     resultRepeater.DataSource = null;
                     resultRepeater.DataBind();
                 }

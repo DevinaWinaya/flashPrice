@@ -43,9 +43,11 @@
         }
     </style>
 
+
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="mainContentPh" runat="server">
+
 
     <asp:UpdatePanel ID="updAction" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="true">
         <ContentTemplate>
@@ -58,94 +60,114 @@
         </ContentTemplate>
     </asp:UpdatePanel>
 
+
+
+    <asp:HiddenField ID="hdSortEx" runat="server" />
+    <asp:HiddenField ID="hdSortDir" runat="server" />
+
+
+    <nav class="navbar navbar-expand bg-body-tertiary sticky-top text-center" style="background-color: #fbd746;">
+
+        <div class="col-md-3 pl-0 pr-1">
+            <asp:TextBox runat="server" ID="navSearchTextBox" CssClass="form-control autocomplete" placeHolder="Temukan produkmu disini . . ."></asp:TextBox>
+            <act:AutoCompleteExtender runat="server" ID="dataProduct" TargetControlID="navSearchTextBox"
+                ServiceMethod="getListProductCached" ServicePath="~/webService/wsvProduct.asmx"
+                MinimumPrefixLength="2" CompletionInterval="100" EnableCaching="true" CompletionSetCount="10"
+                CompletionListCssClass="autocomplete_completionListElement" CompletionListItemCssClass="autocomplete_listItem"
+                CompletionListHighlightedItemCssClass="autocomplete_highlightedListItem" DelimiterCharacters=";,:"
+                ShowOnlyCurrentWordInCompletionListItem="true">
+            </act:AutoCompleteExtender>
+        </div>
+
+        <div class="col-md-3 px-1">
+            <asp:DropDownList runat="server" ID="categoryProductDD" CssClass="form-control">
+                <asp:ListItem Text="Pilih Kategori" Value=""></asp:ListItem>
+                <asp:ListItem Text="Makanan" Value="C001"></asp:ListItem>
+                <asp:ListItem Text="Minuman" Value="C002"></asp:ListItem>
+            </asp:DropDownList>
+
+        </div>
+        <div class="col-md-3 px-1">
+            <asp:TextBox runat="server" ID="miniMarketSearchTextBox" CssClass="form-control autocomplete" placeHolder="Tentukan Destinasi Minimarketmu Disini"></asp:TextBox>
+
+            <act:AutoCompleteExtender runat="server" ID="dataMiniMarket" TargetControlID="miniMarketSearchTextBox"
+                ServiceMethod="getListMiniMarketCached" ServicePath="~/webService/wsvMiniMarket.asmx"
+                MinimumPrefixLength="2" CompletionInterval="100" EnableCaching="true" CompletionSetCount="10"
+                CompletionListCssClass="autocomplete_completionListElement" CompletionListItemCssClass="autocomplete_listItem"
+                CompletionListHighlightedItemCssClass="autocomplete_highlightedListItem" DelimiterCharacters=";,:"
+                ShowOnlyCurrentWordInCompletionListItem="true">
+            </act:AutoCompleteExtender>
+        </div>
+
+        <div class="col-md-1 px-1 text-left">
+            <asp:LinkButton runat="server" ID="navSearchBtn" OnClick="navSearchBtn_Click" CssClass="btn btn-light"><i class="fa fa-search mr-2"> </i>Search</asp:LinkButton>
+        </div>
+    </nav>
+
+
+    <asp:Literal runat="server" ID="testLit"></asp:Literal>
+    <asp:Literal runat="server" ID="farFromXLit"></asp:Literal>
+
+
+
+    <asp:UpdatePanel ID="updError" runat="server" UpdateMode="Conditional">
+        <ContentTemplate>
+            <div class="col-md-12 col-xs-12 col-sm-12 mt-4 alert alert-danger" id="errDiv" runat="server" visible="false">
+                <asp:Label runat="server" ID="errLbl" CssClass="col-md-12"></asp:Label>
+            </div>
+
+        </ContentTemplate>
+
+    </asp:UpdatePanel>
+
+
+    <div class="col-md-12 col-xs-12 col-sm-12 mt-3">
+        <asp:UpdatePanel ID="updGridView" runat="server" UpdateMode="Conditional">
+            <ContentTemplate>
+                <asp:Literal ID="litErrorLogin" runat="server"></asp:Literal>
+                <div class="datagrid" id="dvGrid" runat="server" style="display: none;">
+                    <!-- main grid -->
+                    <div style="height: 350px; overflow-y: auto; width: auto;" class="mt-4">
+                        <asp:GridView ID="gvMain" runat="server" EnableModelValidation="True" AutoGenerateColumns="false"
+                            AllowPaging="False" PageSize="100" OnPageIndexChanging="gvMain_PageIndexChanging"
+                            OnRowDataBound="gvMain_RowDataBound" CssClass="table table-hover table-bordered">
+                            <Columns>
+                                <asp:TemplateField HeaderText="#" HeaderStyle-BackColor="#fbd746" HeaderStyle-ForeColor="Black">
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" Text='<%# (Container.DataItemIndex)+1 %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="MiniMarket" ItemStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#fbd746" HeaderStyle-ForeColor="Black">
+                                    <ItemTemplate>
+                                        <asp:Image ID="imgMiniMarketType" Style="width: 100px; height: auto;" runat="server" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:BoundField DataField="miniMarketName" HeaderText="Nama" HeaderStyle-BackColor="#fbd746" HeaderStyle-ForeColor="Black" />
+                                <asp:BoundField DataField="miniMarketAddress" HeaderText="Alamat" HeaderStyle-BackColor="#fbd746" HeaderStyle-ForeColor="Black" />
+                                <asp:BoundField DataField="distanceFromMe" HeaderText="Jarak (meter)" HeaderStyle-BackColor="#fbd746" HeaderStyle-ForeColor="Black" />
+                            </Columns>
+                            <PagerSettings Mode="NumericFirstLast" PageButtonCount="4" FirstPageText="First"
+                                LastPageText="Last" />
+                            <RowStyle CssClass="td" />
+                            <SelectedRowStyle CssClass="thspecalt" />
+                            <AlternatingRowStyle CssClass="tdalt" />
+                        </asp:GridView>
+                    </div>
+                </div>
+                <hr />
+            </ContentTemplate>
+        </asp:UpdatePanel>
+    </div>
+
     <asp:UpdatePanel ID="updatePanelSearchResultRepeater" runat="server" UpdateMode="Conditional">
         <Triggers>
             <asp:PostBackTrigger ControlID="navSearchBtn" />
         </Triggers>
         <ContentTemplate>
+            <div id="resultDiv" class="pt-4" runat="server" style="height: auto;">
+                <div id="queryResultDiv" class="row mx-auto col-md-8 col-xs-12 col-sm-12 border border-secondary-50" runat="server">
 
-            <asp:HiddenField ID="hdSortEx" runat="server" />
-            <asp:HiddenField ID="hdSortDir" runat="server" />
-
-            <div id="resultDiv" runat="server">
-     
-                <nav class="navbar navbar-expand bg-body-tertiary sticky-top text-center" style="background-color: #fbd746;">
-
-                    <div class="col-md-3 pl-0 pr-1">
-                        <asp:TextBox runat="server" ID="navSearchTextBox" CssClass="form-control autocomplete" placeHolder="Temukan produkmu disini . . ."></asp:TextBox>
-                        <act:AutoCompleteExtender runat="server" ID="dataProduct" TargetControlID="navSearchTextBox"
-                            ServiceMethod="getListProductCached" ServicePath="~/webService/wsvProduct.asmx"
-                            MinimumPrefixLength="2" CompletionInterval="100" EnableCaching="true" CompletionSetCount="10"
-                            CompletionListCssClass="autocomplete_completionListElement" CompletionListItemCssClass="autocomplete_listItem"
-                            CompletionListHighlightedItemCssClass="autocomplete_highlightedListItem" DelimiterCharacters=";,:"
-                            ShowOnlyCurrentWordInCompletionListItem="true">
-                        </act:AutoCompleteExtender>
-                    </div>
-
-                    <div class="col-md-3 px-1">
-                        <asp:DropDownList runat="server" ID="categoryProductDD" CssClass="form-control">
-                            <asp:ListItem Text="Pilih Kategori" Value=""></asp:ListItem>
-                            <asp:ListItem Text="Makanan" Value="C001"></asp:ListItem>
-                            <asp:ListItem Text="Minuman" Value="C002"></asp:ListItem>
-                        </asp:DropDownList>
-
-                    </div>
-                    <div class="col-md-3 px-1">
-                        <asp:TextBox runat="server" ID="miniMarketSearchTextBox" CssClass="form-control autocomplete" placeHolder="Tentukan Destinasi Minimarketmu Disini"></asp:TextBox>
-
-                        <act:AutoCompleteExtender runat="server" ID="dataMiniMarket" TargetControlID="miniMarketSearchTextBox"
-                            ServiceMethod="getListMiniMarketCached" ServicePath="~/webService/wsvMiniMarket.asmx"
-                            MinimumPrefixLength="2" CompletionInterval="100" EnableCaching="true" CompletionSetCount="10"
-                            CompletionListCssClass="autocomplete_completionListElement" CompletionListItemCssClass="autocomplete_listItem"
-                            CompletionListHighlightedItemCssClass="autocomplete_highlightedListItem" DelimiterCharacters=";,:"
-                            ShowOnlyCurrentWordInCompletionListItem="true">
-                        </act:AutoCompleteExtender>
-                    </div>
-
-                    <div class="col-md-1 px-1 text-left">
-                        <asp:LinkButton runat="server" ID="navSearchBtn" OnClick="navSearchBtn_Click" CssClass="btn btn-light"><i class="fa fa-search mr-2"> </i>Search</asp:LinkButton>
-                    </div>
-                </nav>
-
-                <asp:Label runat="server" ID="errLbl" Visible="false"></asp:Label>
-                <asp:Literal runat="server" ID="testLit"></asp:Literal>
-                <asp:Literal runat="server" ID="farFromXLit"></asp:Literal>
-
-
-                <div class="col-md-12 col-xs-12 col-sm-12 mt-3">
-                    <asp:UpdatePanel ID="updGridView" runat="server" UpdateMode="Conditional">
-                        <ContentTemplate>
-                            <asp:Literal ID="litErrorLogin" runat="server"></asp:Literal>
-                            <div class="datagrid" id="dvGrid">
-                                <!-- main grid -->
-                                <div style="overflow-x: auto; width: auto;" class="mt-4">
-                                    <asp:GridView ID="gvMain" runat="server" EnableModelValidation="True" AutoGenerateColumns="false"
-                                        AllowPaging="True" PageSize="5" OnPageIndexChanging="gvMain_PageIndexChanging"
-                                        OnRowDataBound="gvMain_RowDataBound" CssClass="table table-hover table-bordered">
-                                        <Columns>
-                                            <asp:TemplateField HeaderText="MiniMarket" ItemStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#fbd746" HeaderStyle-ForeColor="Black">
-                                                <ItemTemplate>
-                                                    <asp:Image ID="imgMiniMarketType" Style="width: 100px; height: auto;" runat="server" />
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-
-                                            <asp:BoundField DataField="miniMarketName" HeaderText="Nama" HeaderStyle-BackColor="#fbd746" HeaderStyle-ForeColor="Black" />
-                                            <asp:BoundField DataField="miniMarketAddress" HeaderText="Alamat" HeaderStyle-BackColor="#fbd746" HeaderStyle-ForeColor="Black" />
-                                            <asp:BoundField DataField="distanceFromMe" HeaderText="Jarak (meter)" HeaderStyle-BackColor="#fbd746" HeaderStyle-ForeColor="Black" />
-                                        </Columns>
-                                        <PagerSettings Mode="NumericFirstLast" PageButtonCount="4" FirstPageText="First"
-                                            LastPageText="Last" />
-                                        <RowStyle CssClass="td" />
-                                        <SelectedRowStyle CssClass="thspecalt" />
-                                        <AlternatingRowStyle CssClass="tdalt" />
-                                    </asp:GridView>
-                                </div>
-                        </ContentTemplate>
-                    </asp:UpdatePanel>
-                </div>
-
-                <div id="queryResultDiv" class="row mx-auto col-md-8 mt-3 col-xs-12 col-sm-12 border border-secondary-50" runat="server">
-                    <asp:Literal ID="litError" runat="server"></asp:Literal>
 
                     <asp:Repeater ID="resultRepeater" runat="server" OnItemDataBound="resultRepeater_ItemDataBound" OnItemCommand="resultRepeater_ItemCommand">
                         <ItemTemplate>
@@ -212,8 +234,7 @@
 
             </div>
 
-
-
+            <asp:Literal ID="litError" runat="server"></asp:Literal>
         </ContentTemplate>
     </asp:UpdatePanel>
 
@@ -246,7 +267,7 @@
                                     <div class="row mt-2">
                                         <span class="badge badge-warning">
                                             <span class="h6">Rp.</span>
-                                            <asp:Label runat="server" CssClass="h6 ml-1 " ID="productPricePopupLbl"></asp:Label>
+                                            <asp:Label runat="server" CssClass="h6 ml-1" ID="productPricePopupLbl"></asp:Label>
                                         </span>
                                     </div>
 
@@ -268,7 +289,6 @@
             </div>
         </div>
     </div>
-
 
 
 
@@ -335,15 +355,16 @@
             var lat1 = position.coords.latitude;
             var lon1 = position.coords.longitude;
 
+
+
             //-6.2087634,
             //106.845599
             /*
                 var lat2 = -6.177437;
                 var lon2 = 106.621188;
-
+ 
                 console.log(getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) + " km");
             */
-
 
             $('#<%= hiddenMyLatitude.ClientID %>').val(lat1);
             $('#<%= hiddenMyLongitude.ClientID %>').val(lon1);
@@ -368,5 +389,4 @@
         }
 
     </script>
-
 </asp:Content>
