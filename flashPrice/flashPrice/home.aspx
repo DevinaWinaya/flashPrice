@@ -69,26 +69,6 @@
 
             <div id="resultDiv" runat="server">
      
-                <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #fbd746;">
-                    <a href="home.aspx">
-                        <img src="assets/images/flashPriceLogo.png" style="width: 150px;" /></a>
-
-                    <div class="navbar-collapse" id="navbarText">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item font-weight-bold">
-                                <a class="nav-link" href="home.aspx">Home <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item font-weight-bold">
-                                <a class="nav-link" href="login.aspx">About</a>
-                            </li>
-
-                        </ul>
-                        <span class="navbar-text font-weight-bold">Bandingkan dan temukan produk pilihanmu dengan FlashPrice
-                        </span>
-                    </div>
-
-                </nav>
-
                 <nav class="navbar navbar-expand bg-body-tertiary sticky-top text-center" style="background-color: #fbd746;">
 
                     <div class="col-md-3 pl-0 pr-1">

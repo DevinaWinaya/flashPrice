@@ -48,6 +48,26 @@
                 </Scripts>
             </asp:ScriptManager>
 
+            <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #fbd746;">
+                <a href="home.aspx">
+                    <img src="assets/images/flashPriceLogo.png" style="width: 150px;" /></a>
+
+                <div class="navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item font-weight-bold">
+                            <a class="nav-link" href="home.aspx">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item font-weight-bold">
+                            <a class="nav-link" href="about.aspx">About</a>
+                        </li>
+
+                    </ul>
+                    <span class="navbar-text font-weight-bold">Bandingkan dan temukan produk pilihanmu dengan FlashPrice
+                    </span>
+                </div>
+
+            </nav>
+
             <asp:ContentPlaceHolder ID="mainContentPh" runat="server">
             </asp:ContentPlaceHolder>
         </form>
@@ -55,8 +75,25 @@
 </body>
 </html>
 
-<div class="container">
-    <footer class="py-3 my-4">
-        <p class="text-center text-muted">© 2022 Devina Winaya - 00000033896</p>
-    </footer>
-</div>
+
+<footer class="py-3 my-4" style="background-color:#fbd746">
+    <div class="row">
+        <div class="col-md-6 col-sm-12 col-xs-12 my-auto">
+            <p class="text-center">
+               <img src="assets/images/flashPriceLogo.png" style="width: 150px;" />
+            </p>
+            <p class="text-center">© 2022 Devina Winaya - 00000033896</p>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12">
+            <h3>Contact Person</h3>
+            <address>Devina Winaya</address>
+            <ul class="list-unstyled links mb-4">
+                <li><a style="color:black; text-decoration:none;" href="https://wa.me/+6281383137726"><i class="fa fa-mobile mr-2"></i>0813 8313 7726</a></li>
+                <li><a style="color:black; text-decoration:none;" href="mailto:devina.winaya@student.umn.ac.id"><i class="fa fa-envelope mr-2"></i>devina.winaya@student.umn.ac.id</a></li>
+            </ul>
+
+        </div>
+
+    </div>
+</footer>
+

@@ -148,12 +148,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="about.aspx" />
     <Content Include="assets\css\main.css" />
     <Content Include="assets\images\alfamart_logo.png" />
     <Content Include="assets\images\flashPriceLogo.png" />
+    <Content Include="assets\images\girl_sit.png" />
+    <Content Include="assets\images\girl_sit_too.png" />
     <Content Include="assets\images\Image_not_available.png" />
     <Content Include="assets\images\indomaret_logo.png" />
     <Content Include="assets\images\Searchs_004.png" />
+    <Content Include="assets\images\team_work.png" />
     <Content Include="assets\images\viki-mohamad-tWXH_zGJrPo-unsplash.jpg" />
     <Content Include="assets\js\extention\choices.js" />
     <Content Include="assets\js\extention\custom-materialize.js" />
@@ -167,6 +171,13 @@
     <Content Include="webService\wsvProduct.asmx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="about.aspx.cs">
+      <DependentUpon>about.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="about.aspx.designer.cs">
+      <DependentUpon>about.aspx</DependentUpon>
+    </Compile>
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
