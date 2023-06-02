@@ -20,11 +20,22 @@ namespace flashPrice.pages
     public partial class home : System.Web.UI.Page
     {
         private static int pageSize = 12;
+        private static int pageSizeSponsorship = 4;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
+                if (Session["username"] != null)
+                {
+                    loginAsAdminBtn.Text = "<i class='fa fa-sign-out mr-2'></i> Logout";
+                }
+                else
+                {
+                    loginAsAdminBtn.Text = "<i class='fa fa-sign-in mr-2'></i> Login";
+                }
+
                 fillResult(1, pageSize, "productID", "ASC");
+                fillSponsorRepeater(1, pageSizeSponsorship, "productID", "ASC");
             }
         }
 
@@ -607,6 +618,18 @@ namespace flashPrice.pages
         {
             testingLocation();
             fillResult(1, pageSize, "productPrice", "asc");
+            fillSponsorRepeater(1, pageSizeSponsorship, "productPrice", "asc");
+
+        }
+
+        #region result repeater normal product
+        protected void resultRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+        }
+
+        protected void resultRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+
         }
 
         protected void Page_Changed(object sender, EventArgs e)
@@ -636,8 +659,8 @@ namespace flashPrice.pages
                     sortDir = " ";
                 }
 
-                BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, sortBy, sortDir, startRow, maxRow);
-                int jmlBaris = int.Parse(BLLProduct.getCountListProduct(searchText, categoryProduct, sortBy, sortDir, startRow, maxRow).ToString());
+                BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, false, sortBy, sortDir, startRow, maxRow); ;
+                int jmlBaris = int.Parse(BLLProduct.getCountListProduct(searchText, categoryProduct, false, sortBy, sortDir, startRow, maxRow).ToString());
 
                 if (listProduct == null)
                 {
@@ -707,16 +730,6 @@ namespace flashPrice.pages
         }
         #endregion
 
-        #region result repeater
-        protected void resultRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-        }
-
-        protected void resultRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
-        {
-
-        }
-
         #endregion
 
         #region product detail
@@ -768,5 +781,130 @@ namespace flashPrice.pages
         {
         }
         #endregion
+
+
+        #region result repeater sponsorship product
+        protected void sponsorRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+        }
+
+        protected void sponsorRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+
+        }
+
+        protected void sponsorRepeater_Page_Changed(object sender, EventArgs e)
+        {
+            int pageIndex = int.Parse((sender as LinkButton).CommandArgument);
+            fillSponsorRepeater(pageIndex, pageSizeSponsorship, hdSortEx.Value, hdSortDir.Value);
+        }
+
+        protected void fillSponsorRepeater(int pageIndex, int pageSizeSponsorship, string sortBy, string sortDir)
+        {
+            try
+            {
+                String searchText = navSearchTextBox.Text;
+                String categoryProduct = categoryProductDD.SelectedValue;
+                bool isViewSponsorship = true; 
+
+                int startRow = (pageSizeSponsorship * (pageIndex - 1));
+
+                int maxRow = pageSizeSponsorship;
+
+                if (startRow == 1) maxRow = 4;
+
+                if (pageIndex > 1) startRow = startRow + 1;
+
+                if (sortBy == "")
+                {
+                    sortBy = "productID";
+                    sortDir = " ";
+                }
+
+                BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, isViewSponsorship, sortBy, sortDir, startRow, maxRow);
+                int jmlBaris = int.Parse(BLLProduct.getCountListProduct(searchText, categoryProduct, isViewSponsorship, sortBy, sortDir, startRow, maxRow).ToString());
+
+                if (listProduct == null)
+                {
+                    litError.Text = "<div class='alert alert-warning text-center mt-4' style='margin-bottom:500px;'> Produk tidak ditemukan </div>";
+                    sponsorRepeater.DataSource = null;
+                    sponsorRepeater.DataBind();
+                }
+                else
+                {
+                    double dblPageCount = (double)((decimal)jmlBaris / pageSizeSponsorship);
+                    int pageCount = (int)Math.Ceiling(dblPageCount);
+
+                    if (pageIndex != 1 && pageIndex != pageCount)
+                    {
+                        listProduct.RemoveAt(listProduct.Count - 1); // buat buang element terakhir yang gk kepake
+                    }
+
+                    sponsorRepeater.DataSource = listProduct;
+                    sponsorRepeater.DataBind();
+
+                    litError.Text = "";
+
+                    hdSortEx.Value = sortBy;
+                    hdSortDir.Value = sortDir;
+                    updatePanelSearchResultRepeater.Update();
+                }
+
+                //PopulatePagerSponsporRepeater(jmlBaris, pageIndex);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.Message;
+            }
+        }
+
+        #region pagination
+        //private void PopulatePagerSponsporRepeater(int recordCount, int currentPage)
+        //{
+        //    double dblPageCount = (double)((decimal)recordCount / pageSizeSponsorship);
+        //    int pageCount = (int)Math.Ceiling(dblPageCount);
+        //    List<ListItem> pages = new List<ListItem>();
+        //    string displ = "";
+
+        //    if (pageCount > 0)
+        //    {
+        //        paginationDiv.Visible = true;
+        //        pages.Add(new ListItem("<b>First</b>", "1", currentPage > 1));
+        //        for (int i = 1; i <= pageCount; i++)
+        //        {
+        //            if (i <= 5 || (i >= currentPage - 5 && i <= currentPage + 5) || i > pageCount - 5)
+        //            {
+        //                displ = i == currentPage ? "<b>" + i.ToString() + "</b>" : i.ToString();
+        //                pages.Add(new ListItem(displ, i.ToString(), i != currentPage));
+        //            }
+        //        }
+        //        pages.Add(new ListItem("<b>Last</b>", pageCount.ToString(), currentPage < pageCount));
+        //    }
+
+        //    else
+        //    {
+        //        paginationDiv.Visible = false;
+        //    }
+
+        //    sponsorRepeaterPager.DataSource = pages;
+        //    sponsorRepeaterPager.DataBind();
+        //    hdnPageIdx.Value = currentPage.ToString();
+        //}
+        #endregion
+
+        #endregion
+
+        protected void loginAsAdminBtn_Click(object sender, EventArgs e)
+        {
+            if(Session["username"] == null)
+            {
+                Response.Redirect("login.aspx");
+            }
+            else
+            {
+                Session["username"] = null;
+                Response.Redirect("login.aspx");
+            }
+        }
     }
 }

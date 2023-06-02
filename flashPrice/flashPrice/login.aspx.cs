@@ -30,7 +30,7 @@ namespace flashPrice
 
                 Session["username"] = username;
 
-                Response.Redirect("~/home.aspx");
+                Response.Redirect("~/adminDashboard.aspx");
             }
             else
             {

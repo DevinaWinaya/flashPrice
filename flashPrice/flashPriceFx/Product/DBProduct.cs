@@ -71,13 +71,24 @@ namespace flashPriceFx.Product
         #region getList
 
         #region getListProductQuery
-        public static BOProductList getListProductQuery(String searchText, String categoryProduct, String sortBy, String sortDir, int startRow, int maxRow)
+        public static BOProductList getListProductQuery(String searchText, String categoryProduct, bool isViewSponsorship, String sortBy, String sortDir, int startRow, int maxRow)
         {
             string xSQL = @"
             select * from (select ROW_NUMBER() OVER (ORDER BY " + sortBy + @") AS rowNum, p.*, m.miniMarketName, m.miniMarketAddress, m.miniMarketType
             from Product p with(nolock)
             left join MiniMarket m with(nolock) on m.miniMarketID = p.miniMarketID
-            where 1=1 ";
+            where 1=1";
+
+            bool isIncludeZeroPrice = false;
+
+            if (!isIncludeZeroPrice) {
+                xSQL += " and p.productPrice != 0";    
+            }
+
+            if (isViewSponsorship)
+            {
+                xSQL += " and isSponsorShip = 'T'";
+            }
 
             if (searchText != "")
             {
@@ -114,12 +125,24 @@ namespace flashPriceFx.Product
             return getProductListQR(xSQL);
         }
 
-        public static decimal getCountLisProductQuery(String searchText, String categoryProduct, String sortBy, String sortDir, int startRow, int maxRow)
+        public static decimal getCountLisProductQuery(String searchText, String categoryProduct, bool isViewSponsorship, String sortBy, String sortDir, int startRow, int maxRow)
         {
             string xSQL = @"
             select count(*)
             from Product p with(nolock)
             where 1=1 ";
+
+            bool isIncludeZeroPrice = false;
+
+            if (!isIncludeZeroPrice)
+            {
+                xSQL += " and p.productPrice != 0";
+            }
+
+            if (isViewSponsorship)
+            {
+                xSQL += " and isSponsorShip = 'T'";
+            }
 
             if (searchText != "")
             {
@@ -246,6 +269,8 @@ namespace flashPriceFx.Product
             xBO.miniMarketAddress = (!mD.IsDBNull(mD.GetOrdinal("miniMarketAddress"))) ? mD.GetString(mD.GetOrdinal("miniMarketAddress")) : null;
             xBO.miniMarketName = (!mD.IsDBNull(mD.GetOrdinal("miniMarketName"))) ? mD.GetString(mD.GetOrdinal("miniMarketName")) : null;
             xBO.miniMarketType = (!mD.IsDBNull(mD.GetOrdinal("miniMarketType"))) ? mD.GetString(mD.GetOrdinal("miniMarketType")) : null;
+
+            xBO.isSponsorship = DBHelper.getDBBool(mD, "isSponsorship", false);
 
             xBO.entryDate = DBHelper.getDBDateTime(mD, "entryDate");
             xBO.lastUpdate = DBHelper.getDBDateTime(mD, "lastUpdate");

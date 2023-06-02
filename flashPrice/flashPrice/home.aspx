@@ -99,8 +99,10 @@
             </act:AutoCompleteExtender>
         </div>
 
-        <div class="col-md-1 px-1 text-left">
+        <div class="col-md-4 px-1 text-left">
             <asp:LinkButton runat="server" ID="navSearchBtn" OnClick="navSearchBtn_Click" CssClass="btn btn-light"><i class="fa fa-search mr-2"> </i>Search</asp:LinkButton>
+            <asp:LinkButton runat="server" ID="loginAsAdminBtn" OnClick="loginAsAdminBtn_Click"  CssClass="btn btn-light"><i class="fa fa-id-card mr-2"> </i> Login as Admin</asp:LinkButton>
+
         </div>
     </nav>
 
@@ -160,6 +162,74 @@
         </asp:UpdatePanel>
     </div>
 
+    <asp:UpdatePanel ID="updPanelSponsorShip" runat="server" UpdateMode="Conditional">
+        <Triggers>
+            <asp:PostBackTrigger ControlID="navSearchBtn" />
+        </Triggers>
+        <ContentTemplate>
+
+            <div id="Div4" runat="server">
+                <div id="Div5" class="row mx-auto col-md-8 col-xs-12 col-sm-12 border border-secondary-50" runat="server">
+                    <div class="col-md-12 col-sm-12 col-xs-12 mt-4">
+                        <h4 style="color:orangered"><i class="fa fa-star mr-2"> </i>Sponsorship Product</h4>
+                    </div>
+
+                    <asp:Repeater ID="sponsorRepeater" runat="server" OnItemDataBound="sponsorRepeater_ItemDataBound" OnItemCommand="sponsorRepeater_ItemCommand">
+                        <ItemTemplate>
+
+                            <div class="col-md-3 mb-3 d-flex align-items-stretch">
+                                <div class="card mt-3 mb-3 col-md-12">
+                                    <div class="card-header bg-white">
+                                        <asp:Literal ID="litProductImg" runat="server"></asp:Literal>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <span class="text-left col-md-12">
+                                                <img src="<%#Eval("productImageUrl")%>" onerror="imgError(this)" style="border-radius: 10px; height: auto; width: 280px;" class="img-fluid" />
+                                            </span>
+
+                                            <span class="pt-2 pb-2">
+                                                <asp:Label ID="productNameLbl" CssClass="h6" Style="color: #ee8000;" runat="server" Text='<%#Eval("productName") %>'></asp:Label>
+                                            </span>
+                                        </div>
+                                        <div class="row pt-2 pb-2">
+                                            <span>
+                                                <i class="fa fa-money-bill-1 mr-2"></i>
+                                                Rp.<asp:Label ID="productPriceLbl" CssClass="ml-1" runat="server" Text='<%#Eval("productPrice")%>'></asp:Label>
+                                            </span>
+                                        </div>
+                                        <div class="row pt-2 pb-2">
+                                            <span>
+                                                <i class="fa fa-store mr-2"></i>
+                                                <asp:Label ID="miniMarketName" runat="server" Text='<%#Eval("miniMarketName") %>'></asp:Label>
+                                            </span>
+                                        </div>
+                                        <div class="row">
+                                            <span>
+                                                <i class="fa fa-map-location mr-2"></i>
+                                                <asp:Label ID="miniMarketAddress" Text='<%#Eval("miniMarketAddress")%>' runat="server"></asp:Label>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row pt-2 card-footer bg-white">
+                                        <asp:LinkButton runat="server" CssClass="btn btn-warning btn-sm align-self-start btn-block text-white" BackColor="#ee8000" OnClientClick='<%# Eval("productID", "productDetail(\"{0}\"); return false;") %>'><i class="fa fa-search mr-2"></i>Detail</asp:LinkButton>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </ItemTemplate>
+                        <FooterTemplate>
+                        </FooterTemplate>
+                    </asp:Repeater>
+
+                </div>
+
+            </div>
+
+            <asp:Literal ID="Literal2" runat="server"></asp:Literal>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+
     <asp:UpdatePanel ID="updatePanelSearchResultRepeater" runat="server" UpdateMode="Conditional">
         <Triggers>
             <asp:PostBackTrigger ControlID="navSearchBtn" />
@@ -167,8 +237,6 @@
         <ContentTemplate>
             <div id="resultDiv" class="pt-4" runat="server" style="height: auto;">
                 <div id="queryResultDiv" class="row mx-auto col-md-8 col-xs-12 col-sm-12 border border-secondary-50" runat="server">
-
-
                     <asp:Repeater ID="resultRepeater" runat="server" OnItemDataBound="resultRepeater_ItemDataBound" OnItemCommand="resultRepeater_ItemCommand">
                         <ItemTemplate>
                             <div class="col-md-3 mb-3 d-flex align-items-stretch">
@@ -265,9 +333,10 @@
                                         <asp:Label runat="server" CssClass="h6 mr-2" Style="color: #ee8000" ID="productNamePopupLbl"></asp:Label>
                                     </div>
                                     <div class="row mt-2">
-                                        <span class="badge badge-warning">
-                                            <span class="h6">Rp.</span>
-                                            <asp:Label runat="server" CssClass="h6 ml-1" ID="productPricePopupLbl"></asp:Label>
+                                        <span>
+                                            <i class="fa fa-money-bill mr-2"></i>
+                                            <span class="">Rp.</span>
+                                            <asp:Label runat="server" CssClass="ml-1" ID="productPricePopupLbl"></asp:Label>
                                         </span>
                                     </div>
 
@@ -306,6 +375,13 @@
 
         function BeginHandlerGrid(sender, args) {
             init();
+            loading_start();
+        }
+
+        function loading_start() {
+            $(document).ready(function () {
+                $.blockUI({ message: "<h1 class='text-success p-2' style='font-size:x-large'><i class='fa fa-spin fa-circle-o-notch mr-2'></i><span >Please Wait</span></h1>", baseZ: 5000 });
+            });
         }
 
         function EndHandlerGrid(sender, args) {
@@ -355,8 +431,6 @@
             var lat1 = position.coords.latitude;
             var lon1 = position.coords.longitude;
 
-
-
             //-6.2087634,
             //106.845599
             /*
@@ -387,6 +461,5 @@
         function deg2rad(deg) {
             return deg * (Math.PI / 180)
         }
-
     </script>
 </asp:Content>

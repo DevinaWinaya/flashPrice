@@ -18,6 +18,8 @@ namespace flashPriceFx.Product
         public DateTime entryDate { set; get; }
         public DateTime lastUpdate { set; get; }
 
+        public bool isSponsorship { set; get; }
+
 
         public string miniMarketName { set; get; }
         public string miniMarketAddress { set; get; }
