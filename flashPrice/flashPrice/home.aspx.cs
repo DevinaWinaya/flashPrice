@@ -44,8 +44,6 @@ namespace flashPrice.pages
         public List<int> resultX = new List<int>();
         public List<int> farFromX = new List<int>();
 
- 
-
         // maksimum v dibuat listnya v itu adalah nilai terbesar dari jarak yang paling jauh minimarketnya
         public List<int> findMaxV = new List<int>();
 
@@ -659,7 +657,7 @@ namespace flashPrice.pages
                     sortDir = " ";
                 }
 
-                BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, false, sortBy, sortDir, startRow, maxRow); ;
+                BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, false, sortBy, sortDir, startRow, maxRow);
                 int jmlBaris = int.Parse(BLLProduct.getCountListProduct(searchText, categoryProduct, false, sortBy, sortDir, startRow, maxRow).ToString());
 
                 if (listProduct == null)
@@ -898,12 +896,12 @@ namespace flashPrice.pages
         {
             if(Session["username"] == null)
             {
-                Response.Redirect("login.aspx");
+                Response.Redirect("~/login.aspx");
             }
             else
             {
                 Session["username"] = null;
-                Response.Redirect("login.aspx");
+                Response.Redirect("~/login.aspx");
             }
         }
     }

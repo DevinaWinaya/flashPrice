@@ -1,4 +1,5 @@
-﻿using HCFx;
+﻿using flashPriceFX;
+using HCFx;
 using HCPLUSFx.DAL;
 using System;
 using System.Collections.Generic;
@@ -76,7 +77,6 @@ namespace flashPriceFx.MiniMarket
         }
         #endregion
 
-
         #endregion
 
 
@@ -89,6 +89,24 @@ namespace flashPriceFx.MiniMarket
 
             return getMiniMarketListQR(xSQL);
         }
+
+        public static BOMiniMarketList getListMinimarketQueries(String searchText, String sortBy, String sortDir)
+        {
+            string xSQL = defaultFields;
+
+            if (searchText != "")
+            {
+                xSQL += " and m.miniMarketName like " + "'%" + searchText + "%'";
+            }
+
+            if (sortBy != "")
+            {
+                xSQL += "  order by " + sortBy + " " + sortDir;
+            }
+
+            return getMiniMarketListQR(xSQL);
+        }
+
         #endregion
 
         #region getListMiniMarketForAutoComplete
@@ -102,6 +120,100 @@ namespace flashPriceFx.MiniMarket
 
             return getMiniMarketListQRForAutoComplete(xSQL);
         }
+        #endregion
+
+
+        #region manage product
+
+        public static BOProcessResult manageMinimarket(BOMiniMarket xMinimarket, String flag)
+        {
+            SqlTransaction myTxn = null;
+            SqlConnection myCon;
+            myCon = new SqlConnection(DBUtil.conStringdbflashPrice);
+
+            BOProcessResult retVal = new BOProcessResult();
+
+            retVal.xProcessName = "DBProduct.manageMinimarket";
+
+            try
+            {
+                myCon.Open();
+                if (myCon.State == ConnectionState.Open)
+                {
+                    myTxn = myCon.BeginTransaction();
+                    retVal = manageProductSP(myCon, myTxn, xMinimarket, flag);
+
+                    if (retVal.isSuccess)
+                    {
+                        myTxn.Commit();
+                    }
+                    else
+                    {
+                        myTxn.Rollback();
+                        retVal.isSuccess = false;
+                    }
+
+                }
+
+                else
+                {
+                    if (myTxn.Connection != null) { myTxn.Rollback(); }
+                    retVal.xMessage = "EXCEPTION! Failed Open Connection";
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                if (myTxn.Connection != null) { myTxn.Rollback(); }
+                retVal.xMessage = "EXCEPTION! " + ex.Message;
+                retVal.isSuccess = false;
+            }
+
+            if (myCon.State == ConnectionState.Open) myCon.Close();
+            return retVal;
+        }
+
+        private static BOProcessResult manageProductSP(SqlConnection nCon, SqlTransaction nTxn, BOMiniMarket myHEAD, String flag)
+        {
+            BOProcessResult retVal = new BOProcessResult();
+
+            try
+            {
+                if (nCon.State == ConnectionState.Open)
+                {
+                    SqlParameter hasiltxnID;
+                    SqlCommand cmHead = new SqlCommand();
+
+                    cmHead.Connection = nCon;
+                    cmHead.Transaction = nTxn;
+                    cmHead.CommandType = CommandType.StoredProcedure;
+                    cmHead.Parameters.Clear();
+
+                    cmHead.Parameters.AddWithValue("@miniMarketID", (object)myHEAD.miniMarketID ?? DBNull.Value);
+                    cmHead.Parameters.AddWithValue("@miniMarketName", (object)myHEAD.miniMarketName);
+                    cmHead.Parameters.AddWithValue("@miniMarketAddress", (object)myHEAD.miniMarketAddress);
+                    cmHead.Parameters.AddWithValue("@miniMarketType", (object)myHEAD.miniMarketType ?? DBNull.Value);
+                    cmHead.Parameters.AddWithValue("@miniMarketLattitude", (object)myHEAD.miniMarketLattitude ?? DBNull.Value);
+                    cmHead.Parameters.AddWithValue("@miniMarketLongitude", (object)myHEAD.miniMarketLongitude ?? DBNull.Value);
+                    cmHead.Parameters.AddWithValue("@flag", (object)flag ?? DBNull.Value);
+
+                    cmHead.CommandText = "[S_MiniMarket_ManageMinimarket]";
+                    cmHead.ExecuteNonQuery();
+
+                    retVal.isSuccess = true;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                retVal.xMessage = "EXCEPTION!DBProduct.manageProductSP" + ex.Message;
+                retVal.isSuccess = false;
+            }
+
+            return retVal;
+        }
+
         #endregion
 
 

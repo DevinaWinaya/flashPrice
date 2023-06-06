@@ -1,4 +1,5 @@
-﻿using System;
+﻿using flashPriceFX;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,5 +40,14 @@ namespace flashPriceFx.Product
 
         #endregion
         #endregion
+
+        #region manage product 
+        public static BOProcessResult manageProduct(BOProduct xProduct, String flag)
+        {
+            return DBProduct.manageProduct(xProduct, flag);
+        }
+
+        #endregion
+
     }
 }

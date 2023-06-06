@@ -17,7 +17,7 @@ namespace flashPrice
             }
             else
             {
-                Response.Redirect("login.aspx");
+                Response.Redirect("~/login.aspx");
             }
         }
 
@@ -25,12 +25,12 @@ namespace flashPrice
         {
             if (Session["username"] == null)
             {
-                Response.Redirect("login.aspx");
+                Response.Redirect("~/login.aspx");
             }
             else
             {
                 Session["username"] = null;
-                Response.Redirect("login.aspx");
+                Response.Redirect("~/login.aspx");
             }
         }
     }

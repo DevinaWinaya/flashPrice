@@ -1,4 +1,5 @@
-﻿using HCPLUSFx.DAL;
+﻿using flashPriceFX;
+using HCPLUSFx.DAL;
 using othersFx;
 using System;
 using System.Collections.Generic;
@@ -73,6 +74,12 @@ namespace flashPriceFx.Product
         #region getListProductQuery
         public static BOProductList getListProductQuery(String searchText, String categoryProduct, bool isViewSponsorship, String sortBy, String sortDir, int startRow, int maxRow)
         {
+            if (sortBy == "")
+            {
+                sortBy = "productID";
+                sortDir = "asc";
+            }
+
             string xSQL = @"
             select * from (select ROW_NUMBER() OVER (ORDER BY " + sortBy + @") AS rowNum, p.*, m.miniMarketName, m.miniMarketAddress, m.miniMarketType
             from Product p with(nolock)
@@ -81,8 +88,9 @@ namespace flashPriceFx.Product
 
             bool isIncludeZeroPrice = false;
 
-            if (!isIncludeZeroPrice) {
-                xSQL += " and p.productPrice != 0";    
+            if (!isIncludeZeroPrice)
+            {
+                xSQL += " and p.productPrice != 0";
             }
 
             if (isViewSponsorship)
@@ -250,7 +258,96 @@ namespace flashPriceFx.Product
 
         #endregion
 
+        #region manage product
 
+        public static BOProcessResult manageProduct(BOProduct xProduct, String flag)
+        {
+            SqlTransaction myTxn = null;
+            SqlConnection myCon;
+            myCon = new SqlConnection(DBUtil.conStringdbflashPrice);
+
+            BOProcessResult retVal = new BOProcessResult();
+
+            retVal.xProcessName = "DBProduct.manageProduct";
+
+            try
+            {
+                myCon.Open();
+                if (myCon.State == ConnectionState.Open)
+                {
+                    myTxn = myCon.BeginTransaction();
+                    retVal = manageProductSP(myCon, myTxn, xProduct, flag);
+
+                    if (retVal.isSuccess)
+                    {
+                        myTxn.Commit();
+                    }
+                    else
+                    {
+                        myTxn.Rollback();
+                        retVal.isSuccess = false;
+                    }
+
+                }
+
+                else
+                {
+                    if (myTxn.Connection != null) { myTxn.Rollback(); }
+                    retVal.xMessage = "EXCEPTION! Failed Open Connection";
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                if (myTxn.Connection != null) { myTxn.Rollback(); }
+                retVal.xMessage = "EXCEPTION! " + ex.Message;
+                retVal.isSuccess = false;
+            }
+
+            if (myCon.State == ConnectionState.Open) myCon.Close();
+            return retVal;
+        }
+
+        private static BOProcessResult manageProductSP(SqlConnection nCon, SqlTransaction nTxn, BOProduct myHEAD, String flag)
+        {
+            BOProcessResult retVal = new BOProcessResult();
+
+            try
+            {
+                if (nCon.State == ConnectionState.Open)
+                {
+                    SqlParameter hasiltxnID;
+                    SqlCommand cmHead = new SqlCommand();
+
+                    cmHead.Connection = nCon;
+                    cmHead.Transaction = nTxn;
+                    cmHead.CommandType = CommandType.StoredProcedure;
+                    cmHead.Parameters.Clear();
+
+                    cmHead.Parameters.AddWithValue("@productID", (object)myHEAD.productID ?? DBNull.Value);
+                    cmHead.Parameters.AddWithValue("@productName", (object)myHEAD.productName);
+                    cmHead.Parameters.AddWithValue("@productPrice", (object)myHEAD.productPrice);
+                    cmHead.Parameters.AddWithValue("@isSponsorship", (object)myHEAD.isSponsorship ?? DBNull.Value);
+                    cmHead.Parameters.AddWithValue("@flag", (object)flag ?? DBNull.Value);
+
+                    cmHead.CommandText = "[S_Product_ManageProduct]";
+                    cmHead.ExecuteNonQuery();
+
+                    retVal.isSuccess = true;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                retVal.xMessage = "EXCEPTION!DBProduct.manageProductSP" + ex.Message;
+                retVal.isSuccess = false;
+            }
+
+            return retVal;
+        }
+
+        #endregion
 
         #region fillDataRecord
 

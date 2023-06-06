@@ -1833,6 +1833,7 @@
     <Content Include="assets\admin\vendor\jquery\jquery.slim.js" />
     <Content Include="assets\admin\vendor\jquery\jquery.slim.min.js" />
     <Content Include="assets\css\main.css" />
+    <Content Include="assets\images\admin-profile.png" />
     <Content Include="assets\images\alfamart_logo.png" />
     <Content Include="assets\images\flashPriceLogo.png" />
     <Content Include="assets\images\girl_sit.png" />
@@ -1850,6 +1851,8 @@
     <Content Include="default.aspx" />
     <Content Include="home.aspx" />
     <Content Include="login.aspx" />
+    <Content Include="masterData\masterMinimarket.aspx" />
+    <Content Include="masterData\masterProduct.aspx" />
     <Content Include="Web.config" />
     <Content Include="webService\wsvMiniMarket.asmx" />
     <Content Include="webService\wsvProduct.asmx" />
@@ -1910,6 +1913,20 @@
     </Compile>
     <Compile Include="home.aspx.designer.cs">
       <DependentUpon>home.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="masterData\masterMinimarket.aspx.cs">
+      <DependentUpon>masterMinimarket.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="masterData\masterMinimarket.aspx.designer.cs">
+      <DependentUpon>masterMinimarket.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="masterData\masterProduct.aspx.cs">
+      <DependentUpon>masterProduct.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="masterData\masterProduct.aspx.designer.cs">
+      <DependentUpon>masterProduct.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="webService\wsvMiniMarket.asmx.cs">
@@ -2105,9 +2122,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="pages\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\flashPriceFx\flashPriceFx.csproj">
       <Project>{044AE4F3-4468-4941-B750-4FFEEEDFB9F3}</Project>

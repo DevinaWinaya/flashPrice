@@ -1,4 +1,5 @@
 ﻿using flashPriceFx.MiniMarket;
+using flashPriceFX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,21 @@ namespace flashPriceFx.Product
         }
 
         #endregion
+
+        #region get list mini market queries
+        public static BOMiniMarketList getListMinimarketQueries(String searchText, String sortBy, String sortDir)
+        {
+            return DBMiniMarket.getListMinimarketQueries(searchText, sortBy, sortDir);
+        }
+        #endregion
+        #endregion
+
+        #region manage minimarket 
+        public static BOProcessResult manageMinimarket(BOMiniMarket xMinimarket, String flag)
+        {
+            return DBMiniMarket.manageMinimarket(xMinimarket, flag);
+        }
+
         #endregion
     }
 }
