@@ -614,10 +614,19 @@ namespace flashPrice.pages
 
         protected void navSearchBtn_Click(object sender, EventArgs e)
         {
-            testingLocation();
-            fillResult(1, pageSize, "productPrice", "asc");
-            fillSponsorRepeater(1, pageSizeSponsorship, "productPrice", "asc");
-
+            if(miniMarketSearchTextBox.Text.Trim() == "")
+            {
+                errLbl.Text = "Dimohon untuk memilih minimarket tujuan";
+                errDiv.Visible = true;
+                updError.Update();
+                return;
+            }
+            else
+            {
+                testingLocation();
+                fillResult(1, pageSize, "productPrice", "asc");
+                fillSponsorRepeater(1, pageSizeSponsorship, "productPrice", "asc");
+            }
         }
 
         #region result repeater normal product
