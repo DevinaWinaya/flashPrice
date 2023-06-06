@@ -31,7 +31,7 @@ namespace flashPrice.pages
                 }
                 else
                 {
-                    loginAsAdminBtn.Text = "<i class='fa fa-sign-in mr-2'></i> Login";
+                    loginAsAdminBtn.Text = "<i class='fa fa-sign-in mr-2'></i> Login as Admin";
                 }
 
                 fillResult(1, pageSize, "productID", "ASC");
@@ -130,7 +130,7 @@ namespace flashPrice.pages
         #region calculate distance from coordinates
         public class distance
         {
-            public int node { get; set; }            
+            public int node { get; set; }
             public string MiniMarketID { get; set; }
             public string MiniMarketName { get; set; }
             public int distanceFromMe { get; set; }
@@ -166,7 +166,7 @@ namespace flashPrice.pages
         public List<category> minCatD = new List<category>();
         public List<category> minCatE = new List<category>();
 
-    
+
 
         /*
             kategori A <= 1000 m
@@ -374,7 +374,7 @@ namespace flashPrice.pages
                 int minimumD = catD.Count == 0 ? 0 : catD[0].node;
                 int minimumE = catE.Count == 0 ? 0 : catE[0].node;
 
-              
+
 
                 // step 3
                 // buat edge antara lokasi kita dengan lokasi kepala masing-masing category
@@ -540,7 +540,7 @@ namespace flashPrice.pages
                 int source = 0;
                 BOMiniMarket miniMarketTarget = BLLMiniMarket.getIDMiniMarketByMiniMarketName(miniMarketSearchTextBox.Text.Trim());
 
-                if(miniMarketTarget == null)
+                if (miniMarketTarget == null)
                 {
                     errLbl.Text = "Minimarket tidak ditemukan";
                     errDiv.Visible = true;
@@ -614,7 +614,7 @@ namespace flashPrice.pages
 
         protected void navSearchBtn_Click(object sender, EventArgs e)
         {
-            if(miniMarketSearchTextBox.Text.Trim() == "")
+            if (miniMarketSearchTextBox.Text.Trim() == "")
             {
                 errLbl.Text = "Dimohon untuk memilih minimarket tujuan";
                 errDiv.Visible = true;
@@ -774,6 +774,39 @@ namespace flashPrice.pages
                 Image imgMiniMarketType = ((Image)e.Row.FindControl("imgMiniMarketType"));
                 String miniMarketType = (String)DataBinder.Eval(e.Row.DataItem, "miniMarketType");
                 imgMiniMarketType.ImageUrl = miniMarketType == "Indomaret" ? @"~\assets\images\indomaret_logo.png" : @"~\assets\images\alfamart_logo.png";
+
+                //  kategori A <= 1000 m
+                //  kategori B 1000 m < jarak dari kita <= 5000 m
+                //  kategori C 5000 m < jarak dari kita <= 10000 m
+                //  Kategori D 10000 m < jarak dari kita <= 25000 m
+                //  kategori E 25000 m < jarak dari kita
+
+                int distanceFromMe = (int)DataBinder.Eval(e.Row.DataItem, "distanceFromMe");
+
+                if (distanceFromMe <= 1000)
+                {
+                    e.Row.BackColor = System.Drawing.Color.Honeydew;
+                }
+                
+                if (distanceFromMe > 1000 && distanceFromMe <= 5000)
+                {
+                    e.Row.BackColor = System.Drawing.Color.LightYellow;
+                }
+
+                if (distanceFromMe > 5000 && distanceFromMe <= 10000)
+                {
+                    e.Row.BackColor = System.Drawing.Color.LightCyan;
+                }
+
+                if (distanceFromMe > 10000 && distanceFromMe <= 25000)
+                {
+                    e.Row.BackColor = System.Drawing.Color.LightGray;
+                }
+
+                if (distanceFromMe > 25000)
+                {
+                    e.Row.BackColor = System.Drawing.Color.LightPink;
+                }
             }
         }
 
@@ -812,7 +845,7 @@ namespace flashPrice.pages
             {
                 String searchText = navSearchTextBox.Text;
                 String categoryProduct = categoryProductDD.SelectedValue;
-                bool isViewSponsorship = true; 
+                bool isViewSponsorship = true;
 
                 int startRow = (pageSizeSponsorship * (pageIndex - 1));
 
@@ -903,7 +936,7 @@ namespace flashPrice.pages
 
         protected void loginAsAdminBtn_Click(object sender, EventArgs e)
         {
-            if(Session["username"] == null)
+            if (Session["username"] == null)
             {
                 Response.Redirect("~/login.aspx");
             }

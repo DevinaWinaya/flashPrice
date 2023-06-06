@@ -99,9 +99,9 @@
             </act:AutoCompleteExtender>
         </div>
 
-        <div class="col-md-4 px-1 text-left">
+        <div class="col-md-8 px-1 text-left">
             <asp:LinkButton runat="server" ID="navSearchBtn" OnClick="navSearchBtn_Click" CssClass="btn btn-light"><i class="fa fa-search mr-2"> </i>Search</asp:LinkButton>
-            <asp:LinkButton runat="server" ID="loginAsAdminBtn" OnClick="loginAsAdminBtn_Click"  CssClass="btn btn-light"><i class="fa fa-id-card mr-2 col-md-12"> </i> Login as Admin</asp:LinkButton>
+            <asp:LinkButton runat="server" ID="loginAsAdminBtn" OnClick="loginAsAdminBtn_Click"  CssClass="btn btn-light"><i class="fa fa-id-card mr-2"> </i> Login as Admin</asp:LinkButton>
 
         </div>
     </nav>
