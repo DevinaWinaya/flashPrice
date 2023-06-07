@@ -159,12 +159,16 @@ namespace flashPrice.pages
         public List<category> catC = new List<category>();
         public List<category> catD = new List<category>();
         public List<category> catE = new List<category>();
+        public List<category> catALL = new List<category>();
+
 
         public List<category> minCatA = new List<category>();
         public List<category> minCatB = new List<category>();
         public List<category> minCatC = new List<category>();
         public List<category> minCatD = new List<category>();
         public List<category> minCatE = new List<category>();
+        public List<category> minCatAll = new List<category>();
+
 
 
 
@@ -222,6 +226,7 @@ namespace flashPrice.pages
                         xCategory.distanceFromMe = x.distanceFromMe;
 
                         catA.Add(xCategory);
+                        catALL.Add(xCategory);
                     }
                     else if (x.distanceFromMe > 1000 && x.distanceFromMe <= 5000)
                     {
@@ -234,6 +239,7 @@ namespace flashPrice.pages
                         xCategory.distanceFromMe = x.distanceFromMe;
 
                         catB.Add(xCategory);
+                        catALL.Add(xCategory);
                     }
                     else if (x.distanceFromMe > 5000 && x.distanceFromMe <= 10000)
                     {
@@ -246,6 +252,7 @@ namespace flashPrice.pages
                         xCategory.distanceFromMe = x.distanceFromMe;
 
                         catC.Add(xCategory);
+                        catALL.Add(xCategory);
                     }
                     else if (x.distanceFromMe > 10000 && x.distanceFromMe <= 25000)
                     {
@@ -258,6 +265,7 @@ namespace flashPrice.pages
                         xCategory.distanceFromMe = x.distanceFromMe;
 
                         catD.Add(xCategory);
+                        catALL.Add(xCategory);
                     }
                     else if (x.distanceFromMe > 25000)
                     {
@@ -270,6 +278,7 @@ namespace flashPrice.pages
                         xCategory.distanceFromMe = x.distanceFromMe;
 
                         catE.Add(xCategory);
+                        catALL.Add(xCategory);
                     }
                 }
 
@@ -373,8 +382,10 @@ namespace flashPrice.pages
                 int minimumC = catC.Count == 0 ? 0 : catC[0].node;
                 int minimumD = catD.Count == 0 ? 0 : catD[0].node;
                 int minimumE = catE.Count == 0 ? 0 : catE[0].node;
+                int minCatAll = catALL.Count == 0 ? 0 : catALL[0].node;
 
 
+                string edges = "";
 
                 // step 3
                 // buat edge antara lokasi kita dengan lokasi kepala masing-masing category
@@ -383,6 +394,8 @@ namespace flashPrice.pages
                     // checking
                     double before = getDistanceFromLatLonInKm(lat1, lon1, catA[0].categoryLattitude, catA[0].categoryLongitude) * 1000;
                     int value = int.Parse(Math.Round(before).ToString());
+
+                    edges += @"addedge(0, " + catA[0].node + ", " + value + "); \n";
 
                     addedge(
                             0,
@@ -395,6 +408,8 @@ namespace flashPrice.pages
                 {
                     double before = getDistanceFromLatLonInKm(lat1, lon1, catB[0].categoryLattitude, catB[0].categoryLongitude) * 1000;
                     int value = int.Parse(Math.Round(before).ToString());
+
+                    edges += @"addedge(0, " + catB[0].node + ", " + value + "); \n";
 
                     addedge
                         (
@@ -409,6 +424,9 @@ namespace flashPrice.pages
                     double before = getDistanceFromLatLonInKm(lat1, lon1, catC[0].categoryLattitude, catC[0].categoryLongitude) * 1000;
                     int value = int.Parse(Math.Round(before).ToString());
 
+                    edges += @"addedge(0, " + catC[0].node + ", " + value + "); \n";
+
+
                     addedge(
                             0,
                             catC[0].node,
@@ -420,6 +438,9 @@ namespace flashPrice.pages
                 {
                     double before = getDistanceFromLatLonInKm(lat1, lon1, catD[0].categoryLattitude, catD[0].categoryLongitude) * 1000;
                     int value = int.Parse(Math.Round(before).ToString());
+
+                    edges += @"addedge(0, " + catD[0].node + ", " + value + "); \n";
+
 
                     addedge(
                             0,
@@ -433,6 +454,9 @@ namespace flashPrice.pages
                 {
                     double before = getDistanceFromLatLonInKm(lat1, lon1, catE[0].categoryLattitude, catE[0].categoryLongitude) * 1000;
                     int value = int.Parse(Math.Round(before).ToString());
+
+                    edges += @"addedge(0, " + catE[0].node + ", " + value + "); \n";
+
 
                     addedge(
                             0,
@@ -453,6 +477,8 @@ namespace flashPrice.pages
                             double before = getDistanceFromLatLonInKm(catA[0].categoryLattitude, catA[0].categoryLongitude, catA[j].categoryLattitude, catA[j].categoryLongitude) * 1000;
                             int value = int.Parse(Math.Round(before).ToString());
 
+                            edges += @"addedge(" + minimumA + "," + catA[j].node + ", " + value + "); \n";
+
                             addedge(
                                     minimumA,
                                     catA[j].node,
@@ -470,6 +496,9 @@ namespace flashPrice.pages
                         {
                             double before = getDistanceFromLatLonInKm(catB[0].categoryLattitude, catB[0].categoryLongitude, catB[j].categoryLattitude, catB[j].categoryLongitude) * 1000;
                             int value = int.Parse(Math.Round(before).ToString());
+
+                            edges += @"addedge(" + minimumB + "," + catB[j].node + ", " + value + "); \n";
+
 
                             addedge(
                                     minimumB,
@@ -489,6 +518,8 @@ namespace flashPrice.pages
                             double before = getDistanceFromLatLonInKm(catC[0].categoryLattitude, catC[0].categoryLongitude, catC[j].categoryLattitude, catC[j].categoryLongitude) * 1000;
                             int value = int.Parse(Math.Round(before).ToString());
 
+                            edges += @"addedge(" + minimumC + "," + catC[j].node + ", " + value + "); \n";
+
                             addedge(
                                     minimumC,
                                     catC[j].node,
@@ -506,6 +537,8 @@ namespace flashPrice.pages
                         {
                             double before = getDistanceFromLatLonInKm(catD[0].categoryLattitude, catD[0].categoryLongitude, catD[j].categoryLattitude, catD[j].categoryLongitude) * 1000;
                             int value = int.Parse(Math.Round(before).ToString());
+
+                            edges += @"addedge(" + minimumD + "," + catD[j].node + ", " + value + "); \n";
 
                             addedge(
                                     minimumD,
@@ -525,6 +558,8 @@ namespace flashPrice.pages
                             double before = getDistanceFromLatLonInKm(catE[0].categoryLattitude, catE[0].categoryLongitude, catE[j].categoryLattitude, catE[j].categoryLongitude) * 1000;
                             int value = int.Parse(Math.Round(before).ToString());
 
+                            edges += @"addedge(" + minimumE + "," + catE[j].node + ", " + value + "); \n";
+
                             addedge(
                                     minimumE,
                                     catE[j].node,
@@ -534,7 +569,9 @@ namespace flashPrice.pages
                     }
                 }
 
-                testLit.Text = string.Empty; // reset hasilnya
+                // tempat test output
+                //testLit.Text = edges; 
+                //updError.Update();
 
                 // Function call
                 int source = 0;

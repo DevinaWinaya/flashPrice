@@ -150,15 +150,6 @@ namespace flashPrice.pages
         protected global::System.Web.UI.WebControls.LinkButton loginAsAdminBtn;
 
         /// <summary>
-        /// testLit control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal testLit;
-
-        /// <summary>
         /// farFromXLit control.
         /// </summary>
         /// <remarks>
@@ -193,6 +184,15 @@ namespace flashPrice.pages
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label errLbl;
+
+        /// <summary>
+        /// testLit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal testLit;
 
         /// <summary>
         /// updGridView control.

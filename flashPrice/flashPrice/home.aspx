@@ -41,14 +41,18 @@
             color: windowtext;
             padding: 1px !important;
         }
+
+        .img-carousel {
+            height: 300px;
+            width: 100%;
+            object-fit: cover;
+        }
     </style>
 
 
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="mainContentPh" runat="server">
-
-
     <asp:UpdatePanel ID="updAction" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="true">
         <ContentTemplate>
             <asp:HiddenField ID="hiddenMyLatitude" runat="server" />
@@ -59,8 +63,6 @@
             <asp:Button ID="productDetailBtn" runat="server" Text="Product Detail" OnClick="productDetailBtn_Click" Style="display: none;" />
         </ContentTemplate>
     </asp:UpdatePanel>
-
-
 
     <asp:HiddenField ID="hdSortEx" runat="server" />
     <asp:HiddenField ID="hdSortDir" runat="server" />
@@ -101,14 +103,14 @@
 
         <div class="col-md-8 px-1 text-left">
             <asp:LinkButton runat="server" ID="navSearchBtn" OnClick="navSearchBtn_Click" CssClass="btn btn-light"><i class="fa fa-search mr-2"> </i>Search</asp:LinkButton>
-            <asp:LinkButton runat="server" ID="loginAsAdminBtn" OnClick="loginAsAdminBtn_Click"  CssClass="btn btn-light"><i class="fa fa-id-card mr-2"> </i> Login as Admin</asp:LinkButton>
+            <asp:LinkButton runat="server" ID="loginAsAdminBtn" OnClick="loginAsAdminBtn_Click" CssClass="btn btn-light"><i class="fa fa-id-card mr-2"> </i> Login as Admin</asp:LinkButton>
 
         </div>
     </nav>
 
 
-    <asp:Literal runat="server" ID="testLit"></asp:Literal>
     <asp:Literal runat="server" ID="farFromXLit"></asp:Literal>
+
 
 
 
@@ -117,6 +119,8 @@
             <div class="col-md-12 col-xs-12 col-sm-12 mt-4 alert alert-danger" id="errDiv" runat="server" visible="false">
                 <asp:Label runat="server" ID="errLbl" CssClass="col-md-12"></asp:Label>
             </div>
+
+            <asp:Literal runat="server" ID="testLit"></asp:Literal>
 
         </ContentTemplate>
 
@@ -162,6 +166,33 @@
         </asp:UpdatePanel>
     </div>
 
+    <div id="carouselExampleIndicators" class="carousel slide mt-3 mb-4" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="d-block img-carousel" src="assets/images/Sari-Roti.png" alt="First slide">
+            </div>
+            <div class="carousel-item">
+                <img class="d-block img-carousel" src="assets/images/Sari-Roti.png" alt="Second slide">
+            </div>
+            <div class="carousel-item">
+                <img class="d-block img-carousel" src="assets/images/Sari-Roti.png" alt="Third slide">
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
     <asp:UpdatePanel ID="updPanelSponsorShip" runat="server" UpdateMode="Conditional">
         <Triggers>
             <asp:PostBackTrigger ControlID="navSearchBtn" />
@@ -171,7 +202,7 @@
             <div id="Div4" runat="server">
                 <div id="Div5" class="row mx-auto col-md-8 col-xs-12 col-sm-12 border border-secondary-50" runat="server">
                     <div class="col-md-12 col-sm-12 col-xs-12 mt-4">
-                        <h4 style="color:orangered"><i class="fa fa-star mr-2"> </i>Sponsorship Product</h4>
+                        <h4 style="color: orangered"><i class="fa fa-star mr-2"></i>Sponsorship Product</h4>
                     </div>
 
                     <asp:Repeater ID="sponsorRepeater" runat="server" OnItemDataBound="sponsorRepeater_ItemDataBound" OnItemCommand="sponsorRepeater_ItemCommand">
@@ -421,7 +452,7 @@
 
         function getLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
+                navigator.geolocation.watchPosition(showPosition);
             } else {
                 console.log("Geolocation is not supported by this browser.");
             }
