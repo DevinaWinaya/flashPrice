@@ -8,6 +8,7 @@
     </asp:ContentPlaceHolder>
 
     <link href="assets/css/main.css" rel="stylesheet" />
+    <link href="assets/css/custom.css" rel="stylesheet" />
     <script src="assets/js/extention/choices.js"></script>
     <script src="assets/js/extention/custom-materialize.js"></script>
     <script src="assets/js/extention/flatpickr.js"></script>
@@ -50,22 +51,22 @@
                 </Scripts>
             </asp:ScriptManager>
 
-            <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #fbd746;">
+            <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #f7f89f;">
                 <a href="home.aspx">
                     <img src="assets/images/flashPriceLogo.png" style="width: 200px;" /></a>
 
                 <div class="navbar-collapse h5 ml-4" id="navbarText">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item font-weight-bold">
-                            <a class="nav-link" href="home.aspx"><i class="fa fa-home mr-2"></i>Home <span class="sr-only">(current)</span></a>
+                        <li class="nav-item ">
+                            <a class="nav-link text-green-leaf" href="home.aspx"><i class="fa fa-home mr-2"></i>Home <span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item font-weight-bold">
-                            <a class="nav-link" href="about.aspx"><i class="fa fa-info-circle mr-2"></i>About</a>
+                        <li class="nav-item ">
+                            <a class="nav-link text-green-leaf" href="about.aspx"><i class="fa fa-info-circle mr-2"></i>About</a>
                         </li>
 
                     </ul>
-                    <h4 class="navbar-text font-weight-bold"><i class="fa fa-balance-scale mr-2"></i> Bandingkan dan temukan produk pilihanmu dengan FlashPrice
-                    </h4>
+                    <h5 class="navbar-text text-green-leaf"><i class="fa fa-balance-scale mr-2"></i> Bandingkan dan temukan produk pilihanmu dengan FlashPrice
+                    </h5>
                 </div>
 
             </nav>
@@ -75,7 +76,7 @@
         </form>
 
 
-    <footer class="pt-3 mt-auto" style="background-color: #fbd746">
+    <footer class="pt-3 mt-4" style="background-color: #f7f89f">
     <div class="row">
         <div class="col-md-6 col-sm-12 col-xs-12 my-auto">
             <p class="text-center">

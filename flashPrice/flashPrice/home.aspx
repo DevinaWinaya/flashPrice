@@ -3,50 +3,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <title>Flash Price</title>
     <style>
-        /*AutoComplete flyout */
-        .autoCompleteContainer ul li {
-            margin: 0 !important;
-            padding: 0 !important;
-            border: none !important;
-        }
-
-        .autocomplete_completionListElement {
-            margin: 0px !important;
-            padding: 0px !important;
-            background-color: white;
-            color: windowtext;
-            border: buttonshadow;
-            border-width: 1px;
-            border-style: solid;
-            cursor: 'default';
-            overflow: auto;
-            z-index: 9999 !important;
-            width: 408.6px !important;
-            text-align: left;
-            list-style-type: none;
-        }
-
-        /* AutoComplete highlighted item */
-
-        .autocomplete_highlightedListItem {
-            background-color: #007bff;
-            color: white;
-            padding: 0 !important;
-        }
-
-        /* AutoComplete item */
-
-        .autocomplete_listItem {
-            background-color: window;
-            color: windowtext;
-            padding: 1px !important;
-        }
-
-        .img-carousel {
-            height: 300px;
-            width: 100%;
-            object-fit: cover;
-        }
     </style>
 
 
@@ -68,7 +24,7 @@
     <asp:HiddenField ID="hdSortDir" runat="server" />
 
 
-    <nav class="navbar navbar-expand bg-body-tertiary sticky-top text-center" style="background-color: #fbd746;">
+    <nav class="navbar navbar-expand bg-body-tertiary sticky-top text-center mt-3" style="background-color: white;">
 
         <div class="col-md-3 pl-0 pr-1">
             <asp:TextBox runat="server" ID="navSearchTextBox" CssClass="form-control autocomplete" placeHolder="Temukan produkmu disini . . ."></asp:TextBox>
@@ -102,17 +58,41 @@
         </div>
 
         <div class="col-md-8 px-1 text-left">
-            <asp:LinkButton runat="server" ID="navSearchBtn" OnClick="navSearchBtn_Click" CssClass="btn btn-light"><i class="fa fa-search mr-2"> </i>Search</asp:LinkButton>
-            <asp:LinkButton runat="server" ID="loginAsAdminBtn" OnClick="loginAsAdminBtn_Click" CssClass="btn btn-light"><i class="fa fa-id-card mr-2"> </i> Login as Admin</asp:LinkButton>
+            <asp:LinkButton runat="server" ID="navSearchBtn" OnClick="navSearchBtn_Click" CssClass="btn btn-green" Style=""><i class="fa fa-search mr-2"> </i>Search</asp:LinkButton>
+            <asp:LinkButton runat="server" ID="loginAsAdminBtn" OnClick="loginAsAdminBtn_Click" CssClass="btn btn-green"><i class="fa fa-id-card mr-2"> </i> Login as Admin</asp:LinkButton>
 
         </div>
     </nav>
 
 
+        <div id="carouselExampleIndicators" class="carousel slide mt-3 mb-4" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="d-block img-carousel" src="assets/images/fresh-yellow.png" alt="First slide">
+            </div>
+            <div class="carousel-item">
+                <img class="d-block img-carousel" src="assets/images/rak-minimarket.jpg" alt="Second slide">
+            </div>
+            <div class="carousel-item">
+                <img class="d-block img-carousel" src="assets/images/sale.jpg" alt="Third slide">
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
     <asp:Literal runat="server" ID="farFromXLit"></asp:Literal>
-
-
-
 
     <asp:UpdatePanel ID="updError" runat="server" UpdateMode="Conditional">
         <ContentTemplate>
@@ -138,20 +118,21 @@
                             AllowPaging="False" PageSize="100" OnPageIndexChanging="gvMain_PageIndexChanging"
                             OnRowDataBound="gvMain_RowDataBound" CssClass="table table-hover table-bordered">
                             <Columns>
-                                <asp:TemplateField HeaderText="#" HeaderStyle-BackColor="#fbd746" HeaderStyle-ForeColor="Black">
+                                <asp:TemplateField HeaderText="#" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f">
                                     <ItemTemplate>
                                         <asp:Label runat="server" Text='<%# (Container.DataItemIndex)+1 %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="MiniMarket" ItemStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#fbd746" HeaderStyle-ForeColor="Black">
+
+                                <asp:TemplateField HeaderText="MiniMarket" ItemStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f">
                                     <ItemTemplate>
                                         <asp:Image ID="imgMiniMarketType" Style="width: 100px; height: auto;" runat="server" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
-                                <asp:BoundField DataField="miniMarketName" HeaderText="Nama" HeaderStyle-BackColor="#fbd746" HeaderStyle-ForeColor="Black" />
-                                <asp:BoundField DataField="miniMarketAddress" HeaderText="Alamat" HeaderStyle-BackColor="#fbd746" HeaderStyle-ForeColor="Black" />
-                                <asp:BoundField DataField="distanceFromMe" HeaderText="Jarak (meter)" HeaderStyle-BackColor="#fbd746" HeaderStyle-ForeColor="Black" />
+                                <asp:BoundField DataField="miniMarketName" HeaderText="Nama" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" />
+                                <asp:BoundField DataField="miniMarketAddress" HeaderText="Alamat" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" />
+                                <asp:BoundField DataField="distanceFromMe" HeaderText="Jarak (meter)" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" />
                             </Columns>
                             <PagerSettings Mode="NumericFirstLast" PageButtonCount="4" FirstPageText="First"
                                 LastPageText="Last" />
@@ -166,33 +147,6 @@
         </asp:UpdatePanel>
     </div>
 
-    <div id="carouselExampleIndicators" class="carousel slide mt-3 mb-4" data-ride="carousel">
-        <ol class="carousel-indicators">
-            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img class="d-block img-carousel" src="assets/images/Sari-Roti.png" alt="First slide">
-            </div>
-            <div class="carousel-item">
-                <img class="d-block img-carousel" src="assets/images/Sari-Roti.png" alt="Second slide">
-            </div>
-            <div class="carousel-item">
-                <img class="d-block img-carousel" src="assets/images/Sari-Roti.png" alt="Third slide">
-            </div>
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
-
     <asp:UpdatePanel ID="updPanelSponsorShip" runat="server" UpdateMode="Conditional">
         <Triggers>
             <asp:PostBackTrigger ControlID="navSearchBtn" />
@@ -202,7 +156,7 @@
             <div id="Div4" runat="server">
                 <div id="Div5" class="row mx-auto col-md-8 col-xs-12 col-sm-12 border border-secondary-50" runat="server">
                     <div class="col-md-12 col-sm-12 col-xs-12 mt-4">
-                        <h4 style="color: orangered"><i class="fa fa-star mr-2"></i>Sponsorship Product</h4>
+                        <h4 class="text-green-leaf"><i class="fa fa-star mr-2"></i>Sponsorship Product</h4>
                     </div>
 
                     <asp:Repeater ID="sponsorRepeater" runat="server" OnItemDataBound="sponsorRepeater_ItemDataBound" OnItemCommand="sponsorRepeater_ItemCommand">
@@ -220,7 +174,7 @@
                                             </span>
 
                                             <span class="pt-2 pb-2">
-                                                <asp:Label ID="productNameLbl" CssClass="h6" Style="color: #ee8000;" runat="server" Text='<%#Eval("productName") %>'></asp:Label>
+                                                <asp:Label ID="productNameLbl" CssClass="h6 text-green-leaf" runat="server" Text='<%#Eval("productName") %>'></asp:Label>
                                             </span>
                                         </div>
                                         <div class="row pt-2 pb-2">
@@ -243,7 +197,7 @@
                                         </div>
                                     </div>
                                     <div class="row pt-2 card-footer bg-white">
-                                        <asp:LinkButton runat="server" CssClass="btn btn-warning btn-sm align-self-start btn-block text-white" BackColor="#ee8000" OnClientClick='<%# Eval("productID", "productDetail(\"{0}\"); return false;") %>'><i class="fa fa-search mr-2"></i>Detail</asp:LinkButton>
+                                        <asp:LinkButton runat="server" CssClass="btn btn-green btn-sm align-self-start btn-block text-white" OnClientClick='<%# Eval("productID", "productDetail(\"{0}\"); return false;") %>'><i class="fa fa-search mr-2"></i>Detail</asp:LinkButton>
 
                                     </div>
                                 </div>
@@ -282,7 +236,7 @@
                                             </span>
 
                                             <span class="pt-2 pb-2">
-                                                <asp:Label ID="productNameLbl" CssClass="h6" Style="color: #ee8000;" runat="server" Text='<%#Eval("productName") %>'></asp:Label>
+                                                <asp:Label ID="productNameLbl" CssClass="h6 text-green-leaf" runat="server" Text='<%#Eval("productName") %>'></asp:Label>
                                             </span>
                                         </div>
                                         <div class="row pt-2 pb-2">
@@ -305,7 +259,7 @@
                                         </div>
                                     </div>
                                     <div class="row pt-2 card-footer bg-white">
-                                        <asp:LinkButton runat="server" CssClass="btn btn-warning btn-sm align-self-start btn-block text-white" BackColor="#ee8000" OnClientClick='<%# Eval("productID", "productDetail(\"{0}\"); return false;") %>'><i class="fa fa-search mr-2"></i>Detail</asp:LinkButton>
+                                        <asp:LinkButton runat="server" CssClass="btn btn-yellow btn-sm align-self-start btn-block text-green-leaf" OnClientClick='<%# Eval("productID", "productDetail(\"{0}\"); return false;") %>'><i class="fa fa-search mr-2"></i>Detail</asp:LinkButton>
                                     </div>
                                 </div>
                             </div>
@@ -317,11 +271,11 @@
 
                     <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 px-0 mt-2" runat="server" id="paginationDiv">
                         <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-end flat pagination-primary text-warning">
+                            <ul class="pagination justify-content-end flat pagination-primary text-green-leaf">
                                 <asp:Repeater ID="rptPager" runat="server">
                                     <ItemTemplate>
                                         <li class="page-item">
-                                            <asp:LinkButton ID="lnkPage" CssClass="page-link" runat="server" Text='<%#Eval("Text") %>' CommandArgument='<%# Eval("Value") %>'
+                                            <asp:LinkButton ID="lnkPage" CssClass="page-link text-green-leaf" runat="server" Text='<%#Eval("Text") %>' CommandArgument='<%# Eval("Value") %>'
                                                 Enabled='<%# Eval("Enabled") %>' OnClick="Page_Changed"></asp:LinkButton>
                                         </li>
                                     </ItemTemplate>
@@ -345,42 +299,42 @@
                     <Triggers>
                     </Triggers>
                     <ContentTemplate>
-                        <div class="modal-header text-white" style="background-color: #fbd746">
+                        <div class="modal-header text-white" style="background-color: #f7f89f">
                             <asp:Label ID="headerNameLbl" runat="server"></asp:Label>
                             <a type="button" class="close text-white" data-dismiss="modal">
-                                <i class="fa fa-times text-white" aria-hidden="true"></i>
+                                <i class="fa fa-times text-green-leaf" aria-hidden="true"></i>
                             </a>
                         </div>
                         <div class="modal-body pt-2" id="modal-body">
-                            <div class="card col-md-3">
-                                <div class="card-header bg-white">
-                                    <asp:Image runat="server" ID="productImageUrlPopup" AlternateText="Product Image" Style="width: 180px; height: auto;" />
-                                </div>
-                                <div class="card-body">
-                                    <div class="row mt-2">
-                                        <asp:Image runat="server" ID="miniMarketImageUrlPopup" Style="width: 100px; height: auto;" />
-                                    </div>
-                                    <div class="row  mt-2">
-                                        <asp:Label runat="server" CssClass="h6 mr-2" Style="color: #ee8000" ID="productNamePopupLbl"></asp:Label>
-                                    </div>
-                                    <div class="row mt-2">
-                                        <span>
-                                            <i class="fa fa-money-bill mr-2"></i>
-                                            <span class="">Rp.</span>
-                                            <asp:Label runat="server" CssClass="ml-1" ID="productPricePopupLbl"></asp:Label>
-                                        </span>
-                                    </div>
 
+                            <div class="card mb-3 col-md-12">
+                                <div class="row no-gutters">
+                                    <div class="col-md-4 text-center my-auto">
+                                        <asp:Image runat="server" ID="productImageUrlPopup" onerror="imgError(this)" AlternateText="Product Image" Style="width: 200px; height: auto;" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+
+                                            <asp:Image runat="server" ID="miniMarketImageUrlPopup" CssClass="mr-2" Style="width: 55px; height: auto;" />
+                                            <asp:Label runat="server" CssClass="h5 card-title mr-2 text-green-leaf" ID="productNamePopupLbl"></asp:Label>
+
+
+                                            <span>
+                                                <span class="text-green-leaf font-weight-bold">Rp.</span>
+                                                <asp:Label runat="server" CssClass="ml-1 text-green-leaf font-weight-bold" ID="productPricePopupLbl"></asp:Label>
+                                            </span>
+
+                                            <p class="card-text mt-3">We would like to express our sincerest apologies for any inconvenience this may cause. Regrettably, we find ourselves in a situation where we are unable to present the product description at this time. We understand the frustration and disappointment this may bring, and we assure you that we are actively working to rectify this issue. We appreciate your understanding and patience as we strive to provide the best possible service. Once again, please accept our apologies for any inconvenience caused, and we thank you for your continued support.
+                                            </p>
+
+                                               <p class="card-text"><small class="text-muted">Regards, Admin Flash Price
+                                                                    </small></p>
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="mt-2 col-md-12">
-                                <div class="row">
-                                    <span class="font-weight-bold">Deskripsi Produk</span>
-                                </div>
-                                <div class="row">
-                                    <asp:Label runat="server" Style="text-align: justify;" ID="productDescPopupLbl"></asp:Label>
-                                </div>
-                            </div>
+
                         </div>
                         <div class="modal-footer">
                         </div>

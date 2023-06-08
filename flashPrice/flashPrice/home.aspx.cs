@@ -790,7 +790,7 @@ namespace flashPrice.pages
 
             productNamePopupLbl.Text = xBO.productName;
             productPricePopupLbl.Text = xBO.productPrice.ToString("#0");
-            productDescPopupLbl.Text = xBO.productDescription == "" || xBO.productDescription == null ? "Tidak ada deskripsi produk" : xBO.productDescription;
+            //productDescPopupLbl.Text = xBO.productDescription == "" || xBO.productDescription == null ? "Tidak ada deskripsi produk" : xBO.productDescription;
             productImageUrlPopup.ImageUrl = xBO.productImageUrl;
             miniMarketImageUrlPopup.ImageUrl = xBO.miniMarketType == "Indomaret" ? @"~\assets\images\indomaret_logo.png" : @"~\assets\images\alfamart_logo.png";
 

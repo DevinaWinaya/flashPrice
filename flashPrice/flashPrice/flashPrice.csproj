@@ -1832,14 +1832,25 @@
     <Content Include="assets\admin\vendor\jquery\jquery.min.js" />
     <Content Include="assets\admin\vendor\jquery\jquery.slim.js" />
     <Content Include="assets\admin\vendor\jquery\jquery.slim.min.js" />
+    <Content Include="assets\css\custom.css" />
     <Content Include="assets\css\main.css" />
     <Content Include="assets\images\admin-profile.png" />
     <Content Include="assets\images\alfamart_logo.png" />
+    <Content Include="assets\images\cheeps.jpg" />
+    <Content Include="assets\images\cimory.jpg" />
+    <Content Include="assets\images\daily.jpg" />
     <Content Include="assets\images\flashPriceLogo.png" />
+    <Content Include="assets\images\food.jpg" />
+    <Content Include="assets\images\fresh-yellow.png" />
+    <Content Include="assets\images\fruit-product.jpg" />
     <Content Include="assets\images\girl_sit.png" />
     <Content Include="assets\images\girl_sit_too.png" />
     <Content Include="assets\images\Image_not_available.png" />
     <Content Include="assets\images\indomaret_logo.png" />
+    <Content Include="assets\images\minyak.jpg" />
+    <Content Include="assets\images\product-header.jpg" />
+    <Content Include="assets\images\rak-minimarket.jpg" />
+    <Content Include="assets\images\sale.jpg" />
     <Content Include="assets\images\Sari-Roti.png" />
     <Content Include="assets\images\Searchs_004.png" />
     <Content Include="assets\images\team_work.png" />
@@ -1849,7 +1860,6 @@
     <Content Include="assets\js\extention\flatpickr.js" />
     <Content Include="assets\js\main.js" />
     <Content Include="adminDashboard.aspx" />
-    <Content Include="default.aspx" />
     <Content Include="home.aspx" />
     <Content Include="login.aspx" />
     <Content Include="masterData\masterMinimarket.aspx" />
@@ -1879,13 +1889,6 @@
     </Compile>
     <Compile Include="adminDashboard.aspx.designer.cs">
       <DependentUpon>adminDashboard.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="default.aspx.cs">
-      <DependentUpon>default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="default.aspx.designer.cs">
-      <DependentUpon>default.aspx</DependentUpon>
     </Compile>
     <Compile Include="login.aspx.cs">
       <DependentUpon>login.aspx</DependentUpon>

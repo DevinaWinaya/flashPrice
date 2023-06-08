@@ -9,6 +9,7 @@
     </asp:ContentPlaceHolder>
 
     <link href="assets/css/main.css" rel="stylesheet" />
+    <link href="assets/css/custom.css" rel="stylesheet" />
     <script src="assets/js/extention/choices.js"></script>
     <script src="assets/js/extention/custom-materialize.js"></script>
     <script src="assets/js/extention/flatpickr.js"></script>
@@ -50,7 +51,7 @@
 </body>
 </html>
 
-  <footer class="pt-3 fixed-bottom" style="background-color: #fbd746">
+  <footer class="pt-3 fixed-bottom" style="background-color: #f7f89f">
     <div class="row">
         <div class="col-md-6 col-sm-12 col-xs-12 my-auto">
             <p class="text-center">
