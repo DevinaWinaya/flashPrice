@@ -10,6 +10,7 @@
         <asp:UpdatePanel ID="updAction" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="true">
             <ContentTemplate>
                 <asp:HiddenField ID="hiddenDataID" runat="server" />
+                <asp:HiddenField ID="isUpdateOrInsertHid" runat="server" />
                 <asp:Button ID="dataDetail_hiddenBtn" runat="server" Text="Data Detail" OnClick="dataDetail_hiddenBtn_Click" Style="display: none;" />
                 <asp:Button ID="save_hiddenBtn" runat="server" Text="save" OnClick="save_hiddenBtn_Click" Style="display: none;" />
                 <asp:Button ID="delete_hiddenBtn" runat="server" Text="delete" OnClick="delete_hiddenBtn_Click" Style="display: none;" />

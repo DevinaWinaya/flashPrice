@@ -33,6 +33,15 @@ namespace flashPrice.masterData
         protected global::System.Web.UI.WebControls.HiddenField hiddenDataID;
 
         /// <summary>
+        /// isUpdateOrInsertHid control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField isUpdateOrInsertHid;
+
+        /// <summary>
         /// dataDetail_hiddenBtn control.
         /// </summary>
         /// <remarks>

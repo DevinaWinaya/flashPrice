@@ -12,6 +12,7 @@ namespace flashPrice.masterData
 {
     public partial class masterMinimarket : System.Web.UI.Page
     {
+        BOProcessResult retVal = new BOProcessResult();
         protected void Page_Load(object sender, EventArgs e)
         {
             FillGrid(hdSortEx.Value, hdSortDir.Value);
@@ -98,6 +99,9 @@ namespace flashPrice.masterData
 
             deleteBtn.Visible = true;
 
+
+            isUpdateOrInsertHid.Value = "updateData";
+
             ScriptManager.RegisterClientScriptBlock(updatePanelProductDetail, typeof(UpdatePanel), "OpenModalDialog", "setTimeout(function(){$('#modalDialogProductDetail').modal('show');},500)", true);
             updatePanelProductDetail.Update();
             updAction.Update();
@@ -112,6 +116,8 @@ namespace flashPrice.masterData
             minimarketLongitudeTb.Text = string.Empty;
 
             deleteBtn.Visible = false;
+
+            isUpdateOrInsertHid.Value = "newData";
 
             ScriptManager.RegisterClientScriptBlock(updatePanelProductDetail, typeof(UpdatePanel), "OpenModalDialog", "setTimeout(function(){$('#modalDialogProductDetail').modal('show');},500)", true);
             updatePanelProductDetail.Update();
@@ -130,7 +136,15 @@ namespace flashPrice.masterData
             xMinimarket.miniMarketLongitude = decimal.Parse(minimarketLongitudeTb.Text);
             xMinimarket.miniMarketType = minimarketTypeDD.SelectedValue;
 
-            BOProcessResult retVal = BLLMiniMarket.manageMinimarket(xMinimarket, "update");
+            if (isUpdateOrInsertHid.Value == "updateData")
+            {
+                retVal = BLLMiniMarket.manageMinimarket(xMinimarket, "update");
+            }
+
+            else if (isUpdateOrInsertHid.Value == "newData")
+            {
+                retVal = BLLMiniMarket.manageMinimarket(xMinimarket, "insert");
+            }
 
             if (retVal.isSuccess)
             {
