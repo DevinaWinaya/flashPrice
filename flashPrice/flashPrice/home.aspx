@@ -46,7 +46,7 @@
 
         </div>
         <div class="col-md-3 px-1">
-            <asp:TextBox runat="server" ID="miniMarketSearchTextBox" CssClass="form-control autocomplete" placeHolder="Tentukan Destinasi Minimarketmu Disini"></asp:TextBox>
+            <asp:TextBox runat="server" ID="miniMarketSearchTextBox" CssClass="form-control autocomplete" placeHolder="Cari Destinasi Minimarketmu Disini"></asp:TextBox>
 
             <act:AutoCompleteExtender runat="server" ID="dataMiniMarket" TargetControlID="miniMarketSearchTextBox"
                 ServiceMethod="getListMiniMarketCached" ServicePath="~/webService/wsvMiniMarket.asmx"

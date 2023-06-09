@@ -134,6 +134,7 @@ namespace flashPrice.pages
             public string MiniMarketID { get; set; }
             public string MiniMarketName { get; set; }
             public int distanceFromMe { get; set; }
+            public bool isItMeWithMiniMarket { get; set; } // true distance between me and minimarket if its not 
             public List<distance> Level1 { get; set; }
             public List<distance> Level2 { get; set; }
 
@@ -581,36 +582,37 @@ namespace flashPrice.pages
                 {
                     errLbl.Text = "Minimarket tidak ditemukan";
                     errDiv.Visible = true;
+
+                    dvGrid.Style.Add("display", "none");
                     updError.Update();
                     return;
                 }
 
                 else
                 {
+                    int target = int.Parse(miniMarketTarget.miniMarketID.Remove(0, 2));
+
+                    best_first_search(source, target, findMaxV.Max());
+
+                    foreach (distance x in resultMinimarket)
+                    {
+                        if (x.node == 0) continue;
+
+                        x.MiniMarketID = "MM" + x.node.ToString("000").PadLeft(3);
+                        BOMiniMarket xBO = BLLMiniMarket.getContentByID(x.MiniMarketID);
+                        xBO.distanceFromMe = x.distanceFromMe;
+                        resultMinimarketBFS.Add(xBO);
+                    }
+
+                    gvMain.DataSource = resultMinimarketBFS;
+                    dvGrid.Style.Remove("display");
+                    gvMain.DataBind();
+
                     errDiv.Visible = false;
                     updError.Update();
+                    updGridView.Update();
                 }
 
-                int target = int.Parse(miniMarketTarget.miniMarketID.Remove(0, 2));
-
-                best_first_search(source, target, findMaxV.Max());
-
-                foreach (distance x in resultMinimarket)
-                {
-                    if (x.node == 0) continue;
-
-                    x.MiniMarketID = "MM" + x.node.ToString("000").PadLeft(3);
-                    BOMiniMarket xBO = BLLMiniMarket.getContentByID(x.MiniMarketID);
-                    xBO.distanceFromMe = x.distanceFromMe;
-                    resultMinimarketBFS.Add(xBO);
-                }
-
-                gvMain.DataSource = resultMinimarketBFS;
-                //.OrderBy(c => c.distanceFromMe)
-                dvGrid.Style.Remove("display");
-                gvMain.DataBind();
-
-                updGridView.Update();
                 /* eof bfs area */
             }
             catch (Exception x)
@@ -655,7 +657,12 @@ namespace flashPrice.pages
             {
                 errLbl.Text = "Dimohon untuk memilih minimarket tujuan";
                 errDiv.Visible = true;
+
+                dvGrid.Style.Add("display", "none");
+
                 updError.Update();
+                updGridView.Update();
+
                 return;
             }
             else
