@@ -1860,6 +1860,7 @@
     <Content Include="assets\js\extention\flatpickr.js" />
     <Content Include="assets\js\main.js" />
     <Content Include="adminDashboard.aspx" />
+    <Content Include="product.aspx" />
     <Content Include="home.aspx" />
     <Content Include="login.aspx" />
     <Content Include="masterData\masterMinimarket.aspx" />
@@ -1889,6 +1890,13 @@
     </Compile>
     <Compile Include="adminDashboard.aspx.designer.cs">
       <DependentUpon>adminDashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="product.aspx.cs">
+      <DependentUpon>product.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="product.aspx.designer.cs">
+      <DependentUpon>product.aspx</DependentUpon>
     </Compile>
     <Compile Include="login.aspx.cs">
       <DependentUpon>login.aspx</DependentUpon>

@@ -59,10 +59,13 @@
 
             <div class="navbar-collapse h5 ml-4" id="navbarText">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item ">
+                    <li class="nav-item ml-2">
                         <a class="nav-link text-green-leaf" href="home.aspx"><i class="fa fa-home mr-2"></i>Home <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item ">
+                    <li class="nav-item ml-4">
+                        <a class="nav-link text-green-leaf" href="product.aspx"><i class="fa fa-box mr-2"></i>Product <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item ml-4">
                         <a class="nav-link text-green-leaf" href="about.aspx"><i class="fa fa-info-circle mr-2"></i>About</a>
                     </li>
 
