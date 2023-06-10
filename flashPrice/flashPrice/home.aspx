@@ -110,6 +110,7 @@
     <div class="col-md-12 col-xs-12 col-sm-12 mt-3">
         <asp:UpdatePanel ID="updGridView" runat="server" UpdateMode="Conditional">
             <ContentTemplate>
+                <asp:Literal ID="myLocationLit" runat="server"></asp:Literal>
                 <asp:Literal ID="litErrorLogin" runat="server"></asp:Literal>
                 <div class="datagrid" id="dvGrid" runat="server" style="display: none;">
                     <!-- main grid -->
@@ -153,12 +154,12 @@
         </Triggers>
         <ContentTemplate>
 
-            <div id="Div4" runat="server">
+            <div id="sponsorDiv" runat="server">
                 <div id="Div5" class="row mx-auto col-md-8 col-xs-12 col-sm-12 border border-secondary-50" runat="server">
                     <div class="col-md-12 col-sm-12 col-xs-12 mt-4">
                         <h4 class="text-green-leaf"><i class="fa fa-star mr-2"></i>Sponsorship Product</h4>
                     </div>
-
+                               <asp:Literal ID="litErrorSponsor" runat="server"></asp:Literal>
                     <asp:Repeater ID="sponsorRepeater" runat="server" OnItemDataBound="sponsorRepeater_ItemDataBound" OnItemCommand="sponsorRepeater_ItemCommand">
                         <ItemTemplate>
 
@@ -405,6 +406,13 @@
         }
 
         function getLocation() {
+
+            const options = {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0,
+            };
+
             if (navigator.geolocation) {
                 navigator.geolocation.watchPosition(showPosition);
             } else {
@@ -415,6 +423,7 @@
         function showPosition(position) {
             var lat1 = position.coords.latitude;
             var lon1 = position.coords.longitude;
+ 
 
             //-6.2087634,
             //106.845599

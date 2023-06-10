@@ -14,6 +14,10 @@ namespace flashPrice
         protected void Page_Load(object sender, EventArgs e)
         {
 
+            if (Session["username"] != null)
+            {
+                Response.Redirect("~/home.aspx");
+            }
         }
 
         protected void loginBtn_Click(object sender, EventArgs e)

@@ -204,6 +204,15 @@ namespace flashPrice.pages
         protected global::System.Web.UI.UpdatePanel updGridView;
 
         /// <summary>
+        /// myLocationLit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal myLocationLit;
+
+        /// <summary>
         /// litErrorLogin control.
         /// </summary>
         /// <remarks>
@@ -240,13 +249,13 @@ namespace flashPrice.pages
         protected global::System.Web.UI.UpdatePanel updPanelSponsorShip;
 
         /// <summary>
-        /// Div4 control.
+        /// sponsorDiv control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div4;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl sponsorDiv;
 
         /// <summary>
         /// Div5 control.
@@ -256,6 +265,15 @@ namespace flashPrice.pages
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div5;
+
+        /// <summary>
+        /// litErrorSponsor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litErrorSponsor;
 
         /// <summary>
         /// sponsorRepeater control.

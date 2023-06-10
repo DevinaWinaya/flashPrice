@@ -195,6 +195,8 @@ namespace flashPrice.pages
                 double lat1 = Convert.ToDouble(hiddenMyLatitude.Value.Replace(".", ","));
                 double lon1 = Convert.ToDouble(hiddenMyLongitude.Value.Replace(".", ","));
 
+                myLocationLit.Text = lat1.ToString().Replace(",",".") + "," + lon1.ToString().Replace(",", ".");
+
                 // ambil data minimarketnya
                 BOMiniMarketList miniMarketList = BLLMiniMarket.getListAllMiniMarket();
 
@@ -739,6 +741,7 @@ namespace flashPrice.pages
                     updatePanelSearchResultRepeater.Update();
                 }
 
+                updGridView.Update();
                 PopulatePager(jmlBaris, pageIndex);
             }
             catch (Exception ex)
@@ -910,9 +913,10 @@ namespace flashPrice.pages
 
                 if (listProduct == null)
                 {
-                    litError.Text = "<div class='alert alert-warning text-center mt-4' style='margin-bottom:500px;'> Produk tidak ditemukan </div>";
-                    sponsorRepeater.DataSource = null;
-                    sponsorRepeater.DataBind();
+                    //litErrorSponsor.Text = "<div class='alert alert-warning text-center mt-4' style='margin-bottom:500px;'> Produk tidak ditemukan </div>";
+                    //sponsorRepeater.DataSource = null;
+                    //sponsorRepeater.DataBind();
+                    sponsorDiv.Visible = false;
                 }
                 else
                 {
@@ -927,13 +931,15 @@ namespace flashPrice.pages
                     sponsorRepeater.DataSource = listProduct;
                     sponsorRepeater.DataBind();
 
-                    litError.Text = "";
+                    litErrorSponsor.Text = "";
+                    sponsorDiv.Visible = true;
 
                     hdSortEx.Value = sortBy;
                     hdSortDir.Value = sortDir;
                     updatePanelSearchResultRepeater.Update();
                 }
 
+                updPanelSponsorShip.Update();
                 //PopulatePagerSponsporRepeater(jmlBaris, pageIndex);
             }
             catch (Exception ex)
