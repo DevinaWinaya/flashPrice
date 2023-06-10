@@ -68,7 +68,10 @@
                     <li class="nav-item ml-4">
                         <a class="nav-link text-green-leaf" href="about.aspx"><i class="fa fa-info-circle mr-2"></i>About</a>
                     </li>
-
+                    
+                    <li class="nav-item ml-4">
+                        <a class="nav-link text-green-leaf" href="https://forms.gle/ugBu442JL6ZWwsPj7" target="_blank"><i class="fa fa-list-alt mr-2"></i>Survey</a>
+                    </li>
                 </ul>
                 <h5 class="navbar-text text-green-leaf"><i class="fa fa-balance-scale mr-2"></i>Bandingkan dan temukan produk pilihanmu dengan FlashPrice
                 </h5>
