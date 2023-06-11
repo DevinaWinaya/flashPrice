@@ -128,7 +128,7 @@
                                 <asp:BoundField DataField="fromLocation" HeaderText="From" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" />
 
                                 <asp:BoundField DataField="miniMarketName" HeaderText="Nama" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" />
-                                
+
                                 <asp:TemplateField HeaderText="MiniMarket" ItemStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f">
                                     <ItemTemplate>
                                         <asp:Image ID="imgMiniMarketType" Style="width: 100px; height: auto;" runat="server" />
@@ -412,18 +412,21 @@
         }
 
         function getLocation() {
-
-            const options = {
-                enableHighAccuracy: true,
-                timeout: 5000,
-                maximumAge: 0,
-            };
-
             if (navigator.geolocation) {
-                navigator.geolocation.watchPosition(showPosition);
+                var options = {
+                    enableHighAccuracy: true,
+                    timeout: 5000, // Maximum time allowed to retrieve the location (in milliseconds)
+                    maximumAge: 0 // Maximum age of a cached location (in milliseconds)
+                };
+                navigator.geolocation.getCurrentPosition(showPosition, handleError, options);
             } else {
                 console.log("Geolocation is not supported by this browser.");
             }
+        }
+
+        function handleError(error) {
+            console.log("Error occurred: " + error.message);
+            // Handle the error gracefully
         }
 
         function showPosition(position) {
