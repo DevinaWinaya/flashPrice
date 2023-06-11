@@ -24,18 +24,8 @@ namespace flashPrice.pages
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
-            {
-                if (Session["username"] != null)
-                {
-                    loginAsAdminBtn.Text = "<i class='fa fa-sign-out mr-2'></i> Logout";
-                }
-                else
-                {
-                    loginAsAdminBtn.Text = "<i class='fa fa-sign-in mr-2'></i> Login as Admin";
-                }
-
+            {             
                 fillResult(1, pageSize, "productID", "ASC");
-                fillSponsorRepeater(1, pageSizeSponsorship, "productID", "ASC");
             }
         }
 
@@ -98,7 +88,6 @@ namespace flashPrice.pages
         protected void navSearchBtn_Click(object sender, EventArgs e)
         {
                 fillResult(1, pageSize, "productPrice", "asc");
-                fillSponsorRepeater(1, pageSizeSponsorship, "productPrice", "asc");
         }
 
         #region result repeater normal product
@@ -308,69 +297,6 @@ namespace flashPrice.pages
         protected void sponsorRepeater_Page_Changed(object sender, EventArgs e)
         {
             int pageIndex = int.Parse((sender as LinkButton).CommandArgument);
-            fillSponsorRepeater(pageIndex, pageSizeSponsorship, hdSortEx.Value, hdSortDir.Value);
-        }
-
-        protected void fillSponsorRepeater(int pageIndex, int pageSizeSponsorship, string sortBy, string sortDir)
-        {
-            try
-            {
-                String searchText = navSearchTextBox.Text;
-                String categoryProduct = categoryProductDD.SelectedValue;
-                bool isViewSponsorship = true;
-
-                int startRow = (pageSizeSponsorship * (pageIndex - 1));
-
-                int maxRow = pageSizeSponsorship;
-
-                if (startRow == 1) maxRow = 4;
-
-                if (pageIndex > 1) startRow = startRow + 1;
-
-                if (sortBy == "")
-                {
-                    sortBy = "productID";
-                    sortDir = " ";
-                }
-
-                BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, isViewSponsorship, sortBy, sortDir, startRow, maxRow);
-                int jmlBaris = int.Parse(BLLProduct.getCountListProduct(searchText, categoryProduct, isViewSponsorship, sortBy, sortDir, startRow, maxRow).ToString());
-
-                if (listProduct == null)
-                {
-                    //litErrorSponsor.Text = "<div class='alert alert-warning text-center mt-4' style='margin-bottom:500px;'> Produk tidak ditemukan </div>";
-                    //sponsorRepeater.DataSource = null;
-                    //sponsorRepeater.DataBind();
-                    sponsorDiv.Visible = false;
-                }
-                else
-                {
-                    double dblPageCount = (double)((decimal)jmlBaris / pageSizeSponsorship);
-                    int pageCount = (int)Math.Ceiling(dblPageCount);
-
-                    if (pageIndex != 1 && pageIndex != pageCount)
-                    {
-                        listProduct.RemoveAt(listProduct.Count - 1); // buat buang element terakhir yang gk kepake
-                    }
-
-                    sponsorRepeater.DataSource = listProduct;
-                    sponsorRepeater.DataBind();
-
-                    litErrorSponsor.Text = "";
-                    sponsorDiv.Visible = true;
-
-                    hdSortEx.Value = sortBy;
-                    hdSortDir.Value = sortDir;
-                    updatePanelSearchResultRepeater.Update();
-                }
-
-                updPanelSponsorShip.Update();
-                //PopulatePagerSponsporRepeater(jmlBaris, pageIndex);
-            }
-            catch (Exception ex)
-            {
-                string error = ex.Message;
-            }
         }
 
         #region pagination
@@ -409,17 +335,5 @@ namespace flashPrice.pages
 
         #endregion
 
-        protected void loginAsAdminBtn_Click(object sender, EventArgs e)
-        {
-            if (Session["username"] == null)
-            {
-                Response.Redirect("~/login.aspx");
-            }
-            else
-            {
-                Session["username"] = null;
-                Response.Redirect("~/login.aspx");
-            }
-        }
     }
 }

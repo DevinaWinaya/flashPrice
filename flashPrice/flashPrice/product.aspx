@@ -26,6 +26,7 @@
 
     <nav class="navbar navbar-expand bg-body-tertiary sticky-top text-center mt-3" style="background-color: white;">
 
+
         <div class="col-md-3 pl-0 pr-1">
             <asp:TextBox runat="server" ID="navSearchTextBox" CssClass="form-control autocomplete" placeHolder="Temukan produkmu disini . . ."></asp:TextBox>
             <act:AutoCompleteExtender runat="server" ID="dataProduct" TargetControlID="navSearchTextBox"
@@ -47,38 +48,8 @@
         </div>
         <div class="col-md-8 px-1 text-left">
             <asp:LinkButton runat="server" ID="navSearchBtn" OnClick="navSearchBtn_Click" CssClass="btn btn-green" Style=""><i class="fa fa-search mr-2"> </i>Search</asp:LinkButton>
-            <asp:LinkButton runat="server" ID="loginAsAdminBtn" OnClick="loginAsAdminBtn_Click" CssClass="btn btn-green"><i class="fa fa-id-card mr-2"> </i> Login as Admin</asp:LinkButton>
-
         </div>
     </nav>
-
-
-        <div id="carouselExampleIndicators" class="carousel slide mt-3 mb-4" data-ride="carousel">
-        <ol class="carousel-indicators">
-            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img class="d-block img-carousel" src="assets/images/fresh-yellow.png" alt="First slide">
-            </div>
-            <div class="carousel-item">
-                <img class="d-block img-carousel" src="assets/images/rak-minimarket.jpg" alt="Second slide">
-            </div>
-            <div class="carousel-item">
-                <img class="d-block img-carousel" src="assets/images/sale.jpg" alt="Third slide">
-            </div>
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
 
     <asp:Literal runat="server" ID="farFromXLit"></asp:Literal>
 
@@ -93,7 +64,6 @@
         </ContentTemplate>
 
     </asp:UpdatePanel>
-
 
     <div class="col-md-12 col-xs-12 col-sm-12 mt-3">
         <asp:UpdatePanel ID="updGridView" runat="server" UpdateMode="Conditional">
@@ -136,83 +106,22 @@
         </asp:UpdatePanel>
     </div>
 
-    <asp:UpdatePanel ID="updPanelSponsorShip" runat="server" UpdateMode="Conditional">
-        <Triggers>
-            <asp:PostBackTrigger ControlID="navSearchBtn" />
-        </Triggers>
-        <ContentTemplate>
 
-            <div id="sponsorDiv" runat="server">
-                <div id="Div5" class="row mx-auto col-md-8 col-xs-12 col-sm-12 border border-secondary-50" runat="server">
-                    <div class="col-md-12 col-sm-12 col-xs-12 mt-4">
-                        <h4 class="text-green-leaf"><i class="fa fa-star mr-2"></i>Sponsorship Product</h4>
-                    </div>
-                               <asp:Literal ID="litErrorSponsor" runat="server"></asp:Literal>
-                    <asp:Repeater ID="sponsorRepeater" runat="server" OnItemDataBound="sponsorRepeater_ItemDataBound" OnItemCommand="sponsorRepeater_ItemCommand">
-                        <ItemTemplate>
-
-                            <div class="col-md-3 mb-3 d-flex align-items-stretch">
-                                <div class="card mt-3 mb-3 col-md-12">
-                                    <div class="card-header bg-white">
-                                        <asp:Literal ID="litProductImg" runat="server"></asp:Literal>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <span class="text-left col-md-12">
-                                                <img src="<%#Eval("productImageUrl")%>" onerror="imgError(this)" style="border-radius: 10px; height: auto; width: 280px;" class="img-fluid" />
-                                            </span>
-
-                                            <span class="pt-2 pb-2">
-                                                <asp:Label ID="productNameLbl" CssClass="h6 text-green-leaf" runat="server" Text='<%#Eval("productName") %>'></asp:Label>
-                                            </span>
-                                        </div>
-                                        <div class="row pt-2 pb-2">
-                                            <span>
-                                                <i class="fa fa-money-bill-1 mr-2"></i>
-                                                Rp.<asp:Label ID="productPriceLbl" CssClass="ml-1" runat="server" Text='<%#Eval("productPrice")%>'></asp:Label>
-                                            </span>
-                                        </div>
-                                        <div class="row pt-2 pb-2">
-                                            <span>
-                                                <i class="fa fa-store mr-2"></i>
-                                                <asp:Label ID="miniMarketName" runat="server" Text='<%#Eval("miniMarketName") %>'></asp:Label>
-                                            </span>
-                                        </div>
-                                        <div class="row">
-                                            <span>
-                                                <i class="fa fa-map-location mr-2"></i>
-                                                <asp:Label ID="miniMarketAddress" Text='<%#Eval("miniMarketAddress")%>' runat="server"></asp:Label>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="row pt-2 card-footer bg-white">
-                                        <asp:LinkButton runat="server" CssClass="btn btn-green btn-sm align-self-start btn-block text-white" OnClientClick='<%# Eval("productID", "productDetail(\"{0}\"); return false;") %>'><i class="fa fa-search mr-2"></i>Detail</asp:LinkButton>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </ItemTemplate>
-                        <FooterTemplate>
-                        </FooterTemplate>
-                    </asp:Repeater>
-
-                </div>
-
-            </div>
-
-            <asp:Literal ID="Literal2" runat="server"></asp:Literal>
-        </ContentTemplate>
-    </asp:UpdatePanel>
 
     <asp:UpdatePanel ID="updatePanelSearchResultRepeater" runat="server" UpdateMode="Conditional">
         <Triggers>
             <asp:PostBackTrigger ControlID="navSearchBtn" />
         </Triggers>
         <ContentTemplate>
-            <div id="resultDiv" class="pt-4" runat="server" style="height: auto;">
+            <div id="resultDiv" class="pt-2" runat="server" style="height: auto;">
+                <p style="color:#c1c27d" class="h4 pl-0 mx-auto col-md-8 col-xs-12 col-sm-12">Daftar List Produk yang tersedia</p>
+
                 <div id="queryResultDiv" class="row mx-auto col-md-8 col-xs-12 col-sm-12 border border-secondary-50" runat="server">
+
+
                     <asp:Repeater ID="resultRepeater" runat="server" OnItemDataBound="resultRepeater_ItemDataBound" OnItemCommand="resultRepeater_ItemCommand">
                         <ItemTemplate>
+
                             <div class="col-md-3 mb-3 d-flex align-items-stretch">
                                 <div class="card mt-3 mb-3 col-md-12">
                                     <div class="card-header bg-white">
@@ -280,6 +189,7 @@
         </ContentTemplate>
     </asp:UpdatePanel>
 
+
     <div id="modalDialogProductDetail" class="modal fade modal-dialog-add" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="overflow-y: auto;">
         <div class="modal-dialog modal-lg" style="max-width: 1080px">
             <div class="modal-content">
@@ -313,11 +223,14 @@
                                                 <asp:Label runat="server" CssClass="ml-1 text-green-leaf font-weight-bold" ID="productPricePopupLbl"></asp:Label>
                                             </span>
 
-                                            <p class="card-text mt-3">We would like to express our sincerest apologies for any inconvenience this may cause. Regrettably, we find ourselves in a situation where we are unable to present the product description at this time. We understand the frustration and disappointment this may bring, and we assure you that we are actively working to rectify this issue. We appreciate your understanding and patience as we strive to provide the best possible service. Once again, please accept our apologies for any inconvenience caused, and we thank you for your continued support.
+                                            <p class="card-text mt-3">
+                                                We would like to express our sincerest apologies for any inconvenience this may cause. Regrettably, we find ourselves in a situation where we are unable to present the product description at this time. We understand the frustration and disappointment this may bring, and we assure you that we are actively working to rectify this issue. We appreciate your understanding and patience as we strive to provide the best possible service. Once again, please accept our apologies for any inconvenience caused, and we thank you for your continued support.
                                             </p>
 
-                                               <p class="card-text"><small class="text-muted">Regards, Admin Flash Price
-                                                                    </small></p>
+                                            <p class="card-text">
+                                                <small class="text-muted">Regards, Admin Flash Price
+                                                </small>
+                                            </p>
 
                                         </div>
                                     </div>
@@ -411,7 +324,7 @@
         function showPosition(position) {
             var lat1 = position.coords.latitude;
             var lon1 = position.coords.longitude;
- 
+
 
             //-6.2087634,
             //106.845599
