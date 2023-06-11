@@ -20,14 +20,14 @@ namespace flashPriceFx.Product
 
         #region get list product 
 
-        public static BOProductList getListProduct(String searchText, String categoryProduct, bool isViewSponsorship, String sortBy, String sortDir, int startRow, int maxRow)
+        public static BOProductList getListProduct(String searchText, String categoryProduct, String minimarketTarget, bool isViewSponsorship, String sortBy, String sortDir, int startRow, int maxRow)
         {
-            return DBProduct.getListProductQuery(searchText, categoryProduct, isViewSponsorship, sortBy, sortDir, startRow, maxRow);
+            return DBProduct.getListProductQuery(searchText, categoryProduct, minimarketTarget, isViewSponsorship, sortBy, sortDir, startRow, maxRow);
         }
 
-        public static decimal getCountListProduct(String searchText, String categoryProduct, bool isViewSponsorship, String sortBy, String sortDir, int startRow, int maxRow)
+        public static decimal getCountListProduct(String searchText, String categoryProduct, String minimarketTarget, bool isViewSponsorship, String sortBy, String sortDir, int startRow, int maxRow)
         {
-            return DBProduct.getCountLisProductQuery(searchText, categoryProduct, isViewSponsorship, sortBy, sortDir,  startRow, maxRow);
+            return DBProduct.getCountLisProductQuery(searchText, categoryProduct, minimarketTarget, isViewSponsorship, sortBy, sortDir,  startRow, maxRow);
         }
 
         #endregion

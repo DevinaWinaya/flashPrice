@@ -697,6 +697,19 @@ namespace flashPrice.pages
             {
                 String searchText = navSearchTextBox.Text;
                 String categoryProduct = categoryProductDD.SelectedValue;
+                String miniMarketTarget = miniMarketSearchTextBox.Text.Trim();
+
+                BOMiniMarket miniMarketTargetBO = BLLMiniMarket.getIDMiniMarketByMiniMarketName(miniMarketSearchTextBox.Text.Trim());
+
+                if (miniMarketTargetBO == null)
+                {
+                    errLbl.Text = "Minimarket tidak ditemukan";
+                    errDiv.Visible = true;
+
+                    dvGrid.Style.Add("display", "none");
+                    updError.Update();
+                    return;
+                }
 
                 int startRow = (pageSize * (pageIndex - 1));
 
@@ -712,8 +725,8 @@ namespace flashPrice.pages
                     sortDir = " ";
                 }
 
-                BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, false, sortBy, sortDir, startRow, maxRow);
-                int jmlBaris = int.Parse(BLLProduct.getCountListProduct(searchText, categoryProduct, false, sortBy, sortDir, startRow, maxRow).ToString());
+                BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, miniMarketTargetBO.miniMarketID, false, sortBy, sortDir, startRow, maxRow);
+                int jmlBaris = int.Parse(BLLProduct.getCountListProduct(searchText, categoryProduct, miniMarketTargetBO.miniMarketID, false, sortBy, sortDir, startRow, maxRow).ToString());
 
                 if (listProduct == null)
                 {
@@ -892,6 +905,20 @@ namespace flashPrice.pages
             {
                 String searchText = navSearchTextBox.Text;
                 String categoryProduct = categoryProductDD.SelectedValue;
+                String miniMarketTarget = miniMarketSearchTextBox.Text.Trim();
+
+                BOMiniMarket miniMarketTargetBO = BLLMiniMarket.getIDMiniMarketByMiniMarketName(miniMarketSearchTextBox.Text.Trim());
+
+                if (miniMarketTargetBO == null)
+                {
+                    errLbl.Text = "Minimarket tidak ditemukan";
+                    errDiv.Visible = true;
+
+                    dvGrid.Style.Add("display", "none");
+                    updError.Update();
+                    return;
+                }
+
                 bool isViewSponsorship = true;
 
                 int startRow = (pageSizeSponsorship * (pageIndex - 1));
@@ -908,8 +935,8 @@ namespace flashPrice.pages
                     sortDir = " ";
                 }
 
-                BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, isViewSponsorship, sortBy, sortDir, startRow, maxRow);
-                int jmlBaris = int.Parse(BLLProduct.getCountListProduct(searchText, categoryProduct, isViewSponsorship, sortBy, sortDir, startRow, maxRow).ToString());
+                BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, miniMarketTargetBO.miniMarketID, isViewSponsorship, sortBy, sortDir, startRow, maxRow);
+                int jmlBaris = int.Parse(BLLProduct.getCountListProduct(searchText, categoryProduct, miniMarketTargetBO.miniMarketID, isViewSponsorship, sortBy, sortDir, startRow, maxRow).ToString());
 
                 if (listProduct == null)
                 {

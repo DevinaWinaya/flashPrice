@@ -18,7 +18,7 @@
         </asp:UpdatePanel>
 
         <div class="row col-md-12 col-sm-12 col-xs-12">
-            <div class="col-md-4 col-sm-12 col-xs-12">
+            <div class="col-md-3 col-sm-12 col-xs-12">
                 <asp:TextBox runat="server" ID="searchTextBox" CssClass="form-control autocomplete" placeHolder="Cari Produk Berdasarkan Nama Produk"></asp:TextBox>
                 <act:AutoCompleteExtender runat="server" ID="dataProduct" TargetControlID="searchTextBox"
                     ServiceMethod="getListProductCached" ServicePath="~/webService/wsvProduct.asmx"
@@ -29,7 +29,7 @@
                 </act:AutoCompleteExtender>
             </div>
 
-            <div class="col-md-4 col-sm-12 col-xs-12">
+            <div class="col-md-3 col-sm-12 col-xs-12">
                 <asp:DropDownList runat="server" ID="categoryProductDD" CssClass="form-control">
                     <asp:ListItem Text="Pilih Kategori" Value=""></asp:ListItem>
                     <asp:ListItem Text="Makanan" Value="C001"></asp:ListItem>
@@ -37,10 +37,22 @@
                 </asp:DropDownList>
             </div>
 
-            <div class="col-md-4 col-sm-12 col-xs-12">
-                <asp:LinkButton runat="server" ID="searchBtn" OnClick="searchBtn_Click" CssClass="btn btn-primary"><i class="fa fa-search mr-2"> </i>Search</asp:LinkButton>
+            <div class="col-md-3 col-sm-12 col-xs-12" style="display:none;">
+                <asp:TextBox runat="server" ID="miniMarketSearchTextBox" CssClass="form-control autocomplete" placeHolder="Cari Destinasi Minimarketmu Disini"></asp:TextBox>
+
+                <act:AutoCompleteExtender runat="server" ID="dataMiniMarket" TargetControlID="miniMarketSearchTextBox"
+                    ServiceMethod="getListMiniMarketCached" ServicePath="~/webService/wsvMiniMarket.asmx"
+                    MinimumPrefixLength="2" CompletionInterval="100" EnableCaching="true" CompletionSetCount="10"
+                    CompletionListCssClass="autocomplete_completionListElement" CompletionListItemCssClass="autocomplete_listItem"
+                    CompletionListHighlightedItemCssClass="autocomplete_highlightedListItem" DelimiterCharacters=";,:"
+                    ShowOnlyCurrentWordInCompletionListItem="true">
+                </act:AutoCompleteExtender>
+
             </div>
 
+            <div class="col-md-3 col-sm-12 col-xs-12">
+                <asp:LinkButton runat="server" ID="searchBtn" OnClick="searchBtn_Click" CssClass="btn btn-primary"><i class="fa fa-search mr-2"> </i>Search</asp:LinkButton>
+            </div>
         </div>
 
 

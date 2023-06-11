@@ -72,7 +72,7 @@ namespace flashPriceFx.Product
         #region getList
 
         #region getListProductQuery
-        public static BOProductList getListProductQuery(String searchText, String categoryProduct, bool isViewSponsorship, String sortBy, String sortDir, int startRow, int maxRow)
+        public static BOProductList getListProductQuery(String searchText, String categoryProduct, String minimarketTarget, bool isViewSponsorship, String sortBy, String sortDir, int startRow, int maxRow)
         {
             if (sortBy == "")
             {
@@ -107,6 +107,11 @@ namespace flashPriceFx.Product
             {
                 xSQL += " and p.productCategoryID like " + "'%" + categoryProduct + "%'";
             }
+           
+            if (minimarketTarget != "")
+            {
+                xSQL += " and p.miniMarketID like " + "'%" + minimarketTarget + "%'";
+            }
 
             xSQL += ") as field where rowNum between '" + startRow.ToString() + "' and '" + (startRow + maxRow).ToString() + "'";
 
@@ -133,7 +138,7 @@ namespace flashPriceFx.Product
             return getProductListQR(xSQL);
         }
 
-        public static decimal getCountLisProductQuery(String searchText, String categoryProduct, bool isViewSponsorship, String sortBy, String sortDir, int startRow, int maxRow)
+        public static decimal getCountLisProductQuery(String searchText, String categoryProduct, String minimarketTarget, bool isViewSponsorship, String sortBy, String sortDir, int startRow, int maxRow)
         {
             string xSQL = @"
             select count(*)
@@ -145,6 +150,11 @@ namespace flashPriceFx.Product
             if (!isIncludeZeroPrice)
             {
                 xSQL += " and p.productPrice != 0";
+            }
+
+            if (minimarketTarget != "")
+            {
+                xSQL += " and p.miniMarketID like " + "'%" + minimarketTarget + "%'";
             }
 
             if (isViewSponsorship)

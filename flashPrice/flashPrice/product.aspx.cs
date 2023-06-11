@@ -127,8 +127,8 @@ namespace flashPrice.pages
                     sortDir = " ";
                 }
 
-                BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, false, sortBy, sortDir, startRow, maxRow);
-                int jmlBaris = int.Parse(BLLProduct.getCountListProduct(searchText, categoryProduct, false, sortBy, sortDir, startRow, maxRow).ToString());
+                BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, "", false, sortBy, sortDir, startRow, maxRow);
+                int jmlBaris = int.Parse(BLLProduct.getCountListProduct(searchText, categoryProduct, "", false, sortBy, sortDir, startRow, maxRow).ToString());
 
                 if (listProduct == null)
                 {

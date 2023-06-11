@@ -59,8 +59,9 @@ namespace flashPrice.masterData
         {
             String searchText = searchTextBox.Text;
             String categoryProduct = categoryProductDD.SelectedValue;
+            String miniMarketTarget = miniMarketSearchTextBox.Text.Trim();
 
-            BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, false, sortBy, sortDir, 0, int.MaxValue);
+            BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, "", false, sortBy, sortDir, 0, int.MaxValue);
 
             gvMain.DataSource = listProduct;
             gvMain.DataBind();
