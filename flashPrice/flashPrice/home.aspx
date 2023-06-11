@@ -125,15 +125,17 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
+                                <asp:BoundField DataField="fromLocation" HeaderText="From" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" />
+
+                                <asp:BoundField DataField="miniMarketName" HeaderText="Nama" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" />
+                                
                                 <asp:TemplateField HeaderText="MiniMarket" ItemStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f">
                                     <ItemTemplate>
                                         <asp:Image ID="imgMiniMarketType" Style="width: 100px; height: auto;" runat="server" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
-                                <asp:BoundField DataField="miniMarketName" HeaderText="Nama" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" />
-                                <asp:BoundField DataField="fromLocation" HeaderText="From" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" />
-                                <asp:BoundField DataField="distanceFromMe" HeaderText="Jarak (meter)" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" />
+                                <asp:BoundField DataField="distanceFromMe" HeaderText="Jarak (meter)" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" HeaderStyle-Wrap="false" />
                                 <asp:BoundField DataField="miniMarketAddress" HeaderText="Alamat" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" />
                             </Columns>
                             <PagerSettings Mode="NumericFirstLast" PageButtonCount="4" FirstPageText="First"
