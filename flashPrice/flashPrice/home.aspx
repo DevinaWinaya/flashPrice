@@ -65,7 +65,7 @@
     </nav>
 
 
-        <div id="carouselExampleIndicators" class="carousel slide mt-3 mb-4" data-ride="carousel">
+    <div id="carouselExampleIndicators" class="carousel slide mt-3 mb-4" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -132,8 +132,9 @@
                                 </asp:TemplateField>
 
                                 <asp:BoundField DataField="miniMarketName" HeaderText="Nama" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" />
-                                <asp:BoundField DataField="miniMarketAddress" HeaderText="Alamat" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" />
+                                <asp:BoundField DataField="fromLocation" HeaderText="From" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" />
                                 <asp:BoundField DataField="distanceFromMe" HeaderText="Jarak (meter)" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" />
+                                <asp:BoundField DataField="miniMarketAddress" HeaderText="Alamat" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" />
                             </Columns>
                             <PagerSettings Mode="NumericFirstLast" PageButtonCount="4" FirstPageText="First"
                                 LastPageText="Last" />
@@ -159,7 +160,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12 mt-4">
                         <h4 class="text-green-leaf"><i class="fa fa-star mr-2"></i>Sponsorship Product</h4>
                     </div>
-                               <asp:Literal ID="litErrorSponsor" runat="server"></asp:Literal>
+                    <asp:Literal ID="litErrorSponsor" runat="server"></asp:Literal>
                     <asp:Repeater ID="sponsorRepeater" runat="server" OnItemDataBound="sponsorRepeater_ItemDataBound" OnItemCommand="sponsorRepeater_ItemCommand">
                         <ItemTemplate>
 
@@ -325,11 +326,14 @@
                                                 <asp:Label runat="server" CssClass="ml-1 text-green-leaf font-weight-bold" ID="productPricePopupLbl"></asp:Label>
                                             </span>
 
-                                            <p class="card-text mt-3">We would like to express our sincerest apologies for any inconvenience this may cause. Regrettably, we find ourselves in a situation where we are unable to present the product description at this time. We understand the frustration and disappointment this may bring, and we assure you that we are actively working to rectify this issue. We appreciate your understanding and patience as we strive to provide the best possible service. Once again, please accept our apologies for any inconvenience caused, and we thank you for your continued support.
+                                            <p class="card-text mt-3">
+                                                We would like to express our sincerest apologies for any inconvenience this may cause. Regrettably, we find ourselves in a situation where we are unable to present the product description at this time. We understand the frustration and disappointment this may bring, and we assure you that we are actively working to rectify this issue. We appreciate your understanding and patience as we strive to provide the best possible service. Once again, please accept our apologies for any inconvenience caused, and we thank you for your continued support.
                                             </p>
 
-                                               <p class="card-text"><small class="text-muted">Regards, Admin Flash Price
-                                                                    </small></p>
+                                            <p class="card-text">
+                                                <small class="text-muted">Regards, Admin Flash Price
+                                                </small>
+                                            </p>
 
                                         </div>
                                     </div>
@@ -423,7 +427,7 @@
         function showPosition(position) {
             var lat1 = position.coords.latitude;
             var lon1 = position.coords.longitude;
- 
+
 
             //-6.2087634,
             //106.845599

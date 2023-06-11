@@ -18,5 +18,8 @@ namespace flashPriceFx.MiniMarket
         public DateTime lastUpdate { set; get; }
 
         public int distanceFromMe { set; get; } // in meter
+        public string fromLocation { set; get; }
+        public string toLocation { set; get; }
+    
     }
 }

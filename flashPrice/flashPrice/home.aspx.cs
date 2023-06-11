@@ -134,13 +134,17 @@ namespace flashPrice.pages
             public string MiniMarketID { get; set; }
             public string MiniMarketName { get; set; }
             public int distanceFromMe { get; set; }
-            public bool isItMeWithMiniMarket { get; set; } // true distance between me and minimarket if its not 
+            public int nodeSource { get; set; } // tempat A
+            public string MiniMarketIDSource { get; set; }
+            public string MiniMarketIDTarget { get; set; }
+            public int nodeTarget { get; set; } // tempat B
             public List<distance> Level1 { get; set; }
             public List<distance> Level2 { get; set; }
 
         }
 
         // buat nampung hasil
+        public List<distance> whereComeFrom = new List<distance>();
         public List<distance> resultMinimarket = new List<distance>();
         public BOMiniMarketList resultMinimarketBFS = new BOMiniMarketList();
 
@@ -170,9 +174,6 @@ namespace flashPrice.pages
         public List<category> minCatE = new List<category>();
         public List<category> minCatAll = new List<category>();
 
-
-
-
         /*
             kategori A <= 1000 m
             kategori B 1000 m < jarak dari kita <= 5000 m
@@ -188,14 +189,19 @@ namespace flashPrice.pages
                 farFromXLit.Text = string.Empty;
                 testLit.Text = string.Empty;
 
-                double lat1 = -6.1756452;
-                double lon1 = 106.6202711;
+                // coordinate xxx
+                //double lat1 = -6.1756452;
+                //double lon1 = 106.6202711;
+
+                // coordinate devina
+                //double lat1 = -6.172962;
+                //double lon1 = 106.601212;
 
                 //simpen dulu letak coordinate kitanya
-                //double lat1 = Convert.ToDouble(hiddenMyLatitude.Value.Replace(".", ","));
-                //double lon1 = Convert.ToDouble(hiddenMyLongitude.Value.Replace(".", ","));
+                double lat1 = Convert.ToDouble(hiddenMyLatitude.Value.Replace(".", ","));
+                double lon1 = Convert.ToDouble(hiddenMyLongitude.Value.Replace(".", ","));
 
-                myLocationLit.Text = lat1.ToString().Replace(",",".") + "," + lon1.ToString().Replace(",", ".");
+                myLocationLit.Text = lat1.ToString().Replace(",", ".") + "," + lon1.ToString().Replace(",", ".");
 
                 // ambil data minimarketnya
                 BOMiniMarketList miniMarketList = BLLMiniMarket.getListAllMiniMarket();
@@ -400,6 +406,11 @@ namespace flashPrice.pages
 
                     edges += @"addedge(0, " + catA[0].node + ", " + value + "); \n";
 
+                    distance x = new distance();
+                    x.nodeSource = 0;
+                    x.distanceFromMe = value;
+                    whereComeFrom.Add(x);
+
                     addedge(
                             0,
                             catA[0].node,
@@ -413,6 +424,11 @@ namespace flashPrice.pages
                     int value = int.Parse(Math.Round(before).ToString());
 
                     edges += @"addedge(0, " + catB[0].node + ", " + value + "); \n";
+
+                    distance x = new distance();
+                    x.nodeSource = 0;
+                    x.distanceFromMe = value;
+                    whereComeFrom.Add(x);
 
                     addedge
                         (
@@ -429,6 +445,10 @@ namespace flashPrice.pages
 
                     edges += @"addedge(0, " + catC[0].node + ", " + value + "); \n";
 
+                    distance x = new distance();
+                    x.nodeSource = 0;
+                    x.distanceFromMe = value;
+                    whereComeFrom.Add(x);
 
                     addedge(
                             0,
@@ -444,6 +464,10 @@ namespace flashPrice.pages
 
                     edges += @"addedge(0, " + catD[0].node + ", " + value + "); \n";
 
+                    distance x = new distance();
+                    x.nodeSource = 0;
+                    x.distanceFromMe = value;
+                    whereComeFrom.Add(x);
 
                     addedge(
                             0,
@@ -460,6 +484,10 @@ namespace flashPrice.pages
 
                     edges += @"addedge(0, " + catE[0].node + ", " + value + "); \n";
 
+                    distance x = new distance();
+                    x.nodeSource = 0;
+                    x.distanceFromMe = value;
+                    whereComeFrom.Add(x);
 
                     addedge(
                             0,
@@ -467,6 +495,8 @@ namespace flashPrice.pages
                             value
                         );
                 }
+
+                string newEdges = "";
 
                 // step 4
                 // nyambungin kepala kategori ke anakannya
@@ -480,13 +510,22 @@ namespace flashPrice.pages
                             double before = getDistanceFromLatLonInKm(catA[0].categoryLattitude, catA[0].categoryLongitude, catA[j].categoryLattitude, catA[j].categoryLongitude) * 1000;
                             int value = int.Parse(Math.Round(before).ToString());
 
-                            edges += @"addedge(" + minimumA + "," + catA[j].node + ", " + value + "); \n";
+                            newEdges = @"addedge(" + minimumA + "," + catA[j].node + ", " + value + "); \n";
 
-                            addedge(
+                            if (!edges.Contains(newEdges))
+                            {
+                                distance x = new distance();
+                                x.nodeSource = catA[0].node;
+                                x.distanceFromMe = value;
+                                whereComeFrom.Add(x);
+
+                                edges += newEdges;
+                                addedge(
                                     minimumA,
                                     catA[j].node,
                                     value
                                 );
+                            }
                         }
                     }
                 }
@@ -500,14 +539,22 @@ namespace flashPrice.pages
                             double before = getDistanceFromLatLonInKm(catB[0].categoryLattitude, catB[0].categoryLongitude, catB[j].categoryLattitude, catB[j].categoryLongitude) * 1000;
                             int value = int.Parse(Math.Round(before).ToString());
 
-                            edges += @"addedge(" + minimumB + "," + catB[j].node + ", " + value + "); \n";
+                            newEdges = @"addedge(" + minimumB + "," + catB[j].node + ", " + value + "); \n";
 
+                            if (!edges.Contains(newEdges))
+                            {
+                                distance x = new distance();
+                                x.nodeSource = catB[0].node;
+                                x.distanceFromMe = value;
+                                whereComeFrom.Add(x);
 
-                            addedge(
+                                edges += newEdges;
+                                addedge(
                                     minimumB,
                                     catB[j].node,
                                     value
                                 );
+                            }
                         }
                     }
                 }
@@ -521,13 +568,23 @@ namespace flashPrice.pages
                             double before = getDistanceFromLatLonInKm(catC[0].categoryLattitude, catC[0].categoryLongitude, catC[j].categoryLattitude, catC[j].categoryLongitude) * 1000;
                             int value = int.Parse(Math.Round(before).ToString());
 
-                            edges += @"addedge(" + minimumC + "," + catC[j].node + ", " + value + "); \n";
+                            newEdges = @"addedge(" + minimumC + "," + catC[j].node + ", " + value + "); \n";
 
-                            addedge(
+                            if (!edges.Contains(newEdges))
+                            {
+                                distance x = new distance();
+                                x.nodeSource = catC[0].node;
+                                x.distanceFromMe = value;
+                                whereComeFrom.Add(x);
+
+                                edges += newEdges;
+
+                                addedge(
                                     minimumC,
                                     catC[j].node,
                                     value
                                 );
+                            }
                         }
                     }
                 }
@@ -541,13 +598,23 @@ namespace flashPrice.pages
                             double before = getDistanceFromLatLonInKm(catD[0].categoryLattitude, catD[0].categoryLongitude, catD[j].categoryLattitude, catD[j].categoryLongitude) * 1000;
                             int value = int.Parse(Math.Round(before).ToString());
 
-                            edges += @"addedge(" + minimumD + "," + catD[j].node + ", " + value + "); \n";
+                            newEdges = @"addedge(" + minimumD + "," + catD[j].node + ", " + value + "); \n";
 
-                            addedge(
+                            if (!edges.Contains(newEdges))
+                            {
+                                edges += newEdges;
+
+                                distance x = new distance();
+                                x.nodeSource = catD[0].node;
+                                x.distanceFromMe = value;
+                                whereComeFrom.Add(x);
+
+                                addedge(
                                     minimumD,
                                     catD[j].node,
                                     value
                                 );
+                            }
                         }
                     }
                 }
@@ -561,19 +628,29 @@ namespace flashPrice.pages
                             double before = getDistanceFromLatLonInKm(catE[0].categoryLattitude, catE[0].categoryLongitude, catE[j].categoryLattitude, catE[j].categoryLongitude) * 1000;
                             int value = int.Parse(Math.Round(before).ToString());
 
-                            edges += @"addedge(" + minimumE + "," + catE[j].node + ", " + value + "); \n";
 
-                            addedge(
+                            newEdges = @"addedge(" + minimumE + "," + catE[j].node + ", " + value + "); \n";
+
+                            if (!edges.Contains(newEdges))
+                            {
+                                distance x = new distance();
+                                x.nodeSource = catE[0].node;
+                                x.distanceFromMe = value;
+                                whereComeFrom.Add(x);
+
+                                edges += newEdges;
+                                addedge(
                                     minimumE,
                                     catE[j].node,
                                     value
                                 );
+                            }
                         }
                     }
                 }
 
                 // tempat test output
-                //testLit.Text = edges; 
+                //testLit.Text = edges;
                 //updError.Update();
 
                 // Function call
@@ -599,9 +676,29 @@ namespace flashPrice.pages
                     foreach (distance x in resultMinimarket)
                     {
                         if (x.node == 0) continue;
-
+                        
                         x.MiniMarketID = "MM" + x.node.ToString("000").PadLeft(3);
+
                         BOMiniMarket xBO = BLLMiniMarket.getContentByID(x.MiniMarketID);
+                        foreach (distance y in whereComeFrom)
+                        {
+                            if (y.distanceFromMe == x.distanceFromMe)
+                            {
+                                x.MiniMarketIDSource = "MM" + y.nodeSource.ToString("000").PadLeft(3);
+                                if (y.nodeSource == 0)
+                                {
+                                    xBO.fromLocation = "You";
+                                }
+                                else
+                                {
+                                    BOMiniMarket xSource = BLLMiniMarket.getContentByID(x.MiniMarketIDSource);
+                                    xBO.fromLocation = xSource.miniMarketName;
+                                }
+
+                                continue;
+                            }
+                        }
+
                         xBO.distanceFromMe = x.distanceFromMe;
                         resultMinimarketBFS.Add(xBO);
                     }
@@ -846,7 +943,7 @@ namespace flashPrice.pages
                 {
                     e.Row.BackColor = System.Drawing.Color.Honeydew;
                 }
-                
+
                 if (distanceFromMe > 1000 && distanceFromMe <= 5000)
                 {
                     e.Row.BackColor = System.Drawing.Color.LightYellow;
