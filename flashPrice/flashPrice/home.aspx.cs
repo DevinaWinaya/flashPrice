@@ -188,12 +188,12 @@ namespace flashPrice.pages
                 farFromXLit.Text = string.Empty;
                 testLit.Text = string.Empty;
 
-                //double lat1 = -6.1756452;
-                //double lon1 = 106.6202711;
+                double lat1 = -6.1756452;
+                double lon1 = 106.6202711;
 
                 //simpen dulu letak coordinate kitanya
-                double lat1 = Convert.ToDouble(hiddenMyLatitude.Value.Replace(".", ","));
-                double lon1 = Convert.ToDouble(hiddenMyLongitude.Value.Replace(".", ","));
+                //double lat1 = Convert.ToDouble(hiddenMyLatitude.Value.Replace(".", ","));
+                //double lon1 = Convert.ToDouble(hiddenMyLongitude.Value.Replace(".", ","));
 
                 myLocationLit.Text = lat1.ToString().Replace(",",".") + "," + lon1.ToString().Replace(",", ".");
 
@@ -698,17 +698,16 @@ namespace flashPrice.pages
                 String searchText = navSearchTextBox.Text;
                 String categoryProduct = categoryProductDD.SelectedValue;
                 String miniMarketTarget = miniMarketSearchTextBox.Text.Trim();
+                String targetMiniMarket = "";
 
-                BOMiniMarket miniMarketTargetBO = BLLMiniMarket.getIDMiniMarketByMiniMarketName(miniMarketSearchTextBox.Text.Trim());
-
-                if (miniMarketTargetBO == null)
+                if (miniMarketTarget != "")
                 {
-                    errLbl.Text = "Minimarket tidak ditemukan";
-                    errDiv.Visible = true;
-
-                    dvGrid.Style.Add("display", "none");
-                    updError.Update();
-                    return;
+                    BOMiniMarket miniMarketTargetBO = BLLMiniMarket.getIDMiniMarketByMiniMarketName(miniMarketSearchTextBox.Text.Trim());
+                    targetMiniMarket = miniMarketTargetBO.miniMarketID;
+                }
+                else
+                {
+                    targetMiniMarket = "";
                 }
 
                 int startRow = (pageSize * (pageIndex - 1));
@@ -725,8 +724,8 @@ namespace flashPrice.pages
                     sortDir = " ";
                 }
 
-                BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, miniMarketTargetBO.miniMarketID, false, sortBy, sortDir, startRow, maxRow);
-                int jmlBaris = int.Parse(BLLProduct.getCountListProduct(searchText, categoryProduct, miniMarketTargetBO.miniMarketID, false, sortBy, sortDir, startRow, maxRow).ToString());
+                BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, targetMiniMarket, false, sortBy, sortDir, startRow, maxRow);
+                int jmlBaris = int.Parse(BLLProduct.getCountListProduct(searchText, categoryProduct, targetMiniMarket, false, sortBy, sortDir, startRow, maxRow).ToString());
 
                 if (listProduct == null)
                 {
@@ -906,19 +905,17 @@ namespace flashPrice.pages
                 String searchText = navSearchTextBox.Text;
                 String categoryProduct = categoryProductDD.SelectedValue;
                 String miniMarketTarget = miniMarketSearchTextBox.Text.Trim();
+                String targetMiniMarket = "";
 
-                BOMiniMarket miniMarketTargetBO = BLLMiniMarket.getIDMiniMarketByMiniMarketName(miniMarketSearchTextBox.Text.Trim());
-
-                if (miniMarketTargetBO == null)
+                if (miniMarketTarget != "")
                 {
-                    errLbl.Text = "Minimarket tidak ditemukan";
-                    errDiv.Visible = true;
-
-                    dvGrid.Style.Add("display", "none");
-                    updError.Update();
-                    return;
+                    BOMiniMarket miniMarketTargetBO = BLLMiniMarket.getIDMiniMarketByMiniMarketName(miniMarketSearchTextBox.Text.Trim());
+                    targetMiniMarket = miniMarketTargetBO.miniMarketID;
                 }
-
+                else
+                {
+                    targetMiniMarket = "";
+                }
                 bool isViewSponsorship = true;
 
                 int startRow = (pageSizeSponsorship * (pageIndex - 1));
@@ -935,8 +932,8 @@ namespace flashPrice.pages
                     sortDir = " ";
                 }
 
-                BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, miniMarketTargetBO.miniMarketID, isViewSponsorship, sortBy, sortDir, startRow, maxRow);
-                int jmlBaris = int.Parse(BLLProduct.getCountListProduct(searchText, categoryProduct, miniMarketTargetBO.miniMarketID, isViewSponsorship, sortBy, sortDir, startRow, maxRow).ToString());
+                BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, targetMiniMarket, isViewSponsorship, sortBy, sortDir, startRow, maxRow);
+                int jmlBaris = int.Parse(BLLProduct.getCountListProduct(searchText, categoryProduct, targetMiniMarket, isViewSponsorship, sortBy, sortDir, startRow, maxRow).ToString());
 
                 if (listProduct == null)
                 {
