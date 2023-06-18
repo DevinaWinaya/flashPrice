@@ -14,6 +14,7 @@
             <asp:HiddenField ID="hiddenMyLatitude" runat="server" />
             <asp:HiddenField ID="hiddenMyLongitude" runat="server" />
 
+            <asp:HiddenField ID="hiddenProductCompareID" runat="server" />
             <asp:HiddenField ID="hiddenProductID" runat="server" />
             <asp:HiddenField ID="hdnPageIdx" runat="server" />
             <asp:Button ID="productDetailBtn" runat="server" Text="Product Detail" OnClick="productDetailBtn_Click" Style="display: none;" />
@@ -128,13 +129,19 @@
                                         <asp:Literal ID="litProductImg" runat="server"></asp:Literal>
                                     </div>
                                     <div class="card-body">
-                                        <div class="row">
+                                          <div class="row">
+                                            <span>
+                                                <asp:Label ID="Label1" CssClass="h6 text-green-leaf" runat="server" Text='<%#Eval("compareTo") %>'></asp:Label>
+                                            </span>
+                                        </div>
+                                        <div class="row pt-2 pb-2">
                                             <span class="text-left col-md-12">
                                                 <img src="<%#Eval("productImageUrl")%>" onerror="imgError(this)" style="border-radius: 10px; height: auto; width: 280px;" class="img-fluid" />
                                             </span>
 
                                             <span class="pt-2 pb-2">
                                                 <asp:Label ID="productNameLbl" CssClass="h6 text-green-leaf" runat="server" Text='<%#Eval("productName") %>'></asp:Label>
+                                                <asp:Label ID="categoryPriceLbl" CssClass="badge badge-primary" runat="server" Text='<%#Eval("categoryPrice") %>'></asp:Label>
                                             </span>
                                         </div>
                                         <div class="row pt-2 pb-2">
@@ -157,7 +164,7 @@
                                         </div>
                                     </div>
                                     <div class="row pt-2 card-footer bg-white">
-                                        <asp:LinkButton runat="server" CssClass="btn btn-yellow btn-sm align-self-start btn-block text-green-leaf" OnClientClick='<%# Eval("productID", "productDetail(\"{0}\"); return false;") %>'><i class="fa fa-search mr-2"></i>Detail</asp:LinkButton>
+                                        <asp:LinkButton runat="server" CssClass="btn btn-yellow btn-sm align-self-start btn-block text-green-leaf" OnClientClick='<%# String.Format("productDetail(\"{0}\",\"{1}\"); return false;", Eval("productID"), Eval("compareTo")) %>'><i class="fa fa-search mr-2"></i>Detail</asp:LinkButton>
                                     </div>
                                 </div>
                             </div>
@@ -236,7 +243,42 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            <div class="pt-2 pb-2 h5">
+                                <asp:Label runat="server" ID="compareLbl"></asp:Label>
+                            </div>
 
+                            <div class="card mb-3 col-md-12" id="compareDIV" visible="false" runat="server">
+                                <div class="row no-gutters">
+                                    <div class="col-md-4 text-center my-auto">
+                                        <asp:Image runat="server" ID="imageProductCompare" onerror="imgError(this)" AlternateText="Product Image" Style="width: 200px; height: auto;" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+
+                                            <asp:Image runat="server" ID="miniMarketCompareImageUrlPopup" CssClass="mr-2" Style="width: 55px; height: auto;" />
+                                            <asp:Label runat="server" CssClass="h5 card-title mr-2 text-green-leaf" ID="productCompareNameLbl"></asp:Label>
+
+
+                                            <span>
+                                                <span class="text-green-leaf font-weight-bold">Rp.</span>
+                                                <asp:Label runat="server" CssClass="ml-1 text-green-leaf font-weight-bold" ID="productComparePricePopupLbl"></asp:Label>
+                                            </span>
+
+                                            <p class="card-text mt-3">
+                                                  We would like to express our sincerest apologies for any inconvenience this may cause. Regrettably, we find ourselves in a situation where we are unable to present the product description at this time. We understand the frustration and disappointment this may bring, and we assure you that we are actively working to rectify this issue. We appreciate your understanding and patience as we strive to provide the best possible service. Once again, please accept our apologies for any inconvenience caused, and we thank you for your continued support.
+                                            </p>
+
+                                            <p class="card-text">
+                                                <small class="text-muted">Regards, Admin Flash Price
+                                                </small>
+                                            </p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                
                         </div>
                         <div class="modal-footer">
                         </div>
@@ -298,9 +340,10 @@
                 });
         }
 
-        function productDetail(productID) {
-            if (productID != '') {
+        function productDetail(productID, productCompareID) {
+            if (productID != '' && productCompareID != '') {
                 $('#<%= hiddenProductID.ClientID %>').val(productID);
+                $('#<%= hiddenProductCompareID.ClientID %>').val(productCompareID);
             }
 
             $('#<%= productDetailBtn.ClientID %>').click();

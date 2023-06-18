@@ -42,6 +42,15 @@ namespace flashPrice.pages
         protected global::System.Web.UI.WebControls.HiddenField hiddenMyLongitude;
 
         /// <summary>
+        /// hiddenProductCompareID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hiddenProductCompareID;
+
+        /// <summary>
         /// hiddenProductID control.
         /// </summary>
         /// <remarks>
@@ -328,5 +337,59 @@ namespace flashPrice.pages
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label productPricePopupLbl;
+
+        /// <summary>
+        /// compareLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label compareLbl;
+
+        /// <summary>
+        /// compareDIV control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl compareDIV;
+
+        /// <summary>
+        /// imageProductCompare control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image imageProductCompare;
+
+        /// <summary>
+        /// miniMarketCompareImageUrlPopup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image miniMarketCompareImageUrlPopup;
+
+        /// <summary>
+        /// productCompareNameLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label productCompareNameLbl;
+
+        /// <summary>
+        /// productComparePricePopupLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label productComparePricePopupLbl;
     }
 }

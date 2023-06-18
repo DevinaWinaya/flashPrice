@@ -25,5 +25,12 @@ namespace flashPriceFx.Product
         public string miniMarketAddress { set; get; }
         public string miniMarketType { set; get; }
 
+        public string sourceProduct { set; get; }
+        public int priceGap{ set; get; }
+        public string categoryPrice { set; get; }
+
+        public string compareTo { set; get; }
+
+
     }
 }

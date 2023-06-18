@@ -14,11 +14,21 @@ namespace flashPriceFx.Product
         {
             return DBProduct.getContent(productID);
         }
+
+        public static BOProduct getMostExpensiveProduct(String searchText, String categoryProduct, bool isViewSponsorship)
+        {
+            return DBProduct.getMostExpensiveProduct(searchText, categoryProduct, false);
+        }
         #endregion
 
         #region getList
 
         #region get list product 
+
+        public static BOProductList getListProductWithoutRowNumber(String searchText, String categoryProduct, bool isViewSponsorship, String sortBy, String sortDir)
+        {
+            return DBProduct.getListProductWithoutRowNumber(searchText, categoryProduct, isViewSponsorship, sortBy, sortDir);
+        }
 
         public static BOProductList getListProduct(String searchText, String categoryProduct, String minimarketTarget, bool isViewSponsorship, String sortBy, String sortDir, int startRow, int maxRow)
         {

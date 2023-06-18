@@ -2127,6 +2127,7 @@
     <Content Include="assets\admin\vendor\jquery\jquery.min.map" />
     <Content Include="assets\admin\vendor\jquery\jquery.slim.min.map" />
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\flashPrice - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,111 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="default.master.cs" Inherits="flashPrice._default" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+     <link href="assets/css/main.css" rel="stylesheet" />
+    <link href="assets/css/custom.css" rel="stylesheet" />
+    <script src="assets/js/extention/choices.js"></script>
+    <script src="assets/js/extention/custom-materialize.js"></script>
+    <script src="assets/js/extention/flatpickr.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <!-- Font Awesome -->
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        rel="stylesheet" />
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+        rel="stylesheet" />
+
+    <%--font--%>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,800" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+
+    <%--bootstrap 5.3--%>
+
+    <%--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">--%>
+    <%--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>--%>
+
+   
+</head>
+
+<body class="d-flex flex-column min-vh-100" style="overflow-x: hidden;">
+
+    <form runat="server" id="formMaster">
+
+        <asp:ScriptManager ID="ScriptManagerMaster" runat="server" EnablePartialRendering="true"
+            EnableScriptGlobalization="true" EnableScriptLocalization="true" ScriptMode="Release">
+            <Scripts>
+            </Scripts>
+        </asp:ScriptManager>
+
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #f7f89f;">
+            <a href="home.aspx">
+                <img src="assets/images/flashPriceLogo.png" style="width: 200px;" /></a>
+
+            <div class="navbar-collapse h5 ml-4" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item ml-2">
+                        <a class="nav-link text-green-leaf" href="home.aspx"><i class="fa fa-home mr-2"></i>Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item ml-4">
+                        <a class="nav-link text-green-leaf" href="product.aspx"><i class="fa fa-box mr-2"></i>Product <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item ml-4">
+                        <a class="nav-link text-green-leaf" href="about.aspx"><i class="fa fa-info-circle mr-2"></i>About</a>
+                    </li>
+                    
+                    <li class="nav-item ml-4">
+                        <a class="nav-link text-green-leaf" href="https://forms.gle/ugBu442JL6ZWwsPj7" target="_blank"><i class="fa fa-list-alt mr-2"></i>Survey</a>
+                    </li>
+                </ul>
+                <h5 class="navbar-text text-green-leaf"><i class="fa fa-balance-scale mr-2"></i>Bandingkan dan temukan produk pilihanmu dengan FlashPrice
+                </h5>
+            </div>
+
+        </nav>
+
+        <asp:ContentPlaceHolder ID="mainContentPh" runat="server">
+        </asp:ContentPlaceHolder>
+    </form>
+
+
+    <footer class="pt-3 mt-4" style="background-color: #f7f89f">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 col-xs-12 my-auto">
+                <p class="text-center">
+                    <img src="assets/images/flashPriceLogo.png" style="width: 150px;" />
+                </p>
+                <p class="text-center">© 2023 Devina Winaya - 00000033896</p>
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <h3>Contact Person</h3>
+                <span>Devina Winaya</span>
+                <ul class="list-unstyled mb-4">
+                    <li><a style="color: black; text-decoration: none;" target="_blank" href="https://wa.me/+6281383137726"><i class="fa fa-mobile pr-2"></i>0813 8313 7726</a></li>
+                    <li><a style="color: black; text-decoration: none;" href="mailto:devina.winaya@student.umn.ac.id"><i class="fa fa-envelope pr-2"></i>devina.winaya@student.umn.ac.id</a></li>
+                </ul>
+
+            </div>
+
+        </div>
+    </footer>
+
+</body>
+</html>
+
+

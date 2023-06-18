@@ -29,6 +29,41 @@ namespace flashPriceFx.Product
             return getContentQR(xSQL);
 
         }
+
+        public static BOProduct getMostExpensiveProduct(String searchText, String categoryProduct, bool isViewSponsorship)
+        {
+            string xSQL = @"
+            select top 1 ROW_NUMBER() OVER (ORDER BY productID) AS rowNum, p.*, m.* from product p
+            left join MiniMarket m with(nolock) on m.miniMarketID = p.miniMarketID
+            where 1=1"; // ubah ini
+
+            bool isIncludeZeroPrice = false;
+
+            if (!isIncludeZeroPrice)
+            {
+                xSQL += " and p.productPrice != 0";
+            }
+
+            if (isViewSponsorship)
+            {
+                xSQL += " and isSponsorShip = 'T'";
+            }
+
+            if (searchText != "")
+            {
+                xSQL += " and p.productName like " + "'%" + searchText + "%'";
+            }
+
+            if (categoryProduct != "")
+            {
+                xSQL += " and p.productCategoryID like " + "'%" + categoryProduct + "%'";
+            }
+
+            xSQL += " order by p.productPrice asc"; // ubah ini
+
+            return getContentQR(xSQL);
+
+        }
         #endregion
 
 
@@ -107,7 +142,7 @@ namespace flashPriceFx.Product
             {
                 xSQL += " and p.productCategoryID like " + "'%" + categoryProduct + "%'";
             }
-           
+
             if (minimarketTarget != "")
             {
                 xSQL += " and p.miniMarketID like " + "'%" + minimarketTarget + "%'";
@@ -175,6 +210,51 @@ namespace flashPriceFx.Product
             return DBUtil.execScalarInt(xSQL);
         }
         #endregion
+
+        #region getListProductWithoutRowNumber
+        public static BOProductList getListProductWithoutRowNumber(String searchText, String categoryProduct, bool isViewSponsorship, String sortBy, String sortDir)
+        {
+            if (sortBy == "")
+            {
+                sortBy = "productID";
+                sortDir = "asc";
+            }
+
+            string xSQL = @"
+            select * from product p
+            left join MiniMarket m with(nolock) on m.miniMarketID = p.miniMarketID
+            where 1=1"; // ubah ini
+
+            bool isIncludeZeroPrice = false;
+
+            if (!isIncludeZeroPrice)
+            {
+                xSQL += " and p.productPrice != 0";
+            }
+
+            if (isViewSponsorship)
+            {
+                xSQL += " and isSponsorShip = 'T'";
+            }
+
+            if (searchText != "")
+            {
+                xSQL += " and p.productName like " + "'%" + searchText + "%'";
+            }
+
+            if (categoryProduct != "")
+            {
+                xSQL += " and p.productCategoryID like " + "'%" + categoryProduct + "%'";
+            }
+          
+            if (sortBy != "")
+            {
+                xSQL += "  order by " + sortBy + " " + sortDir;
+            }
+
+            return getProductListWithoutRowNumberQR(xSQL);
+        }
+        #endregion
         #endregion
 
         #region getListProductForAutoComplete
@@ -188,6 +268,44 @@ namespace flashPriceFx.Product
             from Product p with(nolock)";
 
             return getProductListQRForAutoComplete(xSQL);
+        }
+        #endregion
+
+        #region getProductListWithoutRowNumberQR
+        private static BOProductList getProductListWithoutRowNumberQR(string xSQL)
+        {
+            BOProductList xBOList = null;
+
+            using (SqlConnection myConnection = new SqlConnection(DBUtil.conStringdbflashPrice))
+            {
+                myConnection.Open();
+                if (myConnection.State == ConnectionState.Open)
+                {
+                    SqlCommand myComm = new SqlCommand();
+                    myComm.Connection = myConnection;
+                    myComm.CommandText = xSQL;
+                    myComm.CommandType = CommandType.Text;
+
+                    myComm.Parameters.Clear();
+
+                    using (SqlDataReader myReader = myComm.ExecuteReader())
+                    {
+                        if (myReader.HasRows)
+                        {
+                            xBOList = new BOProductList();
+                            while (myReader.Read())
+                            {
+                                xBOList.Add(fillDataRecordWithoutRowNumber(myReader));
+                            }
+                        }
+                        myReader.Close();
+                    }
+                    myComm.Dispose();
+                }
+            }
+
+            return xBOList;
+
         }
         #endregion
 
@@ -360,6 +478,30 @@ namespace flashPriceFx.Product
         #endregion
 
         #region fillDataRecord
+
+        #region fillDataRecordWithoutRowNumber
+        public static BOProduct fillDataRecordWithoutRowNumber(IDataRecord mD)
+        {
+            BOProduct xBO = new BOProduct();
+            xBO.productID = (!mD.IsDBNull(mD.GetOrdinal("productID"))) ? mD.GetString(mD.GetOrdinal("productID")) : null;
+            xBO.productName = (!mD.IsDBNull(mD.GetOrdinal("productName"))) ? mD.GetString(mD.GetOrdinal("productName")) : null;
+            xBO.productDescription = (!mD.IsDBNull(mD.GetOrdinal("productDescription"))) ? mD.GetString(mD.GetOrdinal("productDescription")) : null;
+            xBO.productPrice = (!mD.IsDBNull(mD.GetOrdinal("productPrice"))) ? mD.GetInt32(mD.GetOrdinal("productPrice")) : 0;
+            xBO.productCategoryID = (!mD.IsDBNull(mD.GetOrdinal("productCategoryID"))) ? mD.GetString(mD.GetOrdinal("productCategoryID")) : null;
+            xBO.productImageUrl = (!mD.IsDBNull(mD.GetOrdinal("productImageUrl"))) ? mD.GetString(mD.GetOrdinal("productImageUrl")) : null;
+
+            xBO.miniMarketAddress = (!mD.IsDBNull(mD.GetOrdinal("miniMarketAddress"))) ? mD.GetString(mD.GetOrdinal("miniMarketAddress")) : null;
+            xBO.miniMarketName = (!mD.IsDBNull(mD.GetOrdinal("miniMarketName"))) ? mD.GetString(mD.GetOrdinal("miniMarketName")) : null;
+            xBO.miniMarketType = (!mD.IsDBNull(mD.GetOrdinal("miniMarketType"))) ? mD.GetString(mD.GetOrdinal("miniMarketType")) : null;
+
+            xBO.isSponsorship = DBHelper.getDBBool(mD, "isSponsorship", false);
+
+            xBO.entryDate = DBHelper.getDBDateTime(mD, "entryDate");
+            xBO.lastUpdate = DBHelper.getDBDateTime(mD, "lastUpdate");
+
+            return xBO;
+        }
+        #endregion
 
         #region fillDataRecord original
         public static BOProduct fillDataRecord(IDataRecord mD)
