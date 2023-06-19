@@ -330,6 +330,15 @@ namespace flashPrice.pages
         protected global::System.Web.UI.WebControls.Label productPricePopupLbl;
 
         /// <summary>
+        /// productDescPopupLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label productDescPopupLbl;
+
+        /// <summary>
         /// compareLbl control.
         /// </summary>
         /// <remarks>
@@ -382,5 +391,14 @@ namespace flashPrice.pages
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label productComparePricePopupLbl;
+
+        /// <summary>
+        /// productCompareDescPopupLbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label productCompareDescPopupLbl;
     }
 }

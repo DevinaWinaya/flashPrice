@@ -982,9 +982,11 @@ namespace flashPrice.pages
         {
             BOProduct xBO = BLLProduct.getContent(productID);
 
+            string nullDescription = @" We would like to express our sincerest apologies for any inconvenience this may cause. Regrettably, we find ourselves in a situation where we are unable to present the product description at this time. We understand the frustration and disappointment this may bring, and we assure you that we are actively working to rectify this issue. We appreciate your understanding and patience as we strive to provide the best possible service. Once again, please accept our apologies for any inconvenience caused, and we thank you for your continued support.";
+
             productNamePopupLbl.Text = xBO.productName;
             productPricePopupLbl.Text = xBO.productPrice.ToString("#0");
-            //productDescPopupLbl.Text = xBO.productDescription == "" || xBO.productDescription == null ? "Tidak ada deskripsi produk" : xBO.productDescription;
+            productDescPopupLbl.Text = xBO.productDescription == "" || xBO.productDescription == null || xBO.productDescription.Trim() == "-" ? nullDescription : xBO.productDescription;
             productImageUrlPopup.ImageUrl = xBO.productImageUrl;
             miniMarketImageUrlPopup.ImageUrl = xBO.miniMarketType == "Indomaret" ? @"~\assets\images\indomaret_logo.png" : @"~\assets\images\alfamart_logo.png";
 

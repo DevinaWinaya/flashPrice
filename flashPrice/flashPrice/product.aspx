@@ -30,7 +30,7 @@
 
         <div class="col-md-3 pl-0 pr-1">
             <asp:TextBox runat="server" ID="navSearchTextBox" CssClass="form-control autocomplete" placeHolder="Temukan produkmu disini . . ."></asp:TextBox>
-<%--            <act:AutoCompleteExtender runat="server" ID="dataProduct" TargetControlID="navSearchTextBox"
+            <%--            <act:AutoCompleteExtender runat="server" ID="dataProduct" TargetControlID="navSearchTextBox"
                 ServiceMethod="getListProductCached" ServicePath="~/webService/wsvProduct.asmx"
                 MinimumPrefixLength="2" CompletionInterval="100" EnableCaching="true" CompletionSetCount="10"
                 CompletionListCssClass="autocomplete_completionListElement" CompletionListItemCssClass="autocomplete_listItem"
@@ -226,7 +226,7 @@
                                             </span>
 
                                             <p class="card-text mt-3">
-                                                We would like to express our sincerest apologies for any inconvenience this may cause. Regrettably, we find ourselves in a situation where we are unable to present the product description at this time. We understand the frustration and disappointment this may bring, and we assure you that we are actively working to rectify this issue. We appreciate your understanding and patience as we strive to provide the best possible service. Once again, please accept our apologies for any inconvenience caused, and we thank you for your continued support.
+                                                <asp:Label runat="server" ID="productDescPopupLbl"></asp:Label>
                                             </p>
 
                                             <p class="card-text">
@@ -261,7 +261,7 @@
                                             </span>
 
                                             <p class="card-text mt-3">
-                                                We would like to express our sincerest apologies for any inconvenience this may cause. Regrettably, we find ourselves in a situation where we are unable to present the product description at this time. We understand the frustration and disappointment this may bring, and we assure you that we are actively working to rectify this issue. We appreciate your understanding and patience as we strive to provide the best possible service. Once again, please accept our apologies for any inconvenience caused, and we thank you for your continued support.
+                                                 <asp:Label runat="server" ID="productCompareDescPopupLbl"></asp:Label>
                                             </p>
 
                                             <p class="card-text">
