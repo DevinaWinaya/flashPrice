@@ -25,7 +25,7 @@ namespace flashPrice.pages
         {
             if (!IsPostBack)
             {
-                //fillResult(1, pageSize, "productID", "ASC");
+                fillResult(1, pageSize, "productID", "ASC");
                 //testingProductBFS();
             }
         }
@@ -587,7 +587,7 @@ namespace flashPrice.pages
                 }
 
                 // tempat test output
-                testLit.Text = edges;
+                //testLit.Text = edges;
                 //updError.Update();
 
                 // Function call
@@ -749,6 +749,7 @@ namespace flashPrice.pages
                 PopulatePager(jmlBaris, pageIndex);
                 paginationDiv.Visible = false;
                 updGridView.Update();
+                updatePanelSearchResultRepeater.Update();
             }
             catch (Exception ex)
             {
@@ -821,14 +822,14 @@ namespace flashPrice.pages
                 imageProductCompare.ImageUrl = xCompare.productImageUrl;
                 miniMarketCompareImageUrlPopup.ImageUrl = xCompare.miniMarketType == "Indomaret" ? @"~\assets\images\indomaret_logo.png" : @"~\assets\images\alfamart_logo.png";
 
-                if (xCompare.productPrice > xBO.productPrice)
+                if (xCompare.productPrice < xBO.productPrice)
                 {
-                    compareLbl.Text = "Lebih hemat daripada produk dibawah ini";
+                    compareLbl.Text = "Rekomendasi Produk Terkait yang Lebih Murah";
                     compareLbl.CssClass = "col-md-12 col-xs-12 col-sm-12 alert alert-success";
                 }
                 else
                 {
-                    compareLbl.Text = "Lebih mahal daripada produk dibawah ini";
+                    compareLbl.Text = "Rekomendasi Produk Terkait yang Lebih Mahal";
                     compareLbl.CssClass = "col-md-12 col-xs-12 col-sm-12 alert alert-danger";
                 }
 

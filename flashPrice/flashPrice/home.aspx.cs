@@ -194,14 +194,18 @@ namespace flashPrice.pages
                 //double lon1 = 106.6202711;
 
                 // coordinate devina
-                //double lat1 = -6.172962;
-                //double lon1 = 106.601212;
+                double lat1 = -6.172962;
+                double lon1 = 106.601212;
+
+                // coordinate umn
+                //double lat1 = -6.256813;
+                //double lon1 = 106.618437;
 
                 //simpen dulu letak coordinate kitanya
-                double lat1 = Convert.ToDouble(hiddenMyLatitude.Value.Replace(".", ","));
-                double lon1 = Convert.ToDouble(hiddenMyLongitude.Value.Replace(".", ","));
+                //double lat1 = Convert.ToDouble(hiddenMyLatitude.Value.Replace(".", ","));
+                //double lon1 = Convert.ToDouble(hiddenMyLongitude.Value.Replace(".", ","));
 
-                myLocationLit.Text = lat1.ToString().Replace(",", ".") + "," + lon1.ToString().Replace(",", ".");
+                //myLocationLit.Text = lat1.ToString().Replace(",", ".") + "," + lon1.ToString().Replace(",", ".");
 
                 // ambil data minimarketnya
                 BOMiniMarketList miniMarketList = BLLMiniMarket.getListAllMiniMarket();
@@ -676,7 +680,7 @@ namespace flashPrice.pages
                     foreach (distance x in resultMinimarket)
                     {
                         if (x.node == 0) continue;
-                        
+
                         x.MiniMarketID = "MM" + x.node.ToString("000").PadLeft(3);
 
                         BOMiniMarket xBO = BLLMiniMarket.getContentByID(x.MiniMarketID);
@@ -789,6 +793,77 @@ namespace flashPrice.pages
         }
 
         protected void fillResult(int pageIndex, int PageSize, string sortBy, string sortDir)
+        {
+            try
+            {
+                String searchText = navSearchTextBox.Text;
+                String categoryProduct = categoryProductDD.SelectedValue;
+                String miniMarketTarget = miniMarketSearchTextBox.Text.Trim();
+                String targetMiniMarket = "";
+
+                if (miniMarketTarget != "")
+                {
+                    BOMiniMarket miniMarketTargetBO = BLLMiniMarket.getIDMiniMarketByMiniMarketName(miniMarketSearchTextBox.Text.Trim());
+                    targetMiniMarket = miniMarketTargetBO.miniMarketID;
+                }
+                else
+                {
+                    targetMiniMarket = "";
+                }
+
+                int startRow = (pageSize * (pageIndex - 1));
+
+                int maxRow = pageSize;
+
+                if (startRow == 1) maxRow = 12;
+
+                if (pageIndex > 1) startRow = startRow + 1;
+
+                if (sortBy == "")
+                {
+                    sortBy = "productID";
+                    sortDir = " ";
+                }
+
+                BOProductList listProduct = BLLProduct.getListProduct(searchText, categoryProduct, targetMiniMarket, false, sortBy, sortDir, startRow, maxRow);
+                int jmlBaris = int.Parse(BLLProduct.getCountListProduct(searchText, categoryProduct, targetMiniMarket, false, sortBy, sortDir, startRow, maxRow).ToString());
+
+                if (listProduct == null)
+                {
+                    litError.Text = "<div class='alert alert-warning text-center mt-4' style='margin-bottom:500px;'> Produk tidak ditemukan </div>";
+                    resultRepeater.DataSource = null;
+                    resultRepeater.DataBind();
+                }
+                else
+                {
+                    double dblPageCount = (double)((decimal)jmlBaris / pageSize);
+                    int pageCount = (int)Math.Ceiling(dblPageCount);
+
+                    if (pageIndex != 1 && pageIndex != pageCount)
+                    {
+                        listProduct.RemoveAt(listProduct.Count - 1); // buat buang element terakhir yang gk kepake
+                    }
+
+                    resultRepeater.DataSource = listProduct;
+                    resultRepeater.DataBind();
+
+                    litError.Text = "";
+
+                    hdSortEx.Value = sortBy;
+                    hdSortDir.Value = sortDir;
+                    updatePanelSearchResultRepeater.Update();
+                }
+
+                updGridView.Update();
+                PopulatePager(jmlBaris, pageIndex);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.Message;
+            }
+        }
+
+        protected void fillResultBFS(int pageIndex, int PageSize, string sortBy, string sortDir)
         {
             try
             {

@@ -106,51 +106,6 @@
 
     </asp:UpdatePanel>
 
-
-    <div class="col-md-12 col-xs-12 col-sm-12 mt-3">
-        <asp:UpdatePanel ID="updGridView" runat="server" UpdateMode="Conditional">
-            <ContentTemplate>
-                <asp:Literal ID="myLocationLit" runat="server"></asp:Literal>
-                <asp:Literal ID="litErrorLogin" runat="server"></asp:Literal>
-                <div class="datagrid" id="dvGrid" runat="server" style="display: none;">
-                    <!-- main grid -->
-                    <div style="height: 350px; overflow-y: auto; width: auto;" class="mt-4">
-                        <asp:GridView ID="gvMain" runat="server" EnableModelValidation="True" AutoGenerateColumns="false"
-                            AllowPaging="False" PageSize="100" OnPageIndexChanging="gvMain_PageIndexChanging"
-                            OnRowDataBound="gvMain_RowDataBound" CssClass="table table-hover table-bordered">
-                            <Columns>
-                                <asp:TemplateField HeaderText="#" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f">
-                                    <ItemTemplate>
-                                        <asp:Label runat="server" Text='<%# (Container.DataItemIndex)+1 %>'></asp:Label>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-
-                                <asp:BoundField DataField="fromLocation" HeaderText="From" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" />
-
-                                <asp:BoundField DataField="miniMarketName" HeaderText="Nama" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" />
-
-                                <asp:TemplateField HeaderText="MiniMarket" ItemStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f">
-                                    <ItemTemplate>
-                                        <asp:Image ID="imgMiniMarketType" Style="width: 100px; height: auto;" runat="server" />
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-
-                                <asp:BoundField DataField="distanceFromMe" HeaderText="Jarak (meter)" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" HeaderStyle-Wrap="false" />
-                                <asp:BoundField DataField="miniMarketAddress" HeaderText="Alamat" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" />
-                            </Columns>
-                            <PagerSettings Mode="NumericFirstLast" PageButtonCount="4" FirstPageText="First"
-                                LastPageText="Last" />
-                            <RowStyle CssClass="td" />
-                            <SelectedRowStyle CssClass="thspecalt" />
-                            <AlternatingRowStyle CssClass="tdalt" />
-                        </asp:GridView>
-                    </div>
-                </div>
-                <hr />
-            </ContentTemplate>
-        </asp:UpdatePanel>
-    </div>
-
     <asp:UpdatePanel ID="updPanelSponsorShip" runat="server" UpdateMode="Conditional">
         <Triggers>
             <asp:PostBackTrigger ControlID="navSearchBtn" />
@@ -294,6 +249,50 @@
             <asp:Literal ID="litError" runat="server"></asp:Literal>
         </ContentTemplate>
     </asp:UpdatePanel>
+
+     <div class="col-md-12 col-xs-12 col-sm-12 mt-3">
+        <asp:UpdatePanel ID="updGridView" runat="server" UpdateMode="Conditional">
+            <ContentTemplate>
+                <asp:Literal ID="myLocationLit" runat="server"></asp:Literal>
+                <asp:Literal ID="litErrorLogin" runat="server"></asp:Literal>
+                <div class="datagrid" id="dvGrid" runat="server" style="display: none;">
+                    <!-- main grid -->
+                    <div style="height: 350px; overflow-y: auto; width: auto;" class="mt-4">
+                        <asp:GridView ID="gvMain" runat="server" EnableModelValidation="True" AutoGenerateColumns="false"
+                            AllowPaging="False" PageSize="100" OnPageIndexChanging="gvMain_PageIndexChanging"
+                            OnRowDataBound="gvMain_RowDataBound" CssClass="table table-hover table-bordered">
+                            <Columns>
+                                <asp:TemplateField HeaderText="#" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f">
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" Text='<%# (Container.DataItemIndex)+1 %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:BoundField DataField="fromLocation" HeaderText="From" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" />
+
+                                <asp:BoundField DataField="miniMarketName" HeaderText="Nama" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" />
+
+                                <asp:TemplateField HeaderText="MiniMarket" ItemStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f">
+                                    <ItemTemplate>
+                                        <asp:Image ID="imgMiniMarketType" Style="width: 100px; height: auto;" runat="server" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:BoundField DataField="distanceFromMe" HeaderText="Jarak (meter)" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" HeaderStyle-Wrap="false" />
+                                <asp:BoundField DataField="miniMarketAddress" HeaderText="Alamat" HeaderStyle-BackColor="#406C1C" HeaderStyle-ForeColor="#f7f89f" />
+                            </Columns>
+                            <PagerSettings Mode="NumericFirstLast" PageButtonCount="4" FirstPageText="First"
+                                LastPageText="Last" />
+                            <RowStyle CssClass="td" />
+                            <SelectedRowStyle CssClass="thspecalt" />
+                            <AlternatingRowStyle CssClass="tdalt" />
+                        </asp:GridView>
+                    </div>
+                </div>
+                <hr />
+            </ContentTemplate>
+        </asp:UpdatePanel>
+    </div>
 
     <div id="modalDialogProductDetail" class="modal fade modal-dialog-add" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="overflow-y: auto;">
         <div class="modal-dialog modal-lg" style="max-width: 1080px">

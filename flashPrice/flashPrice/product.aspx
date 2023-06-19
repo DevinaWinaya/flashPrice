@@ -30,13 +30,13 @@
 
         <div class="col-md-3 pl-0 pr-1">
             <asp:TextBox runat="server" ID="navSearchTextBox" CssClass="form-control autocomplete" placeHolder="Temukan produkmu disini . . ."></asp:TextBox>
-            <act:AutoCompleteExtender runat="server" ID="dataProduct" TargetControlID="navSearchTextBox"
+<%--            <act:AutoCompleteExtender runat="server" ID="dataProduct" TargetControlID="navSearchTextBox"
                 ServiceMethod="getListProductCached" ServicePath="~/webService/wsvProduct.asmx"
                 MinimumPrefixLength="2" CompletionInterval="100" EnableCaching="true" CompletionSetCount="10"
                 CompletionListCssClass="autocomplete_completionListElement" CompletionListItemCssClass="autocomplete_listItem"
                 CompletionListHighlightedItemCssClass="autocomplete_highlightedListItem" DelimiterCharacters=";,:"
                 ShowOnlyCurrentWordInCompletionListItem="true">
-            </act:AutoCompleteExtender>
+            </act:AutoCompleteExtender>--%>
         </div>
 
         <div class="col-md-3 px-1">
@@ -115,7 +115,7 @@
         </Triggers>
         <ContentTemplate>
             <div id="resultDiv" class="pt-2" runat="server" style="height: auto;">
-                <p style="color:#c1c27d" class="h4 pl-0 mx-auto col-md-8 col-xs-12 col-sm-12">Daftar List Produk yang tersedia</p>
+                <p style="color: #c1c27d" class="h4 pl-0 mx-auto col-md-8 col-xs-12 col-sm-12">Daftar List Produk yang tersedia</p>
 
                 <div id="queryResultDiv" class="row mx-auto col-md-8 col-xs-12 col-sm-12 border border-secondary-50" runat="server">
 
@@ -129,11 +129,6 @@
                                         <asp:Literal ID="litProductImg" runat="server"></asp:Literal>
                                     </div>
                                     <div class="card-body">
-                                          <div class="row">
-                                            <span>
-                                                <asp:Label ID="Label1" CssClass="h6 text-green-leaf" runat="server" Text='<%#Eval("compareTo") %>'></asp:Label>
-                                            </span>
-                                        </div>
                                         <div class="row pt-2 pb-2">
                                             <span class="text-left col-md-12">
                                                 <img src="<%#Eval("productImageUrl")%>" onerror="imgError(this)" style="border-radius: 10px; height: auto; width: 280px;" class="img-fluid" />
@@ -164,7 +159,7 @@
                                         </div>
                                     </div>
                                     <div class="row pt-2 card-footer bg-white">
-                                        <asp:LinkButton runat="server" CssClass="btn btn-yellow btn-sm align-self-start btn-block text-green-leaf" OnClientClick='<%# String.Format("productDetail(\"{0}\",\"{1}\"); return false;", Eval("productID"), Eval("compareTo")) %>'><i class="fa fa-search mr-2"></i>Detail</asp:LinkButton>
+                                        <asp:LinkButton ID="detailBtn" runat="server" CssClass="btn btn-yellow btn-sm align-self-start btn-block text-green-leaf" OnClientClick='<%# String.Format("productDetail(\"{0}\",\"{1}\"); return false;", Eval("productID"), Eval("compareTo")) %>'><i class="fa fa-search mr-2"></i>Detail</asp:LinkButton>
                                     </div>
                                 </div>
                             </div>
@@ -243,7 +238,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="pt-2 pb-2 h5">
                                 <asp:Label runat="server" ID="compareLbl"></asp:Label>
                             </div>
@@ -266,7 +261,7 @@
                                             </span>
 
                                             <p class="card-text mt-3">
-                                                  We would like to express our sincerest apologies for any inconvenience this may cause. Regrettably, we find ourselves in a situation where we are unable to present the product description at this time. We understand the frustration and disappointment this may bring, and we assure you that we are actively working to rectify this issue. We appreciate your understanding and patience as we strive to provide the best possible service. Once again, please accept our apologies for any inconvenience caused, and we thank you for your continued support.
+                                                We would like to express our sincerest apologies for any inconvenience this may cause. Regrettably, we find ourselves in a situation where we are unable to present the product description at this time. We understand the frustration and disappointment this may bring, and we assure you that we are actively working to rectify this issue. We appreciate your understanding and patience as we strive to provide the best possible service. Once again, please accept our apologies for any inconvenience caused, and we thank you for your continued support.
                                             </p>
 
                                             <p class="card-text">
@@ -278,7 +273,7 @@
                                     </div>
                                 </div>
                             </div>
-                
+
                         </div>
                         <div class="modal-footer">
                         </div>
@@ -342,6 +337,7 @@
 
         function productDetail(productID, productCompareID) {
             if (productID != '' && productCompareID != '') {
+                console.log(productID);
                 $('#<%= hiddenProductID.ClientID %>').val(productID);
                 $('#<%= hiddenProductCompareID.ClientID %>').val(productCompareID);
             }

@@ -105,15 +105,6 @@ namespace flashPrice.pages
         protected global::System.Web.UI.WebControls.TextBox navSearchTextBox;
 
         /// <summary>
-        /// dataProduct control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::AjaxControlToolkit.AutoCompleteExtender dataProduct;
-
-        /// <summary>
         /// categoryProductDD control.
         /// </summary>
         /// <remarks>
